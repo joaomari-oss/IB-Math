@@ -121,6 +121,18 @@ const chatLimiter = rateLimit({
 //  ROTAS
 // ══════════════════════════════════════
 
+// Root — info page
+app.get('/', (_req, res) => {
+  res.json({
+    name: 'IB Math Tutor API',
+    status: 'online',
+    endpoints: {
+      'GET /health': 'Status do servidor',
+      'POST /chat': 'Enviar mensagem ao tutor IA'
+    }
+  });
+});
+
 // Health check
 app.get('/health', (_req, res) => {
   res.json({
