@@ -1,0 +1,240 @@
+/* ═══════════════════════════════════════════════════════════════
+   IB Math Tutor — Backend Server
+   Express + Groq/Gemini AI proxy
+   ═══════════════════════════════════════════════════════════════
+
+   🚀 Como rodar:
+     1. npm install
+     2. Edite o arquivo .env com sua chave de API
+     3. npm start
+
+   📡 Endpoints:
+     POST /chat  — Envia mensagem e recebe resposta da IA
+     GET  /health — Verifica se o servidor está online
+
+   ═══════════════════════════════════════════════════════════════ */
+
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const rateLimit = require('express-rate-limit');
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+
+// ══════════════════════════════════════
+//  CONFIGURAÇÃO
+// ══════════════════════════════════════
+
+const AI_PROVIDER = process.env.AI_PROVIDER || 'groq';
+
+const PROVIDER_CONFIG = {
+  groq: {
+    url: 'https://api.groq.com/openai/v1/chat/completions',
+    model: 'llama-3.3-70b-versatile',
+    getKey: () => process.env.GROQ_API_KEY,
+    getHeaders: (key) => ({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${key}`
+    }),
+    buildBody: (messages, model) => ({
+      model,
+      messages,
+      max_tokens: 1024,
+      temperature: 0.7
+    }),
+    extractResponse: (data) => {
+      if (data.choices && data.choices[0] && data.choices[0].message) {
+        return data.choices[0].message.content;
+      }
+      return null;
+    }
+  },
+  gemini: {
+    url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+    model: 'gemini-2.0-flash',
+    getKey: () => process.env.GEMINI_API_KEY,
+    getHeaders: () => ({ 'Content-Type': 'application/json' }),
+    buildBody: (messages) => ({
+      contents: messages
+        .filter(m => m.role !== 'system')
+        .map(m => ({
+          role: m.role === 'assistant' ? 'model' : 'user',
+          parts: [{ text: m.content }]
+        })),
+      systemInstruction: {
+        parts: [{ text: messages.find(m => m.role === 'system')?.content || '' }]
+      },
+      generationConfig: {
+        maxOutputTokens: 1024,
+        temperature: 0.7
+      }
+    }),
+    extractResponse: (data) => {
+      if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+        return data.candidates[0].content.parts[0].text;
+      }
+      return null;
+    }
+  }
+};
+
+// System prompt — tutor de IB Math
+const SYSTEM_PROMPT = `Você é um tutor de matemática especializado no currículo IB (International Baccalaureate), módulo Functions & Modeling.
+
+Regras:
+- Responda SEMPRE em português do Brasil
+- Use termos-chave em inglês entre parênteses quando relevante
+- Use linguagem clara e acessível para alunos do ensino médio
+- Dê exemplos práticos e visuais sempre que possível
+- Use notação matemática simples (sem LaTeX complexo)
+- Seja encorajador e paciente
+- Se o aluno errar, guie-o para a resposta correta em vez de dar diretamente
+- Mantenha respostas concisas (máximo 3-4 parágrafos)
+- Quando possível, relacione conceitos com aplicações do mundo real
+- Se não souber a resposta, diga honestamente e sugira o que pode ajudar`;
+
+// ══════════════════════════════════════
+//  MIDDLEWARE
+// ══════════════════════════════════════
+
+// CORS — aceita requisições do frontend
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
+}));
+
+// Body parser
+app.use(express.json({ limit: '16kb' }));
+
+// Rate limiting — 30 msgs/min por IP
+const chatLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 30,
+  message: { error: 'Muitas mensagens. Aguarde um momento antes de tentar novamente.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// ══════════════════════════════════════
+//  ROTAS
+// ══════════════════════════════════════
+
+// Health check
+app.get('/health', (_req, res) => {
+  res.json({
+    status: 'ok',
+    provider: AI_PROVIDER,
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Chat endpoint
+app.post('/chat', chatLimiter, async (req, res) => {
+  try {
+    const { message, context } = req.body;
+
+    // Validação
+    if (!message || typeof message !== 'string') {
+      return res.status(400).json({ error: 'Campo "message" é obrigatório.' });
+    }
+
+    if (message.length > 2000) {
+      return res.status(400).json({ error: 'Mensagem muito longa (máximo 2000 caracteres).' });
+    }
+
+    // Provider config
+    const provider = PROVIDER_CONFIG[AI_PROVIDER];
+    if (!provider) {
+      return res.status(500).json({ error: `Provedor "${AI_PROVIDER}" não configurado.` });
+    }
+
+    const apiKey = provider.getKey();
+    if (!apiKey || apiKey === 'SUA_CHAVE_AQUI') {
+      return res.status(500).json({
+        error: 'Chave de API não configurada. Edite o arquivo .env com sua chave.',
+        fallback: true
+      });
+    }
+
+    // Build context instruction
+    const contextInstruction = context
+      ? `\n\n[CONTEXTO ATUAL: O aluno está estudando "${context}". Foque suas respostas neste tema e nos conceitos relacionados do currículo IB.]`
+      : '';
+
+    // Build messages array
+    const messages = [
+      { role: 'system', content: SYSTEM_PROMPT + contextInstruction },
+      { role: 'user', content: message }
+    ];
+
+    // Build request URL (Gemini needs API key in URL)
+    let requestUrl = provider.url;
+    if (AI_PROVIDER === 'gemini') {
+      requestUrl += `?key=${encodeURIComponent(apiKey)}`;
+    }
+
+    // Call AI API with timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 20000);
+
+    const apiResponse = await fetch(requestUrl, {
+      method: 'POST',
+      headers: provider.getHeaders(apiKey),
+      body: JSON.stringify(provider.buildBody(messages, provider.model)),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!apiResponse.ok) {
+      const errorBody = await apiResponse.text();
+      console.error(`[AI API Error] ${apiResponse.status}:`, errorBody);
+
+      if (apiResponse.status === 429) {
+        return res.status(429).json({ error: 'Limite da API atingido. Tente novamente em alguns segundos.' });
+      }
+      if (apiResponse.status === 401 || apiResponse.status === 403) {
+        return res.status(500).json({ error: 'Chave de API inválida. Verifique o arquivo .env.', fallback: true });
+      }
+
+      return res.status(502).json({ error: 'Erro na comunicação com a IA. Tente novamente.' });
+    }
+
+    const data = await apiResponse.json();
+    const responseText = provider.extractResponse(data);
+
+    if (!responseText) {
+      console.error('[AI API] Unexpected response format:', JSON.stringify(data).slice(0, 500));
+      return res.status(502).json({ error: 'Resposta inesperada da API de IA.' });
+    }
+
+    res.json({ response: responseText });
+
+  } catch (err) {
+    console.error('[Server Error]', err.message);
+    if (err.name === 'AbortError') {
+      return res.status(504).json({ error: 'A IA demorou muito para responder. Tente novamente.' });
+    }
+    res.status(500).json({ error: 'Erro interno do servidor. Tente novamente.' });
+  }
+});
+
+// 404 fallback
+app.use((_req, res) => {
+  res.status(404).json({ error: 'Rota não encontrada.' });
+});
+
+// ══════════════════════════════════════
+//  START
+// ══════════════════════════════════════
+
+app.listen(PORT, () => {
+  console.log(`\n═══════════════════════════════════════════`);
+  console.log(`  🧮 IB Math Tutor — Backend`);
+  console.log(`  📡 Servidor rodando em http://localhost:${PORT}`);
+  console.log(`  🤖 Provedor de IA: ${AI_PROVIDER.toUpperCase()}`);
+  console.log(`  🔑 API Key: ${PROVIDER_CONFIG[AI_PROVIDER]?.getKey()?.slice(0, 8) || '❌ NÃO CONFIGURADA'}...`);
+  console.log(`═══════════════════════════════════════════\n`);
+});

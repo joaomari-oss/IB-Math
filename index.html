@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#6366f1">
+  <title>IB Math — Funções & Modelagem</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ═══════════════════ LOADER ═══════════════════ -->
+  <div id="loader" class="loader">
+    <div class="loader-content">
+      <div class="loader-ring"></div>
+      <span class="loader-text">Carregando...</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════ NAVBAR ═══════════════════ -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">
+        <span class="logo-icon">∑</span>
+        <span class="logo-text">IB<span class="logo-accent">Math</span></span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#overview">Visão Geral</a></li>
+        <li><a href="#funcoes">Funções</a></li>
+        <li><a href="#lineares">Lineares</a></li>
+        <li><a href="#quadraticas">Quadráticas</a></li>
+        <li><a href="#cubicas">Cúbicas</a></li>
+        <li><a href="#exponenciais">Exponenciais</a></li>
+        <li><a href="#inversas">Inversas</a></li>
+        <li><a href="#turning-points">Turning Points</a></li>
+        <li><a href="#modelagem">Modelagem</a></li>
+        <li><a href="#exercicios">Exercícios</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+        <button class="nav-menu-btn" id="menuBtn" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════ HERO ═══════════════════ -->
+  <section id="hero" class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="container hero-content">
+      <div class="hero-badge animate-fade-up">IB Mathematics AI — Year 11</div>
+      <h1 class="hero-title animate-fade-up delay-1">
+        Domine <span class="gradient-text">Funções</span> e<br>
+        <span class="gradient-text">Modelagem</span> Matemática
+      </h1>
+      <p class="hero-subtitle animate-fade-up delay-2">
+        Uma jornada completa e interativa pelos conceitos fundamentais de funções 
+        no padrão IB — do básico ao avançado, com visualizações e exercícios práticos.
+      </p>
+      <div class="hero-actions animate-fade-up delay-3">
+        <a href="#overview" class="btn btn-primary">
+          Começar Aula
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#exercicios" class="btn btn-outline">Ver Exercícios</a>
+      </div>
+      <div class="hero-stats animate-fade-up delay-4">
+        <div class="stat">
+          <span class="stat-number">9</span>
+          <span class="stat-label">Tópicos</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number">20+</span>
+          <span class="stat-label">Exemplos</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number">10</span>
+          <span class="stat-label">Exercícios</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ PROGRESS BAR ═══════════════════ -->
+  <div id="progressBar" class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- ═══════════════════ OVERVIEW ═══════════════════ -->
+  <section id="overview" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Visão Geral</span>
+        <h2 class="section-title">O que você vai aprender</h2>
+        <p class="section-subtitle">Todos os tópicos essenciais de Functions & Modeling do currículo IB Math AI</p>
+      </div>
+      <div class="topics-grid">
+        <a href="#funcoes" class="topic-card reveal" style="--delay: 0">
+          <div class="topic-icon">f(x)</div>
+          <h3>Funções <span class="en">(Functions)</span></h3>
+          <p>Conceito, domínio, contradomínio e notação de funções</p>
+          <span class="topic-tag">Fundamento</span>
+        </a>
+        <a href="#lineares" class="topic-card reveal" style="--delay: 1">
+          <div class="topic-icon">/</div>
+          <h3>Funções Lineares <span class="en">(Linear)</span></h3>
+          <p>Retas, inclinação, intercepto e equação da reta</p>
+          <span class="topic-tag">Essencial</span>
+        </a>
+        <a href="#quadraticas" class="topic-card reveal" style="--delay: 2">
+          <div class="topic-icon">∪</div>
+          <h3>Funções Quadráticas <span class="en">(Quadratic)</span></h3>
+          <p>Parábolas, vértice, raízes e forma fatorada</p>
+          <span class="topic-tag">Essencial</span>
+        </a>
+        <a href="#cubicas" class="topic-card reveal" style="--delay: 3">
+          <div class="topic-icon">∿</div>
+          <h3>Funções Cúbicas <span class="en">(Cubic)</span></h3>
+          <p>Polinômios de grau 3, comportamento e pontos de inflexão</p>
+          <span class="topic-tag">Intermediário</span>
+        </a>
+        <a href="#exponenciais" class="topic-card reveal" style="--delay: 4">
+          <div class="topic-icon">eˣ</div>
+          <h3>Funções Exponenciais <span class="en">(Exponential)</span></h3>
+          <p>Crescimento, decaimento e modelagem exponencial</p>
+          <span class="topic-tag">Intermediário</span>
+        </a>
+        <a href="#inversas" class="topic-card reveal" style="--delay: 5">
+          <div class="topic-icon">f⁻¹</div>
+          <h3>Funções Inversas <span class="en">(Inverse)</span></h3>
+          <p>Como encontrar e interpretar funções inversas</p>
+          <span class="topic-tag">Avançado</span>
+        </a>
+        <a href="#turning-points" class="topic-card reveal" style="--delay: 6">
+          <div class="topic-icon">⌃</div>
+          <h3>Pontos Notáveis <span class="en">(Turning Points)</span></h3>
+          <p>Máximos, mínimos e pontos de inflexão</p>
+          <span class="topic-tag">Avançado</span>
+        </a>
+        <a href="#modelagem" class="topic-card reveal" style="--delay: 7">
+          <div class="topic-icon">📊</div>
+          <h3>Modelagem <span class="en">(Modeling)</span></h3>
+          <p>Regressão, ajuste de curvas e aplicações reais</p>
+          <span class="topic-tag">Aplicação</span>
+        </a>
+        <a href="#exercicios" class="topic-card reveal" style="--delay: 8">
+          <div class="topic-icon">✎</div>
+          <h3>Exercícios <span class="en">(Exercises)</span></h3>
+          <p>Pratique com questões interativas e feedback imediato</p>
+          <span class="topic-tag">Prática</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FUNÇÕES (INTRO) ═══════════════════ -->
+  <section id="funcoes" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 1</span>
+        <h2 class="section-title">Funções <span class="en">(Functions)</span></h2>
+        <p class="section-subtitle">O conceito mais fundamental: uma regra que associa cada entrada a exatamente uma saída</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>O que é uma Função?</h3>
+          </div>
+          <div class="concept-body">
+            <p>Uma <strong>função</strong> (<em>function</em>) é uma relação matemática que associa cada elemento de um conjunto (chamado <strong>domínio</strong>) a <strong>exatamente um</strong> elemento de outro conjunto (chamado <strong>contradomínio</strong>).</p>
+            
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Pensando como professor:</strong> Imagine uma máquina — você coloca um número (entrada), a máquina aplica uma regra, e devolve exatamente um resultado (saída). Essa "máquina" é uma função!
+              </div>
+            </div>
+
+            <div class="formula-box">
+              <span class="formula-label">Notação</span>
+              <div class="formula">f(x) = expressão</div>
+              <p class="formula-desc">Lê-se: "f de x". O <strong>x</strong> é a variável independente (entrada) e <strong>f(x)</strong> é a variável dependente (saída).</p>
+            </div>
+
+            <div class="key-terms">
+              <div class="term">
+                <strong>Domínio <span class="en">(Domain)</span></strong>
+                <p>Conjunto de todos os valores possíveis de entrada (x)</p>
+              </div>
+              <div class="term">
+                <strong>Contradomínio <span class="en">(Range)</span></strong>
+                <p>Conjunto de todos os valores possíveis de saída (f(x))</p>
+              </div>
+              <div class="term">
+                <strong>Imagem <span class="en">(Image)</span></strong>
+                <p>O valor de saída para uma entrada específica</p>
+              </div>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo</span>
+              <p>Dada a função <code>f(x) = 2x + 3</code></p>
+              <ul>
+                <li>Se x = 1 → f(1) = 2(1) + 3 = <strong>5</strong></li>
+                <li>Se x = 4 → f(4) = 2(4) + 3 = <strong>11</strong></li>
+                <li>Domínio: todos os números reais (ℝ)</li>
+                <li>Imagem: todos os números reais (ℝ)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Function Tester -->
+      <div class="content-block reveal">
+        <div class="interactive-card">
+          <div class="interactive-header">
+            <span class="interactive-badge">Interativo</span>
+            <h3>Teste uma Função</h3>
+            <p>Digite uma expressão e um valor de x para calcular f(x)</p>
+          </div>
+          <div class="interactive-body">
+            <div class="input-group">
+              <label>f(x) =</label>
+              <input type="text" id="funcExpr" value="2*x + 3" class="input-field" placeholder="Ex: 2*x + 3">
+            </div>
+            <div class="input-group">
+              <label>x =</label>
+              <input type="number" id="funcX" value="5" class="input-field" placeholder="Valor de x">
+            </div>
+            <button class="btn btn-primary btn-sm" id="calcFunc">
+              Calcular
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="result-display" id="funcResult">
+              <span class="result-label">Resultado:</span>
+              <span class="result-value" id="funcResultValue">f(5) = 13</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vertical Line Test -->
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito Importante</span>
+            <h3>Teste da Reta Vertical <span class="en">(Vertical Line Test)</span></h3>
+          </div>
+          <div class="concept-body">
+            <p>Para verificar se um gráfico representa uma função, aplique o <strong>teste da reta vertical</strong>: se qualquer reta vertical traçada no gráfico tocar a curva em <strong>no máximo um ponto</strong>, então o gráfico é uma função.</p>
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Dica:</strong> Um círculo <em>não</em> é uma função, pois uma reta vertical pode cruzá-lo em dois pontos. Já uma parábola <em>é</em> uma função!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contextual Chat Button -->
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="funcoes" data-topic="Funções (Functions) — conceito, domínio, contradomínio, notação, teste da reta vertical">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FUNÇÕES LINEARES ═══════════════════ -->
+  <section id="lineares" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 2</span>
+        <h2 class="section-title">Funções Lineares <span class="en">(Linear Functions)</span></h2>
+        <p class="section-subtitle">A forma mais simples de função: uma relação constante entre variáveis</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>A Equação da Reta</h3>
+          </div>
+          <div class="concept-body">
+            <p>Uma <strong>função linear</strong> (<em>linear function</em>) gera um gráfico em linha reta. A taxa de variação é constante — ou seja, para cada aumento de 1 em x, f(x) aumenta sempre a mesma quantidade.</p>
+            
+            <div class="formula-box">
+              <span class="formula-label">Forma Geral</span>
+              <div class="formula">f(x) = mx + c</div>
+              <p class="formula-desc">Onde <strong>m</strong> = inclinação (slope/gradient) e <strong>c</strong> = intercepto-y (y-intercept)</p>
+            </div>
+
+            <div class="two-col">
+              <div class="info-card">
+                <h4>Inclinação <span class="en">(Gradient)</span></h4>
+                <div class="formula-inline">m = (y₂ − y₁) / (x₂ − x₁)</div>
+                <p>Mede o <strong>quão inclinada</strong> é a reta. Se m > 0 a reta sobe; se m &lt; 0 a reta desce; se m = 0 a reta é horizontal.</p>
+              </div>
+              <div class="info-card">
+                <h4>Intercepto-y <span class="en">(y-intercept)</span></h4>
+                <div class="formula-inline">c = f(0)</div>
+                <p>O ponto onde a reta <strong>cruza o eixo y</strong>. É o valor de f(x) quando x = 0.</p>
+              </div>
+            </div>
+
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Pensando como professor:</strong> A inclinação é como a velocidade — diz o quão rápido y muda quando x muda. Um carro a 60 km/h tem "inclinação" 60 no gráfico distância × tempo!
+              </div>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo no Mundo Real</span>
+              <p>Uma loja cobra R$15,00 de taxa fixa + R$3,00 por km em entregas.</p>
+              <p><code>C(x) = 3x + 15</code></p>
+              <ul>
+                <li>m = 3 → Custo aumenta R$3 por km</li>
+                <li>c = 15 → Taxa fixa de R$15</li>
+                <li>C(10) = 3(10) + 15 = R$45,00</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Linear Graph -->
+      <div class="content-block reveal">
+        <div class="interactive-card">
+          <div class="interactive-header">
+            <span class="interactive-badge">Gráfico Interativo</span>
+            <h3>Explore a Função Linear</h3>
+            <p>Ajuste m e c para ver como a reta muda</p>
+          </div>
+          <div class="interactive-body">
+            <div class="graph-controls">
+              <div class="slider-group">
+                <label>m (inclinação) = <span id="mValue">1</span></label>
+                <input type="range" id="mSlider" min="-5" max="5" step="0.5" value="1" class="slider">
+              </div>
+              <div class="slider-group">
+                <label>c (intercepto) = <span id="cValue">0</span></label>
+                <input type="range" id="cSlider" min="-10" max="10" step="0.5" value="0" class="slider">
+              </div>
+              <div class="equation-display" id="linearEq">f(x) = 1x + 0</div>
+            </div>
+            <div class="graph-wrapper">
+              <canvas id="linearCanvas" width="600" height="400"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Parallel and Perpendicular -->
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Propriedades</span>
+            <h3>Retas Paralelas e Perpendiculares</h3>
+          </div>
+          <div class="concept-body">
+            <div class="two-col">
+              <div class="info-card">
+                <h4>Paralelas <span class="en">(Parallel Lines)</span></h4>
+                <div class="formula-inline">m₁ = m₂</div>
+                <p>Duas retas são paralelas quando têm a <strong>mesma inclinação</strong>.</p>
+              </div>
+              <div class="info-card">
+                <h4>Perpendiculares <span class="en">(Perpendicular)</span></h4>
+                <div class="formula-inline">m₁ × m₂ = −1</div>
+                <p>Duas retas são perpendiculares quando o produto de suas inclinações é <strong>−1</strong>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contextual Chat Button -->
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="lineares" data-topic="Funções Lineares (Linear Functions) — y=mx+c, inclinação, intercepto, retas paralelas e perpendiculares">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FUNÇÕES QUADRÁTICAS ═══════════════════ -->
+  <section id="quadraticas" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 3</span>
+        <h2 class="section-title">Funções Quadráticas <span class="en">(Quadratic Functions)</span></h2>
+        <p class="section-subtitle">Parábolas — curvas que modelam trajetórias, lucros, áreas e muito mais</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>A Parábola</h3>
+          </div>
+          <div class="concept-body">
+            <p>Uma <strong>função quadrática</strong> (<em>quadratic function</em>) é um polinômio de grau 2 cujo gráfico é uma <strong>parábola</strong>. Ela pode abrir para cima (∪) quando a > 0, ou para baixo (∩) quando a &lt; 0.</p>
+            
+            <div class="formula-box">
+              <span class="formula-label">Forma Geral</span>
+              <div class="formula">f(x) = ax² + bx + c</div>
+              <p class="formula-desc">Onde <strong>a</strong> ≠ 0 determina a abertura; <strong>b</strong> influencia o deslocamento; <strong>c</strong> é o y-intercept</p>
+            </div>
+
+            <div class="formula-box">
+              <span class="formula-label">Forma do Vértice</span>
+              <div class="formula">f(x) = a(x − h)² + k</div>
+              <p class="formula-desc">Onde <strong>(h, k)</strong> é o vértice da parábola</p>
+            </div>
+
+            <div class="key-terms">
+              <div class="term">
+                <strong>Vértice <span class="en">(Vertex)</span></strong>
+                <p>Ponto mais alto (se a &lt; 0) ou mais baixo (se a > 0). x = −b/(2a)</p>
+              </div>
+              <div class="term">
+                <strong>Eixo de Simetria <span class="en">(Axis of Symmetry)</span></strong>
+                <p>Reta vertical passando pelo vértice: x = −b/(2a)</p>
+              </div>
+              <div class="term">
+                <strong>Discriminante <span class="en">(Discriminant)</span></strong>
+                <p>Δ = b² − 4ac → determina o número de raízes</p>
+              </div>
+            </div>
+
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Pensando como professor:</strong> O discriminante é como um "detector de raízes":
+                <br>• Δ > 0 → duas raízes reais (a parábola cruza o eixo x duas vezes)
+                <br>• Δ = 0 → uma raiz (a parábola toca o eixo x em um ponto)
+                <br>• Δ &lt; 0 → sem raízes reais (a parábola não toca o eixo x)
+              </div>
+            </div>
+
+            <div class="formula-box">
+              <span class="formula-label">Fórmula de Bhaskara</span>
+              <div class="formula">x = (−b ± √Δ) / 2a</div>
+              <p class="formula-desc">Onde Δ = b² − 4ac. Encontra as raízes (zeros) da função.</p>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo no Mundo Real</span>
+              <p>Uma bola é lançada para cima com altura dada por:</p>
+              <p><code>h(t) = −5t² + 20t + 1</code></p>
+              <ul>
+                <li>a = −5 → parábola abre para baixo (a bola sobe e depois desce)</li>
+                <li>Vértice: t = −20/(2×(−5)) = 2 → altura máxima em t = 2s</li>
+                <li>h(2) = −5(4) + 20(2) + 1 = <strong>21 metros</strong></li>
+                <li>h(0) = 1 metro (altura inicial)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Quadratic Graph -->
+      <div class="content-block reveal">
+        <div class="interactive-card">
+          <div class="interactive-header">
+            <span class="interactive-badge">Gráfico Interativo</span>
+            <h3>Explore a Parábola</h3>
+            <p>Ajuste a, b e c para ver como a parábola se transforma</p>
+          </div>
+          <div class="interactive-body">
+            <div class="graph-controls">
+              <div class="slider-group">
+                <label>a = <span id="aQuadValue">1</span></label>
+                <input type="range" id="aQuadSlider" min="-3" max="3" step="0.25" value="1" class="slider">
+              </div>
+              <div class="slider-group">
+                <label>b = <span id="bQuadValue">0</span></label>
+                <input type="range" id="bQuadSlider" min="-6" max="6" step="0.5" value="0" class="slider">
+              </div>
+              <div class="slider-group">
+                <label>c = <span id="cQuadValue">0</span></label>
+                <input type="range" id="cQuadSlider" min="-10" max="10" step="0.5" value="0" class="slider">
+              </div>
+              <div class="equation-display" id="quadEq">f(x) = 1x² + 0x + 0</div>
+              <div class="graph-info" id="quadInfo">Vértice: (0, 0) | Δ = 0</div>
+            </div>
+            <div class="graph-wrapper">
+              <canvas id="quadCanvas" width="600" height="400"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contextual Chat Button -->
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="quadraticas" data-topic="Funções Quadráticas (Quadratic Functions) — parábola, vértice, discriminante, Bhaskara, forma do vértice">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FUNÇÕES CÚBICAS ═══════════════════ -->
+  <section id="cubicas" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 4</span>
+        <h2 class="section-title">Funções Cúbicas <span class="en">(Cubic Functions)</span></h2>
+        <p class="section-subtitle">Polinômios de grau 3 — curvas com forma de "S" e até dois pontos de inflexão</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>Polinômios de Grau 3</h3>
+          </div>
+          <div class="concept-body">
+            <p>Uma <strong>função cúbica</strong> (<em>cubic function</em>) é um polinômio de grau 3. Seu gráfico tem uma forma característica de "S" (ou "S" invertido), podendo ter até <strong>dois pontos de retorno</strong> (turning points) e até <strong>três raízes reais</strong>.</p>
+            
+            <div class="formula-box">
+              <span class="formula-label">Forma Geral</span>
+              <div class="formula">f(x) = ax³ + bx² + cx + d</div>
+              <p class="formula-desc">Onde <strong>a</strong> ≠ 0. Se a > 0 a curva sobe da esquerda para a direita; se a &lt; 0 ela desce.</p>
+            </div>
+
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Pensando como professor:</strong> A diferença fundamental entre quadrática e cúbica é o comportamento nos extremos:
+                <br>• Quadrática: ambos os "braços" vão na mesma direção (↑↑ ou ↓↓)
+                <br>• Cúbica: os "braços" vão em direções opostas (↙↗ ou ↗↙)
+              </div>
+            </div>
+
+            <div class="key-terms">
+              <div class="term">
+                <strong>Pontos de Retorno <span class="en">(Turning Points)</span></strong>
+                <p>Uma cúbica pode ter 0 ou 2 turning points (máximo local e mínimo local)</p>
+              </div>
+              <div class="term">
+                <strong>Ponto de Inflexão <span class="en">(Point of Inflection)</span></strong>
+                <p>Onde a concavidade muda (de côncava para convexa ou vice-versa)</p>
+              </div>
+              <div class="term">
+                <strong>Raízes <span class="en">(Roots/Zeros)</span></strong>
+                <p>Uma cúbica sempre tem pelo menos 1 raiz real, podendo ter até 3</p>
+              </div>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo</span>
+              <p>Considere <code>f(x) = x³ − 3x</code></p>
+              <ul>
+                <li>Raízes: x = 0, x = √3, x = −√3</li>
+                <li>Máximo local em x = −1: f(−1) = 2</li>
+                <li>Mínimo local em x = 1: f(1) = −2</li>
+                <li>Ponto de inflexão em x = 0</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Cubic Graph -->
+      <div class="content-block reveal">
+        <div class="interactive-card">
+          <div class="interactive-header">
+            <span class="interactive-badge">Gráfico Interativo</span>
+            <h3>Explore a Função Cúbica</h3>
+            <p>Ajuste o coeficiente a para ver como a curva se comporta</p>
+          </div>
+          <div class="interactive-body">
+            <div class="graph-controls">
+              <div class="slider-group">
+                <label>a = <span id="aCubicValue">1</span></label>
+                <input type="range" id="aCubicSlider" min="-2" max="2" step="0.25" value="1" class="slider">
+              </div>
+              <div class="slider-group">
+                <label>b = <span id="bCubicValue">0</span></label>
+                <input type="range" id="bCubicSlider" min="-5" max="5" step="0.5" value="0" class="slider">
+              </div>
+              <div class="slider-group">
+                <label>c = <span id="cCubicValue">-3</span></label>
+                <input type="range" id="cCubicSlider" min="-10" max="10" step="0.5" value="-3" class="slider">
+              </div>
+              <div class="equation-display" id="cubicEq">f(x) = 1x³ + 0x² − 3x</div>
+            </div>
+            <div class="graph-wrapper">
+              <canvas id="cubicCanvas" width="600" height="400"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Contextual Chat Button -->
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="cubicas" data-topic="Funções Cúbicas (Cubic Functions) — polinômios de grau 3, turning points, ponto de inflexão">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FUNÇÕES EXPONENCIAIS ═══════════════════ -->
+  <section id="exponenciais" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 5</span>
+        <h2 class="section-title">Funções Exponenciais <span class="en">(Exponential Functions)</span></h2>
+        <p class="section-subtitle">Crescimento explosivo e decaimento — modelando populações, finanças e radioatividade</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>Crescimento e Decaimento Exponencial</h3>
+          </div>
+          <div class="concept-body">
+            <p>Uma <strong>função exponencial</strong> (<em>exponential function</em>) é aquela onde a variável aparece no <strong>expoente</strong>. Diferente das funções polinomiais, o crescimento (ou decaimento) é cada vez mais rápido.</p>
+            
+            <div class="formula-box">
+              <span class="formula-label">Forma Geral</span>
+              <div class="formula">f(x) = a · bˣ</div>
+              <p class="formula-desc">Onde <strong>a</strong> é o valor inicial (quando x = 0) e <strong>b</strong> é a base (fator de crescimento)</p>
+            </div>
+
+            <div class="two-col">
+              <div class="info-card info-card-success">
+                <h4>Crescimento <span class="en">(Growth)</span></h4>
+                <div class="formula-inline">b > 1</div>
+                <p>A função cresce exponencialmente. Ex: populações, juros compostos, vírus.</p>
+              </div>
+              <div class="info-card info-card-warning">
+                <h4>Decaimento <span class="en">(Decay)</span></h4>
+                <div class="formula-inline">0 &lt; b &lt; 1</div>
+                <p>A função decresce exponencialmente. Ex: radioatividade, depreciação, resfriamento.</p>
+              </div>
+            </div>
+
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Pensando como professor:</strong> A diferença entre crescimento linear e exponencial é dramática. Se você ganha R$100/dia (linear), em 30 dias tem R$3.000. Mas se dobra a cada dia começando com R$0,01 (exponencial), em 30 dias tem mais de R$10 milhões!
+              </div>
+            </div>
+
+            <div class="key-terms">
+              <div class="term">
+                <strong>Assíntota Horizontal <span class="en">(Horizontal Asymptote)</span></strong>
+                <p>A curva se aproxima cada vez mais de y = 0 (ou outro valor), mas nunca toca</p>
+              </div>
+              <div class="term">
+                <strong>Meia-vida <span class="en">(Half-life)</span></strong>
+                <p>Tempo necessário para a quantidade cair pela metade (usado em decaimento)</p>
+              </div>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo no Mundo Real</span>
+              <p>Uma população de bactérias dobra a cada hora, começando com 100:</p>
+              <p><code>P(t) = 100 · 2ᵗ</code></p>
+              <ul>
+                <li>P(0) = 100 (população inicial)</li>
+                <li>P(3) = 100 · 8 = <strong>800 bactérias</strong> (após 3 horas)</li>
+                <li>P(10) = 100 · 1024 = <strong>102.400 bactérias</strong> (após 10 horas)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Exponential Graph -->
+      <div class="content-block reveal">
+        <div class="interactive-card">
+          <div class="interactive-header">
+            <span class="interactive-badge">Gráfico Interativo</span>
+            <h3>Explore a Função Exponencial</h3>
+            <p>Ajuste a base b para ver crescimento vs decaimento</p>
+          </div>
+          <div class="interactive-body">
+            <div class="graph-controls">
+              <div class="slider-group">
+                <label>a (valor inicial) = <span id="aExpValue">1</span></label>
+                <input type="range" id="aExpSlider" min="0.5" max="5" step="0.5" value="1" class="slider">
+              </div>
+              <div class="slider-group">
+                <label>b (base) = <span id="bExpValue">2</span></label>
+                <input type="range" id="bExpSlider" min="0.1" max="3" step="0.1" value="2" class="slider">
+              </div>
+              <div class="equation-display" id="expEq">f(x) = 1 · 2ˣ</div>
+              <div class="graph-info" id="expInfo">Tipo: Crescimento (b > 1)</div>
+            </div>
+            <div class="graph-wrapper">
+              <canvas id="expCanvas" width="600" height="400"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Contextual Chat Button -->
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="exponenciais" data-topic="Funções Exponenciais (Exponential Functions) — crescimento, decaimento, assíntota horizontal, meia-vida">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FUNÇÕES INVERSAS ═══════════════════ -->
+  <section id="inversas" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 6</span>
+        <h2 class="section-title">Funções Inversas <span class="en">(Inverse Functions)</span></h2>
+        <p class="section-subtitle">Desfazendo a função — voltando da saída para a entrada</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>O que é uma Função Inversa?</h3>
+          </div>
+          <div class="concept-body">
+            <p>A <strong>função inversa</strong> (<em>inverse function</em>) de f, denotada <strong>f⁻¹</strong>, é a função que "desfaz" o que f faz. Se f transforma a em b, então f⁻¹ transforma b de volta em a.</p>
+            
+            <div class="formula-box">
+              <span class="formula-label">Propriedade Fundamental</span>
+              <div class="formula">f(f⁻¹(x)) = x &nbsp;&nbsp;e&nbsp;&nbsp; f⁻¹(f(x)) = x</div>
+              <p class="formula-desc">Aplicar f e depois f⁻¹ (ou vice-versa) retorna ao valor original</p>
+            </div>
+
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Pensando como professor:</strong> Se f(x) = 2x (dobrar), então f⁻¹(x) = x/2 (dividir por 2). A inversa é como o botão "desfazer" no computador!
+              </div>
+            </div>
+
+            <div class="steps-list">
+              <h4>Como encontrar f⁻¹(x):</h4>
+              <div class="step">
+                <span class="step-number">1</span>
+                <div class="step-content">
+                  <strong>Escreva</strong> y = f(x)
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-number">2</span>
+                <div class="step-content">
+                  <strong>Troque</strong> x por y e y por x
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-number">3</span>
+                <div class="step-content">
+                  <strong>Isole</strong> y (resolva para y)
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-number">4</span>
+                <div class="step-content">
+                  <strong>Renomeie</strong> y como f⁻¹(x)
+                </div>
+              </div>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo Passo a Passo</span>
+              <p>Encontre a inversa de <code>f(x) = 3x + 6</code></p>
+              <ol>
+                <li>y = 3x + 6</li>
+                <li>x = 3y + 6 (trocamos x e y)</li>
+                <li>x − 6 = 3y → y = (x − 6)/3</li>
+                <li><strong>f⁻¹(x) = (x − 6)/3</strong></li>
+              </ol>
+              <p>Verificação: f(2) = 3(2) + 6 = 12 → f⁻¹(12) = (12−6)/3 = 2 ✓</p>
+            </div>
+
+            <div class="concept-card" style="margin-top: 1.5rem;">
+              <div class="concept-header">
+                <span class="concept-badge">Gráfico</span>
+                <h3>Reflexão sobre y = x</h3>
+              </div>
+              <div class="concept-body">
+                <p>O gráfico de f⁻¹ é a <strong>reflexão</strong> do gráfico de f em relação à reta y = x. Isso significa que se o ponto (a, b) está no gráfico de f, então o ponto (b, a) estará no gráfico de f⁻¹.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Inverse Graph -->
+      <div class="content-block reveal">
+        <div class="interactive-card">
+          <div class="interactive-header">
+            <span class="interactive-badge">Gráfico Interativo</span>
+            <h3>Visualize a Inversa</h3>
+            <p>Veja f(x) e f⁻¹(x) refletidas sobre y = x</p>
+          </div>
+          <div class="interactive-body">
+            <div class="graph-controls">
+              <div class="slider-group">
+                <label>m = <span id="mInvValue">2</span></label>
+                <input type="range" id="mInvSlider" min="0.5" max="5" step="0.5" value="2" class="slider">
+              </div>
+              <div class="slider-group">
+                <label>c = <span id="cInvValue">1</span></label>
+                <input type="range" id="cInvSlider" min="-5" max="5" step="0.5" value="1" class="slider">
+              </div>
+              <div class="equation-display" id="invEq">f(x) = 2x + 1 &nbsp;|&nbsp; f⁻¹(x) = (x − 1)/2</div>
+            </div>
+            <div class="graph-wrapper">
+              <canvas id="inverseCanvas" width="600" height="400"></canvas>
+            </div>
+            <div class="graph-legend">
+              <span class="legend-item"><span class="legend-color" style="background: var(--accent)"></span> f(x)</span>
+              <span class="legend-item"><span class="legend-color" style="background: var(--secondary)"></span> f⁻¹(x)</span>
+              <span class="legend-item"><span class="legend-color" style="background: #666"></span> y = x</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Contextual Chat Button -->
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="inversas" data-topic="Funções Inversas (Inverse Functions) — como encontrar f⁻¹, reflexão sobre y=x, propriedade fundamental">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ TURNING POINTS ═══════════════════ -->
+  <section id="turning-points" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 7</span>
+        <h2 class="section-title">Pontos Notáveis <span class="en">(Turning Points)</span></h2>
+        <p class="section-subtitle">Identificando máximos, mínimos e pontos de inflexão em gráficos</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>O que são Turning Points?</h3>
+          </div>
+          <div class="concept-body">
+            <p><strong>Turning points</strong> (pontos de retorno) são os pontos onde o gráfico muda de direção — isto é, onde a função passa de crescente para decrescente (máximo local) ou de decrescente para crescente (mínimo local).</p>
+            
+            <div class="key-terms">
+              <div class="term">
+                <strong>Máximo Local <span class="en">(Local Maximum)</span></strong>
+                <p>O ponto mais alto em uma vizinhança. A função cresce antes e decresce depois.</p>
+              </div>
+              <div class="term">
+                <strong>Mínimo Local <span class="en">(Local Minimum)</span></strong>
+                <p>O ponto mais baixo em uma vizinhança. A função decresce antes e cresce depois.</p>
+              </div>
+              <div class="term">
+                <strong>Ponto de Inflexão <span class="en">(Point of Inflection)</span></strong>
+                <p>Onde a concavidade muda. A curvatura inverte de "côncava para cima" para "côncava para baixo" ou vice-versa.</p>
+              </div>
+            </div>
+
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Regra prática para o IB:</strong>
+                <br>• Uma função de grau n pode ter no máximo <strong>n − 1</strong> turning points
+                <br>• Quadrática (grau 2) → máximo 1 turning point
+                <br>• Cúbica (grau 3) → máximo 2 turning points
+                <br>• Na calculadora GDC, use <em>minimum</em> e <em>maximum</em> para encontrá-los
+              </div>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo</span>
+              <p>Para <code>f(x) = x³ − 6x² + 9x + 1</code></p>
+              <ul>
+                <li>Máximo local em x = 1: f(1) = 5</li>
+                <li>Mínimo local em x = 3: f(3) = 1</li>
+                <li>Ponto de inflexão em x = 2: f(2) = 3</li>
+                <li>A função é crescente em (−∞, 1) ∪ (3, +∞)</li>
+                <li>A função é decrescente em (1, 3)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Contextual Chat Button -->
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="turning-points" data-topic="Pontos Notáveis (Turning Points) — máximo local, mínimo local, ponto de inflexão, regra n−1">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MODELAGEM ═══════════════════ -->
+  <section id="modelagem" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 8</span>
+        <h2 class="section-title">Modelagem e Regressão <span class="en">(Modeling & Regression)</span></h2>
+        <p class="section-subtitle">Usando funções para descrever fenômenos do mundo real a partir de dados</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>O que é Modelagem Matemática?</h3>
+          </div>
+          <div class="concept-body">
+            <p><strong>Modelagem</strong> (<em>mathematical modeling</em>) é o processo de usar funções matemáticas para representar situações do mundo real. A partir de dados observados, escolhemos a função que melhor se ajusta aos dados.</p>
+            
+            <div class="steps-list">
+              <h4>Processo de Modelagem (Passo a Passo):</h4>
+              <div class="step">
+                <span class="step-number">1</span>
+                <div class="step-content">
+                  <strong>Coletar dados</strong> — Observar e registrar os valores do fenômeno
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-number">2</span>
+                <div class="step-content">
+                  <strong>Plotar os dados</strong> — Criar um diagrama de dispersão (scatter plot)
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-number">3</span>
+                <div class="step-content">
+                  <strong>Escolher o modelo</strong> — Observar o formato dos dados para escolher o tipo de função
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-number">4</span>
+                <div class="step-content">
+                  <strong>Regressão</strong> — Usar calculadora/software para encontrar a equação que melhor se ajusta
+                </div>
+              </div>
+              <div class="step">
+                <span class="step-number">5</span>
+                <div class="step-content">
+                  <strong>Avaliar</strong> — Verificar o coeficiente de determinação (R²) e fazer previsões
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Tipos de Regressão</span>
+            <h3>Escolhendo o Modelo Correto</h3>
+          </div>
+          <div class="concept-body">
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Como escolher:</strong> Observe o formato da nuvem de pontos!
+                <br>• Pontos em linha → <strong>Regressão Linear</strong>
+                <br>• Pontos em U ou ∩ → <strong>Regressão Quadrática</strong>
+                <br>• Pontos em S → <strong>Regressão Cúbica</strong>
+                <br>• Pontos crescendo cada vez mais rápido → <strong>Regressão Exponencial</strong>
+              </div>
+            </div>
+
+            <div class="model-comparison">
+              <div class="model-item">
+                <div class="model-icon" style="color: var(--accent)">╱</div>
+                <h4>Linear</h4>
+                <code>y = mx + c</code>
+                <p>Crescimento constante</p>
+              </div>
+              <div class="model-item">
+                <div class="model-icon" style="color: var(--secondary)">∪</div>
+                <h4>Quadrática</h4>
+                <code>y = ax² + bx + c</code>
+                <p>Crescimento + decrescimento</p>
+              </div>
+              <div class="model-item">
+                <div class="model-icon" style="color: var(--accent-alt)">∿</div>
+                <h4>Cúbica</h4>
+                <code>y = ax³ + bx² + cx + d</code>
+                <p>Mudanças de concavidade</p>
+              </div>
+              <div class="model-item">
+                <div class="model-icon" style="color: var(--success)">📈</div>
+                <h4>Exponencial</h4>
+                <code>y = a · bˣ</code>
+                <p>Crescimento acelerado</p>
+              </div>
+            </div>
+
+            <div class="formula-box">
+              <span class="formula-label">Coeficiente de Determinação</span>
+              <div class="formula">R² (0 ≤ R² ≤ 1)</div>
+              <p class="formula-desc">Quanto mais próximo de 1, melhor o modelo se ajusta aos dados. R² > 0.9 é considerado um bom ajuste.</p>
+            </div>
+
+            <div class="key-terms">
+              <div class="term">
+                <strong>Interpolação <span class="en">(Interpolation)</span></strong>
+                <p>Fazer previsões <strong>dentro</strong> do intervalo dos dados coletados (mais confiável)</p>
+              </div>
+              <div class="term">
+                <strong>Extrapolação <span class="en">(Extrapolation)</span></strong>
+                <p>Fazer previsões <strong>fora</strong> do intervalo dos dados (menos confiável)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Regression -->
+      <div class="content-block reveal">
+        <div class="interactive-card">
+          <div class="interactive-header">
+            <span class="interactive-badge">Simulação</span>
+            <h3>Visualize a Regressão</h3>
+            <p>Veja como diferentes modelos se ajustam aos mesmos dados</p>
+          </div>
+          <div class="interactive-body">
+            <div class="graph-controls">
+              <div class="btn-group">
+                <button class="btn-toggle active" data-regression="linear">Linear</button>
+                <button class="btn-toggle" data-regression="quadratic">Quadrática</button>
+                <button class="btn-toggle" data-regression="exponential">Exponencial</button>
+              </div>
+              <div class="equation-display" id="regEq">y = 2.3x + 1.1 (R² = 0.87)</div>
+            </div>
+            <div class="graph-wrapper">
+              <canvas id="regressionCanvas" width="600" height="400"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Contextual Chat Button -->
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="modelagem" data-topic="Modelagem e Regressão (Modeling & Regression) — regressão linear, quadrática, exponencial, R², interpolação, extrapolação">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ EXERCÍCIOS ═══════════════════ -->
+  <section id="exercicios" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Prática</span>
+        <h2 class="section-title">Exercícios Interativos</h2>
+        <p class="section-subtitle">Teste seus conhecimentos com feedback imediato</p>
+      </div>
+
+      <div class="exercises-progress reveal">
+        <div class="exercises-progress-bar">
+          <div class="exercises-progress-fill" id="exercisesProgressFill"></div>
+        </div>
+        <span class="exercises-progress-text" id="exercisesProgressText">0 de 10 completos</span>
+      </div>
+
+      <!-- Exercise 1 -->
+      <div class="exercise-card reveal" data-exercise="1">
+        <div class="exercise-header">
+          <span class="exercise-number">01</span>
+          <span class="exercise-topic">Funções</span>
+          <span class="exercise-status" id="status-1">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Se <code>f(x) = 3x − 7</code>, qual é o valor de <strong>f(4)</strong>?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-1" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="1">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-1"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 2 -->
+      <div class="exercise-card reveal" data-exercise="2">
+        <div class="exercise-header">
+          <span class="exercise-number">02</span>
+          <span class="exercise-topic">Função Linear</span>
+          <span class="exercise-status" id="status-2">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual é a inclinação (gradient) da reta <code>y = −2x + 5</code>?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-2" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="2">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-2"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 3 -->
+      <div class="exercise-card reveal" data-exercise="3">
+        <div class="exercise-header">
+          <span class="exercise-number">03</span>
+          <span class="exercise-topic">Função Linear</span>
+          <span class="exercise-status" id="status-3">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual é o y-intercept da reta que passa pelos pontos (0, 3) e (2, 7)?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-3" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="3">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-3"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 4 -->
+      <div class="exercise-card reveal" data-exercise="4">
+        <div class="exercise-header">
+          <span class="exercise-number">04</span>
+          <span class="exercise-topic">Perpendicularidade</span>
+          <span class="exercise-status" id="status-4">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Se uma reta tem inclinação m = 3, qual a inclinação de uma reta perpendicular? (use fração decimal, ex: -0.33)</p>
+          <div class="exercise-input-group">
+            <input type="text" class="exercise-input" id="answer-4" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="4">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-4"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 5 -->
+      <div class="exercise-card reveal" data-exercise="5">
+        <div class="exercise-header">
+          <span class="exercise-number">05</span>
+          <span class="exercise-topic">Quadrática</span>
+          <span class="exercise-status" id="status-5">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Para <code>f(x) = x² − 4x + 3</code>, qual é a coordenada x do vértice?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-5" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="5">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-5"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 6 -->
+      <div class="exercise-card reveal" data-exercise="6">
+        <div class="exercise-header">
+          <span class="exercise-number">06</span>
+          <span class="exercise-topic">Discriminante</span>
+          <span class="exercise-status" id="status-6">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual o valor do discriminante (Δ) de <code>2x² + 3x − 5 = 0</code>?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-6" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="6">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-6"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 7 -->
+      <div class="exercise-card reveal" data-exercise="7">
+        <div class="exercise-header">
+          <span class="exercise-number">07</span>
+          <span class="exercise-topic">Exponencial</span>
+          <span class="exercise-status" id="status-7">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Se <code>f(x) = 5 · 2ˣ</code>, qual é o valor de f(3)?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-7" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="7">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-7"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 8 -->
+      <div class="exercise-card reveal" data-exercise="8">
+        <div class="exercise-header">
+          <span class="exercise-number">08</span>
+          <span class="exercise-topic">Inversa</span>
+          <span class="exercise-status" id="status-8">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Se <code>f(x) = 4x + 8</code>, qual é o valor de <strong>f⁻¹(20)</strong>?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-8" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="8">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-8"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 9 -->
+      <div class="exercise-card reveal" data-exercise="9">
+        <div class="exercise-header">
+          <span class="exercise-number">09</span>
+          <span class="exercise-topic">Turning Points</span>
+          <span class="exercise-status" id="status-9">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Quantos turning points, no máximo, uma função de grau 4 pode ter?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-9" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="9">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-9"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 10 -->
+      <div class="exercise-card reveal" data-exercise="10">
+        <div class="exercise-header">
+          <span class="exercise-number">10</span>
+          <span class="exercise-topic">Modelagem</span>
+          <span class="exercise-status" id="status-10">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Um valor de R² = 0.95 indica um ajuste:</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="10" data-value="a">a) Fraco</button>
+            <button class="option-btn" data-exercise="10" data-value="b">b) Moderado</button>
+            <button class="option-btn" data-exercise="10" data-value="c">c) Forte</button>
+            <button class="option-btn" data-exercise="10" data-value="d">d) Perfeito</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-10"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ RESUMO ═══════════════════ -->
+  <section id="resumo" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Revisão</span>
+        <h2 class="section-title">Resumo do Módulo</h2>
+        <p class="section-subtitle">Todos os conceitos fundamentais em um só lugar</p>
+      </div>
+
+      <div class="summary-grid reveal">
+        <div class="summary-card">
+          <h4>Funções</h4>
+          <ul>
+            <li>Uma regra: entrada → saída única</li>
+            <li>Notação: f(x)</li>
+            <li>Domínio, Contradomínio, Imagem</li>
+            <li>Teste da reta vertical</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Linear</h4>
+          <ul>
+            <li>f(x) = mx + c</li>
+            <li>m = inclinação, c = y-intercept</li>
+            <li>Paralelas: m₁ = m₂</li>
+            <li>Perpendiculares: m₁ · m₂ = −1</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Quadrática</h4>
+          <ul>
+            <li>f(x) = ax² + bx + c</li>
+            <li>Vértice: x = −b/(2a)</li>
+            <li>Δ = b² − 4ac</li>
+            <li>Fórmula de Bhaskara</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Cúbica</h4>
+          <ul>
+            <li>f(x) = ax³ + bx² + cx + d</li>
+            <li>Até 2 turning points</li>
+            <li>Sempre 1+ raiz real</li>
+            <li>Braços em direções opostas</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Exponencial</h4>
+          <ul>
+            <li>f(x) = a · bˣ</li>
+            <li>b > 1 → crescimento</li>
+            <li>0 &lt; b &lt; 1 → decaimento</li>
+            <li>Assíntota horizontal</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Inversa</h4>
+          <ul>
+            <li>f⁻¹ "desfaz" f</li>
+            <li>Troque x ↔ y e isole</li>
+            <li>Reflexão sobre y = x</li>
+            <li>f(f⁻¹(x)) = x</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CTA FINAL ═══════════════════ -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-content reveal">
+        <h2 class="cta-title">Parabéns por completar o módulo!</h2>
+        <p class="cta-subtitle">Revise os tópicos, refaça os exercícios e continue praticando. A prática leva à maestria.</p>
+        <div class="cta-actions">
+          <a href="#hero" class="btn btn-primary">
+            Voltar ao Início
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+          </a>
+          <a href="#exercicios" class="btn btn-outline">Refazer Exercícios</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FOOTER ═══════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="logo-icon">∑</span>
+          <span class="logo-text">IB<span class="logo-accent">Math</span></span>
+        </div>
+        <p class="footer-text">Material de estudo para IB Mathematics AI — Functions & Modeling</p>
+        <p class="footer-copy">Desenvolvido com dedicação para estudantes IB &copy; 2026</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════ CHATBOT ═══════════════════ -->
+
+  <!-- Floating Chat Button -->
+  <button class="chat-fab" id="chatFab" aria-label="Abrir assistente">
+    <svg class="chat-fab-icon chat-fab-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg class="chat-fab-icon chat-fab-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+
+  <!-- Chat Window -->
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar">
+          <span>∑</span>
+        </div>
+        <div>
+          <div class="chat-header-title">IB Math Tutor</div>
+          <div class="chat-header-status" id="chatStatus">Online — pronto para ajudar</div>
+        </div>
+      </div>
+      <div class="chat-header-actions">
+        <button class="chat-header-btn" id="chatClear" aria-label="Limpar conversa" title="Limpar conversa">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+        </button>
+        <button class="chat-header-btn" id="chatClose" aria-label="Fechar chat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="chat-context-bar" id="chatContextBar">
+      <span class="chat-context-icon">📌</span>
+      <span class="chat-context-text" id="chatContextText">Chat Geral</span>
+      <button class="chat-context-clear" id="chatContextClear" title="Remover contexto">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <!-- Messages injected by JS -->
+    </div>
+    <div class="chat-typing" id="chatTyping">
+      <div class="typing-dots"><span></span><span></span><span></span></div>
+      <span>Pensando...</span>
+    </div>
+    <form class="chat-input-area" id="chatForm">
+      <input type="text" class="chat-input" id="chatInput" placeholder="Digite sua dúvida..." autocomplete="off">
+      <button type="submit" class="chat-send" id="chatSend" aria-label="Enviar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      </button>
+    </form>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/chatbot.js"></script>
+</body>
+</html>
