@@ -162,14 +162,14 @@
   function getThemeColors() {
     const isDark = html.getAttribute('data-theme') === 'dark';
     return {
-      bg: isDark ? '#0f0f1a' : '#f0f2f8',
-      grid: isDark ? '#1a1a2e' : '#e2e8f0',
-      axis: isDark ? '#334155' : '#94a3b8',
-      text: isDark ? '#64748b' : '#94a3b8',
-      accent: '#6366f1',
-      secondary: '#a855f7',
-      line: '#6366f1',
-      point: '#6366f1'
+      bg: isDark ? '#0c0f1a' : '#f1f4f9',
+      grid: isDark ? '#1e293b' : '#e5e7eb',
+      axis: isDark ? '#334155' : '#9ca3af',
+      text: isDark ? '#64748b' : '#9ca3af',
+      accent: '#4f46e5',
+      secondary: '#0ea5e9',
+      line: '#4f46e5',
+      point: '#4f46e5'
     };
   }
 
