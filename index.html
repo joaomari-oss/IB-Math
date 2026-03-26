@@ -35,15 +35,44 @@
         <li><a href="#cubicas">Cúbicas</a></li>
         <li><a href="#exponenciais">Exponenciais</a></li>
         <li><a href="#inversas">Inversas</a></li>
+        <li><a href="#transformacoes">Transformações</a></li>
+        <li><a href="#compostas">Compostas</a></li>
+        <li><a href="#partes">Por Partes</a></li>
+        <li><a href="#assintotas">Assíntotas</a></li>
+        <li><a href="#analise">Análise</a></li>
         <li><a href="#turning-points">Turning Points</a></li>
         <li><a href="#modelagem">Modelagem</a></li>
         <li><a href="#exercicios">Exercícios</a></li>
       </ul>
       <div class="nav-actions">
-        <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
-          <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        </button>
+        <div class="theme-picker-wrap">
+          <button class="theme-picker-btn" id="themePickerBtn" aria-label="Escolher tema">
+            <span class="theme-swatch" style="background:#0c0f1a"></span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="theme-panel" id="themePanel">
+            <button class="theme-option" data-theme="light">
+              <span class="theme-swatch" style="background:#fafbfd; border:1px solid #e5e7eb"></span>
+              <span>Claro</span>
+            </button>
+            <button class="theme-option active" data-theme="dark">
+              <span class="theme-swatch" style="background:#0c0f1a"></span>
+              <span>Escuro</span>
+            </button>
+            <button class="theme-option" data-theme="calm">
+              <span class="theme-swatch" style="background:#EC4899"></span>
+              <span>Calm</span>
+            </button>
+            <button class="theme-option" data-theme="focus">
+              <span class="theme-swatch" style="background:#3B82F6"></span>
+              <span>Focus</span>
+            </button>
+            <button class="theme-option" data-theme="nature">
+              <span class="theme-swatch" style="background:#22C55E"></span>
+              <span>Nature</span>
+            </button>
+          </div>
+        </div>
         <button class="nav-menu-btn" id="menuBtn" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
@@ -74,17 +103,17 @@
       </div>
       <div class="hero-stats animate-fade-up delay-4">
         <div class="stat">
-          <span class="stat-number">9</span>
+          <span class="stat-number">14</span>
           <span class="stat-label">Tópicos</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
-          <span class="stat-number">20+</span>
+          <span class="stat-number">30+</span>
           <span class="stat-label">Exemplos</span>
         </div>
         <div class="stat-divider"></div>
         <div class="stat">
-          <span class="stat-number">10</span>
+          <span class="stat-number">15</span>
           <span class="stat-label">Exercícios</span>
         </div>
       </div>
@@ -144,19 +173,49 @@
           <p>Como encontrar e interpretar funções inversas</p>
           <span class="topic-tag">Avançado</span>
         </a>
-        <a href="#turning-points" class="topic-card reveal" style="--delay: 6">
+        <a href="#transformacoes" class="topic-card reveal" style="--delay: 6">
+          <div class="topic-icon">↔</div>
+          <h3>Transformações <span class="en">(Transformations)</span></h3>
+          <p>Translações, reflexões e estiramentos de gráficos</p>
+          <span class="topic-tag">Avançado</span>
+        </a>
+        <a href="#compostas" class="topic-card reveal" style="--delay: 7">
+          <div class="topic-icon">f∘g</div>
+          <h3>Compostas <span class="en">(Composite)</span></h3>
+          <p>Combinando funções — saída de uma vira entrada de outra</p>
+          <span class="topic-tag">Avançado</span>
+        </a>
+        <a href="#partes" class="topic-card reveal" style="--delay: 8">
+          <div class="topic-icon">⌐</div>
+          <h3>Por Partes <span class="en">(Piecewise)</span></h3>
+          <p>Funções com regras diferentes para intervalos distintos</p>
+          <span class="topic-tag">Intermediário</span>
+        </a>
+        <a href="#assintotas" class="topic-card reveal" style="--delay: 9">
+          <div class="topic-icon">⋯</div>
+          <h3>Assíntotas <span class="en">(Asymptotes)</span></h3>
+          <p>Linhas que o gráfico se aproxima sem nunca atingir</p>
+          <span class="topic-tag">Avançado</span>
+        </a>
+        <a href="#analise" class="topic-card reveal" style="--delay: 10">
+          <div class="topic-icon">📈</div>
+          <h3>Análise <span class="en">(Analysis)</span></h3>
+          <p>Crescimento, decrescimento, concavidade e end behavior</p>
+          <span class="topic-tag">Avançado</span>
+        </a>
+        <a href="#turning-points" class="topic-card reveal" style="--delay: 11">
           <div class="topic-icon">⌃</div>
           <h3>Pontos Notáveis <span class="en">(Turning Points)</span></h3>
           <p>Máximos, mínimos e pontos de inflexão</p>
           <span class="topic-tag">Avançado</span>
         </a>
-        <a href="#modelagem" class="topic-card reveal" style="--delay: 7">
+        <a href="#modelagem" class="topic-card reveal" style="--delay: 12">
           <div class="topic-icon">📊</div>
           <h3>Modelagem <span class="en">(Modeling)</span></h3>
           <p>Regressão, ajuste de curvas e aplicações reais</p>
           <span class="topic-tag">Aplicação</span>
         </a>
-        <a href="#exercicios" class="topic-card reveal" style="--delay: 8">
+        <a href="#exercicios" class="topic-card reveal" style="--delay: 13">
           <div class="topic-icon">✎</div>
           <h3>Exercícios <span class="en">(Exercises)</span></h3>
           <p>Pratique com questões interativas e feedback imediato</p>
@@ -854,11 +913,427 @@
     </div>
   </section>
 
-  <!-- ═══════════════════ TURNING POINTS ═══════════════════ -->
-  <section id="turning-points" class="section section-alt">
+  <!-- ═══════════════════ TRANSFORMAÇÕES ═══════════════════ -->
+  <section id="transformacoes" class="section section-alt">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">Módulo 7</span>
+        <h2 class="section-title">Transformações de Funções <span class="en">(Transformations)</span></h2>
+        <p class="section-subtitle">Transladar, refletir, esticar e comprimir gráficos sistematicamente</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>Transformações Geométricas de Gráficos</h3>
+          </div>
+          <div class="concept-body">
+            <p>Dado um gráfico de <strong>y = f(x)</strong>, podemos criar novos gráficos aplicando <strong>transformações</strong>. No IB, as quatro transformações fundamentais são: translações (shifts), reflexões, estiramentos (stretches) e compressões.</p>
+
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Regra de Ouro do IB:</strong> Transformações "dentro" da função (que afetam x) são <em>contra-intuitivas</em> — agem na direção oposta. Transformações "fora" da função (que afetam y) funcionam como esperado.
+              </div>
+            </div>
+
+            <div class="accordion">
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  Translações <span class="en">(Translations)</span>
+                  <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-content">
+                  <div class="accordion-body">
+                    <p><strong>Translação vertical:</strong> <code>y = f(x) + d</code></p>
+                    <p>d > 0 → move para <strong>cima</strong>; d &lt; 0 → move para <strong>baixo</strong>.</p>
+                    <p><strong>Translação horizontal:</strong> <code>y = f(x − c)</code></p>
+                    <p>c > 0 → move para a <strong>direita</strong>; c &lt; 0 → move para a <strong>esquerda</strong>. (Contra-intuitivo!)</p>
+                    <p><strong>No IB:</strong> A translação é representada pelo vetor <code>(c, d)</code> → desloca o gráfico c unidades horizontalmente e d unidades verticalmente.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  Reflexões <span class="en">(Reflections)</span>
+                  <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-content">
+                  <div class="accordion-body">
+                    <p><strong>Reflexão no eixo x:</strong> <code>y = −f(x)</code> → inverte todos os valores de y.</p>
+                    <p><strong>Reflexão no eixo y:</strong> <code>y = f(−x)</code> → espelha o gráfico horizontalmente.</p>
+                    <p><strong>Exemplo:</strong> Se f(x) = x², então −f(x) = −x² (parábola invertida) e f(−x) = (−x)² = x² (inalterado, pois a parábola é simétrica).</p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  Estiramentos e Compressões <span class="en">(Stretches)</span>
+                  <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-content">
+                  <div class="accordion-body">
+                    <p><strong>Estiramento vertical (fator a):</strong> <code>y = a · f(x)</code></p>
+                    <p>|a| > 1 → estica verticalmente; 0 &lt; |a| &lt; 1 → comprime verticalmente.</p>
+                    <p><strong>Estiramento horizontal (fator 1/b):</strong> <code>y = f(bx)</code></p>
+                    <p>|b| > 1 → comprime horizontalmente; 0 &lt; |b| &lt; 1 → estica horizontalmente. (Contra-intuitivo!)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo Passo a Passo — IB Style</span>
+              <p>Dado <code>f(x) = x²</code>, descreva o gráfico de <code>g(x) = 2(x − 3)² + 1</code>:</p>
+              <ol>
+                <li>Translação horizontal: 3 unidades para a <strong>direita</strong> (x − 3)</li>
+                <li>Estiramento vertical: fator <strong>2</strong> (a parábola fica mais estreita)</li>
+                <li>Translação vertical: 1 unidade para <strong>cima</strong> (+1)</li>
+              </ol>
+              <p>O vértice move de (0, 0) para <strong>(3, 1)</strong>.</p>
+            </div>
+
+            <div class="formula-box">
+              <span class="formula-label">Resumo Geral</span>
+              <div class="formula">y = a · f(b(x − c)) + d</div>
+              <p class="formula-desc"><strong>a</strong> = estiramento vertical + reflexão eixo x | <strong>b</strong> = estiramento horizontal + reflexão eixo y | <strong>c</strong> = translação horizontal | <strong>d</strong> = translação vertical</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="transformacoes" data-topic="Transformações de Funções (Transformations) — translações, reflexões, estiramentos, y=af(b(x-c))+d">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FUNÇÕES COMPOSTAS ═══════════════════ -->
+  <section id="compostas" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 8</span>
+        <h2 class="section-title">Funções Compostas <span class="en">(Composite Functions)</span></h2>
+        <p class="section-subtitle">Combinando funções — a saída de uma se torna a entrada de outra</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>O que é Composição de Funções?</h3>
+          </div>
+          <div class="concept-body">
+            <p>A <strong>composição</strong> (<em>composition</em>) de duas funções f e g, denotada <strong>(f ∘ g)(x)</strong> ou <strong>f(g(x))</strong>, significa aplicar g primeiro e depois aplicar f ao resultado.</p>
+
+            <div class="formula-box">
+              <span class="formula-label">Definição</span>
+              <div class="formula">(f ∘ g)(x) = f(g(x))</div>
+              <p class="formula-desc">Lê-se "f composta com g de x". Aplique g primeiro, depois f.</p>
+            </div>
+
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Pensando como professor:</strong> Imagine uma fábrica com duas máquinas em série. A Máquina G processa a matéria-prima e a Máquina F processa o que G produziu. O resultado final é f(g(x)).
+              </div>
+            </div>
+
+            <div class="key-terms">
+              <div class="term">
+                <strong>Ordem importa!</strong>
+                <p>Em geral, f(g(x)) ≠ g(f(x)). A composição <strong>não é comutativa</strong>.</p>
+              </div>
+              <div class="term">
+                <strong>Domínio da composição</strong>
+                <p>x deve estar no domínio de g, e g(x) deve estar no domínio de f.</p>
+              </div>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo Passo a Passo</span>
+              <p>Dadas <code>f(x) = 2x + 1</code> e <code>g(x) = x²</code></p>
+              <ul>
+                <li><strong>f(g(x))</strong> = f(x²) = 2(x²) + 1 = <strong>2x² + 1</strong></li>
+                <li><strong>g(f(x))</strong> = g(2x + 1) = (2x + 1)² = <strong>4x² + 4x + 1</strong></li>
+                <li>Verificação: f(g(3)) = f(9) = 19 ✓ | g(f(3)) = g(7) = 49 ✓</li>
+              </ul>
+              <p>Note que f(g(x)) ≠ g(f(x)), confirmando que a ordem importa!</p>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Conexão: Composição + Inversa</span>
+              <p>Se f e f⁻¹ são inversas, então:</p>
+              <ul>
+                <li><strong>f(f⁻¹(x)) = x</strong> (a composição de uma função com sua inversa é a identidade)</li>
+                <li><strong>f⁻¹(f(x)) = x</strong></li>
+              </ul>
+              <p>Isso é exatamente a <em>definição</em> de função inversa no currículo IB!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="compostas" data-topic="Funções Compostas (Composite Functions) — f(g(x)), ordem de composição, domínio, relação com inversas">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ FUNÇÕES POR PARTES ═══════════════════ -->
+  <section id="partes" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 9</span>
+        <h2 class="section-title">Funções por Partes <span class="en">(Piecewise Functions)</span></h2>
+        <p class="section-subtitle">Funções definidas por regras diferentes em intervalos diferentes</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>O que é uma Função por Partes?</h3>
+          </div>
+          <div class="concept-body">
+            <p>Uma <strong>função por partes</strong> (<em>piecewise function</em>) usa <strong>regras diferentes</strong> para diferentes intervalos do domínio. O gráfico pode ter "quebras", "saltos" ou mudar de formato em certos pontos.</p>
+
+            <div class="formula-box">
+              <span class="formula-label">Notação</span>
+              <div class="formula" style="text-align:left; font-size:1rem">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⎧ regra₁, &nbsp;se x &lt; a<br>
+                f(x) = ⎨ regra₂, &nbsp;se a ≤ x &lt; b<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;⎩ regra₃, &nbsp;se x ≥ b
+              </div>
+              <p class="formula-desc">Cada "parte" tem seu próprio domínio e expressão.</p>
+            </div>
+
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>No IB:</strong> Questões sobre piecewise functions frequentemente pedem para:
+                <br>• Avaliar f(x) em um valor específico (identificar qual regra usar)
+                <br>• Esboçar o gráfico (desenhar cada pedaço no intervalo correto)
+                <br>• Encontrar valores onde a função muda (pontos de fronteira)
+                <br>• Determinar se a função é <strong>contínua</strong> nas fronteiras
+              </div>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo com Solução</span>
+              <p>Seja:</p>
+              <p><code>f(x) = { 2x + 1, se x &lt; 2 &nbsp;|&nbsp; x² − 1, se x ≥ 2 }</code></p>
+              <ul>
+                <li>f(0) → usa 2x + 1 → 2(0) + 1 = <strong>1</strong></li>
+                <li>f(2) → usa x² − 1 → (2)² − 1 = <strong>3</strong></li>
+                <li>f(5) → usa x² − 1 → (5)² − 1 = <strong>24</strong></li>
+                <li>Continuidade em x = 2: lado esquerdo = 2(2) + 1 = 5, lado direito = 4 − 1 = 3. Como 5 ≠ 3, há uma <strong>descontinuidade</strong> em x = 2.</li>
+              </ul>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Aplicação Real — Tarifas</span>
+              <p>Uma empresa de eletricidade cobra:</p>
+              <p><code>C(kWh) = { 0.15 × kWh, se kWh ≤ 200 &nbsp;|&nbsp; 30 + 0.25 × (kWh − 200), se kWh > 200 }</code></p>
+              <p>Para 300 kWh: C(300) = 30 + 0.25 × 100 = R$55,00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="partes" data-topic="Funções por Partes (Piecewise Functions) — definição, avaliação, gráfico, continuidade">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ ASSÍNTOTAS ═══════════════════ -->
+  <section id="assintotas" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 10</span>
+        <h2 class="section-title">Assíntotas <span class="en">(Asymptotes)</span></h2>
+        <p class="section-subtitle">Linhas que o gráfico se aproxima infinitamente mas nunca atinge</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>Tipos de Assíntotas</h3>
+          </div>
+          <div class="concept-body">
+            <p>Uma <strong>assíntota</strong> (<em>asymptote</em>) é uma linha reta que o gráfico de uma função se aproxima cada vez mais, sem nunca tocá-la (em geral). São cruciais para entender o comportamento de funções racionais e exponenciais.</p>
+
+            <div class="tabs">
+              <div class="tab-list">
+                <button class="tab-btn active" data-target="#tabHA">Horizontal</button>
+                <button class="tab-btn" data-target="#tabVA">Vertical</button>
+                <button class="tab-btn" data-target="#tabOA">Oblíqua</button>
+              </div>
+              <div class="tab-panel active" id="tabHA">
+                <div class="formula-box">
+                  <span class="formula-label">Assíntota Horizontal</span>
+                  <div class="formula">y = L, onde L = lim f(x) quando x → ±∞</div>
+                  <p class="formula-desc">O valor que f(x) se aproxima quando x se torna muito grande ou muito pequeno.</p>
+                </div>
+                <p><strong>Exemplo:</strong> Para f(x) = 3 · (0.5)ˣ, a assíntota horizontal é <strong>y = 0</strong>, pois quando x → ∞, 0.5ˣ → 0.</p>
+                <p><strong>No IB:</strong> Funções exponenciais f(x) = a · bˣ + c têm assíntota horizontal em y = c.</p>
+              </div>
+              <div class="tab-panel" id="tabVA">
+                <div class="formula-box">
+                  <span class="formula-label">Assíntota Vertical</span>
+                  <div class="formula">x = a, onde f(x) → ±∞ quando x → a</div>
+                  <p class="formula-desc">Ocorre quando o denominador de uma fração se torna zero.</p>
+                </div>
+                <p><strong>Exemplo:</strong> Para f(x) = 1/(x − 2), a assíntota vertical é <strong>x = 2</strong>, pois o denominador é zero quando x = 2.</p>
+                <p><strong>No IB:</strong> Para encontrar assíntotas verticais, resolva denominador = 0.</p>
+              </div>
+              <div class="tab-panel" id="tabOA">
+                <div class="formula-box">
+                  <span class="formula-label">Assíntota Oblíqua</span>
+                  <div class="formula">y = mx + c (reta inclinada)</div>
+                  <p class="formula-desc">Ocorre quando o grau do numerador é exatamente 1 a mais que o do denominador.</p>
+                </div>
+                <p><strong>Exemplo:</strong> Para f(x) = (x² + 1)/x = x + 1/x, a assíntota oblíqua é <strong>y = x</strong>, pois 1/x → 0 quando x → ∞.</p>
+              </div>
+            </div>
+
+            <div class="teacher-tip">
+              <span class="tip-icon">💡</span>
+              <div>
+                <strong>Dica IB Exam:</strong> Na prova, assíntotas geralmente aparecem em:
+                <br>• Funções exponenciais (assíntota horizontal)
+                <br>• Funções racionais como 1/x (ambas: vertical e horizontal)
+                <br>• Modelos reais com valores limite (ex: capacidade máxima de um rio)
+                <br>Sempre indique assíntotas como linhas tracejadas no seu esboço!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="assintotas" data-topic="Assíntotas (Asymptotes) — horizontal, vertical, oblíqua, funções racionais e exponenciais">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ ANÁLISE DE FUNÇÕES ═══════════════════ -->
+  <section id="analise" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 11</span>
+        <h2 class="section-title">Análise de Funções <span class="en">(Function Analysis)</span></h2>
+        <p class="section-subtitle">Comportamento, intervalos de crescimento/decrescimento e concavidade</p>
+      </div>
+
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header">
+            <span class="concept-badge">Conceito</span>
+            <h3>Comportamento Completo de uma Função</h3>
+          </div>
+          <div class="concept-body">
+            <p>A <strong>análise completa</strong> de uma função envolve descrever todas as suas características: domínio, imagem, zeros, intervalos de crescimento, intervalos de decrescimento, concavidade e comportamento nos extremos.</p>
+
+            <div class="accordion">
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  Crescimento e Decrescimento <span class="en">(Increasing / Decreasing)</span>
+                  <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-content">
+                  <div class="accordion-body">
+                    <p>Uma função é <strong>crescente</strong> em um intervalo quando, ao aumentar x, f(x) também aumenta. É <strong>decrescente</strong> quando, ao aumentar x, f(x) diminui.</p>
+                    <p><strong>No IB:</strong> Use a GDC para encontrar os turning points e depois descreva os intervalos. Exemplo: f(x) = x³ − 3x é crescente em (−∞, −1) ∪ (1, ∞) e decrescente em (−1, 1).</p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  Concavidade <span class="en">(Concavity)</span>
+                  <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-content">
+                  <div class="accordion-body">
+                    <p><strong>Côncava para cima</strong> (concave up, ∪): a curva "segura água", a taxa de variação está aumentando.</p>
+                    <p><strong>Côncava para baixo</strong> (concave down, ∩): a curva "derrama água", a taxa de variação está diminuindo.</p>
+                    <p>O ponto onde a concavidade muda é o <strong>ponto de inflexão</strong> (point of inflection).</p>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">
+                  Comportamento nos Extremos <span class="en">(End Behavior)</span>
+                  <span class="accordion-icon">+</span>
+                </button>
+                <div class="accordion-content">
+                  <div class="accordion-body">
+                    <p>O "end behavior" descreve o que acontece com f(x) quando x → ±∞:</p>
+                    <p>• <strong>Linear</strong> (grau 1): f(x) → ±∞ dependendo do sinal de m</p>
+                    <p>• <strong>Quadrática</strong> (grau 2): ambos os lados vão na mesma direção (a > 0: ↑↑, a &lt; 0: ↓↓)</p>
+                    <p>• <strong>Cúbica</strong> (grau 3): lados opostos (a > 0: ↙↗, a &lt; 0: ↗↙)</p>
+                    <p>• <strong>Exponencial</strong>: um lado → assíntota, outro → ±∞</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="example-box">
+              <span class="example-label">Exemplo — Análise Completa (IB Style)</span>
+              <p>Analise <code>f(x) = −x³ + 3x² − 1</code></p>
+              <ul>
+                <li><strong>Domínio:</strong> x ∈ ℝ</li>
+                <li><strong>y-intercept:</strong> f(0) = −1</li>
+                <li><strong>Zeros:</strong> encontre com GDC ≈ −0.53, 0.65, 2.88</li>
+                <li><strong>Turning points:</strong> mínimo local em (0, −1), máximo local em (2, 3)</li>
+                <li><strong>Crescente:</strong> (0, 2)</li>
+                <li><strong>Decrescente:</strong> (−∞, 0) ∪ (2, ∞)</li>
+                <li><strong>Ponto de inflexão:</strong> (1, 1)</li>
+                <li><strong>End behavior:</strong> x → −∞, f(x) → +∞ | x → +∞, f(x) → −∞</li>
+              </ul>
+            </div>
+
+            <div class="formula-box">
+              <span class="formula-label">Checklist de Análise — IB Exam</span>
+              <div class="formula" style="font-size: 0.95rem; text-align: left">
+                ① Domínio &amp; Imagem &nbsp; ② Interceptos (x e y) &nbsp; ③ Assíntotas<br>
+                ④ Turning Points &nbsp; ⑤ Crescente/Decrescente &nbsp; ⑥ End Behavior
+              </div>
+              <p class="formula-desc">Use esta checklist em qualquer questão que peça para "analisar" ou "esboçar" uma função.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-chat-cta reveal">
+        <button class="btn-contextual-chat" data-context="analise" data-topic="Análise de Funções (Function Analysis) — crescimento, decrescimento, concavidade, end behavior, análise completa">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Tirar dúvida sobre este conteúdo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ TURNING POINTS ═══════════════════ -->
+  <section id="turning-points" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 12</span>
         <h2 class="section-title">Pontos Notáveis <span class="en">(Turning Points)</span></h2>
         <p class="section-subtitle">Identificando máximos, mínimos e pontos de inflexão em gráficos</p>
       </div>
@@ -923,10 +1398,10 @@
   </section>
 
   <!-- ═══════════════════ MODELAGEM ═══════════════════ -->
-  <section id="modelagem" class="section">
+  <section id="modelagem" class="section section-alt">
     <div class="container">
       <div class="section-header reveal">
-        <span class="section-tag">Módulo 8</span>
+        <span class="section-tag">Módulo 13</span>
         <h2 class="section-title">Modelagem e Regressão <span class="en">(Modeling & Regression)</span></h2>
         <p class="section-subtitle">Usando funções para descrever fenômenos do mundo real a partir de dados</p>
       </div>
@@ -1076,7 +1551,7 @@
   </section>
 
   <!-- ═══════════════════ EXERCÍCIOS ═══════════════════ -->
-  <section id="exercicios" class="section section-alt">
+  <section id="exercicios" class="section">
     <div class="container">
       <div class="section-header reveal">
         <span class="section-tag">Prática</span>
@@ -1088,7 +1563,7 @@
         <div class="exercises-progress-bar">
           <div class="exercises-progress-fill" id="exercisesProgressFill"></div>
         </div>
-        <span class="exercises-progress-text" id="exercisesProgressText">0 de 10 completos</span>
+        <span class="exercises-progress-text" id="exercisesProgressText">0 de 15 completos</span>
       </div>
 
       <!-- Exercise 1 -->
@@ -1262,6 +1737,91 @@
           <div class="exercise-feedback" id="feedback-10"></div>
         </div>
       </div>
+
+      <!-- Exercise 11 -->
+      <div class="exercise-card reveal" data-exercise="11">
+        <div class="exercise-header">
+          <span class="exercise-number">11</span>
+          <span class="exercise-topic">Transformações</span>
+          <span class="exercise-status" id="status-11">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">O gráfico de <code>y = f(x − 3) + 2</code> é uma translação de f(x). Quantas unidades ele se move para a <strong>direita</strong>?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-11" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="11">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-11"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 12 -->
+      <div class="exercise-card reveal" data-exercise="12">
+        <div class="exercise-header">
+          <span class="exercise-number">12</span>
+          <span class="exercise-topic">Compostas</span>
+          <span class="exercise-status" id="status-12">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Se <code>f(x) = 2x + 1</code> e <code>g(x) = x²</code>, qual é o valor de <strong>f(g(2))</strong>?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-12" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="12">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-12"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 13 -->
+      <div class="exercise-card reveal" data-exercise="13">
+        <div class="exercise-header">
+          <span class="exercise-number">13</span>
+          <span class="exercise-topic">Piecewise</span>
+          <span class="exercise-status" id="status-13">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Para <code>f(x) = { x + 4, se x &lt; 2 | x², se x ≥ 2 }</code>, qual é <strong>f(3)</strong>?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-13" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="13">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-13"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 14 -->
+      <div class="exercise-card reveal" data-exercise="14">
+        <div class="exercise-header">
+          <span class="exercise-number">14</span>
+          <span class="exercise-topic">Assíntotas</span>
+          <span class="exercise-status" id="status-14">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual é a assíntota horizontal de <code>f(x) = 5 · (0.8)ˣ + 3</code>?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-14" placeholder="y = ?">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="14">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-14"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 15 -->
+      <div class="exercise-card reveal" data-exercise="15">
+        <div class="exercise-header">
+          <span class="exercise-number">15</span>
+          <span class="exercise-topic">Análise</span>
+          <span class="exercise-status" id="status-15">Pendente</span>
+        </div>
+        <div class="exercise-body">
+          <p class="exercise-question">Para uma função de grau 5, qual é o número <strong>máximo</strong> de turning points possíveis?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="answer-15" placeholder="Digite sua resposta">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="15">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="feedback-15"></div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1327,6 +1887,60 @@
             <li>Troque x ↔ y e isole</li>
             <li>Reflexão sobre y = x</li>
             <li>f(f⁻¹(x)) = x</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Transformações</h4>
+          <ul>
+            <li>y = a·f(b(x−c))+d</li>
+            <li>c = shift horizontal, d = vertical</li>
+            <li>−f(x) reflete no eixo x</li>
+            <li>f(−x) reflete no eixo y</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Compostas</h4>
+          <ul>
+            <li>(f∘g)(x) = f(g(x))</li>
+            <li>Aplique g primeiro, depois f</li>
+            <li>Ordem importa: f∘g ≠ g∘f</li>
+            <li>f(f⁻¹(x)) = x (identidade)</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Por Partes</h4>
+          <ul>
+            <li>Regras diferentes por intervalo</li>
+            <li>Verifique qual regra usar</li>
+            <li>Teste continuidade nas fronteiras</li>
+            <li>Tarifas escalonadas, impostos</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Assíntotas</h4>
+          <ul>
+            <li>Horizontal: y = L (x → ±∞)</li>
+            <li>Vertical: x = a (denominador = 0)</li>
+            <li>Exponencial: y = c em a·bˣ + c</li>
+            <li>Desenhe como linhas tracejadas</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Análise</h4>
+          <ul>
+            <li>Crescente vs Decrescente</li>
+            <li>Concavidade: ∪ vs ∩</li>
+            <li>End behavior por grau</li>
+            <li>Checklist: D, I, Z, A, TP, EB</li>
+          </ul>
+        </div>
+        <div class="summary-card">
+          <h4>Modelagem</h4>
+          <ul>
+            <li>Scatter plot → escolher modelo</li>
+            <li>Regressão: linear, quad, exp</li>
+            <li>R² próximo de 1 = bom ajuste</li>
+            <li>Interpolação vs Extrapolação</li>
           </ul>
         </div>
       </div>

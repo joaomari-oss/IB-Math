@@ -12,30 +12,78 @@
     setTimeout(() => loader.classList.add('hidden'), 600);
   });
 
-  // ── THEME TOGGLE ──
-  const themeToggle = document.getElementById('themeToggle');
+  // ── THEME SYSTEM ──
+  const THEMES = ['light', 'dark', 'calm', 'focus', 'nature'];
   const html = document.documentElement;
 
   function setTheme(theme) {
+    if (!THEMES.includes(theme)) theme = 'dark';
     html.setAttribute('data-theme', theme);
     try { localStorage.setItem('ib-math-theme', theme); } catch (e) { /* ok */ }
+    // Update theme picker swatch color
+    const swatch = document.querySelector('.theme-swatch');
+    if (swatch) {
+      const colors = { light: '#fafbfd', dark: '#0c0f1a', calm: '#EC4899', focus: '#3B82F6', nature: '#22C55E' };
+      swatch.style.background = colors[theme] || '#4f46e5';
+    }
+    // Update active state in panel
+    document.querySelectorAll('.theme-option').forEach(opt => {
+      opt.classList.toggle('active', opt.dataset.theme === theme);
+    });
+    // Update meta theme-color
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) {
+      const metaColors = { light: '#4f46e5', dark: '#4f46e5', calm: '#EC4899', focus: '#3B82F6', nature: '#22C55E' };
+      meta.setAttribute('content', metaColors[theme] || '#4f46e5');
+    }
   }
 
   function loadTheme() {
     try {
       const saved = localStorage.getItem('ib-math-theme');
-      if (saved) return saved;
+      if (saved && THEMES.includes(saved)) return saved;
     } catch (e) { /* ok */ }
     return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
   }
 
   setTheme(loadTheme());
 
-  themeToggle.addEventListener('click', () => {
-    const current = html.getAttribute('data-theme');
-    setTheme(current === 'dark' ? 'light' : 'dark');
-    redrawAllGraphs();
-  });
+  // Theme picker panel
+  const themePickerBtn = document.getElementById('themePickerBtn');
+  const themePanel = document.getElementById('themePanel');
+
+  if (themePickerBtn && themePanel) {
+    themePickerBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      themePanel.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.theme-option').forEach(opt => {
+      opt.addEventListener('click', () => {
+        const theme = opt.dataset.theme;
+        setTheme(theme);
+        themePanel.classList.remove('open');
+        redrawAllGraphs();
+      });
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!themePanel.contains(e.target) && !themePickerBtn.contains(e.target)) {
+        themePanel.classList.remove('open');
+      }
+    });
+  }
+
+  // Legacy toggle fallback (still works if old button exists)
+  const themeToggle = document.getElementById('themeToggle');
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const idx = THEMES.indexOf(current);
+      setTheme(THEMES[(idx + 1) % THEMES.length]);
+      redrawAllGraphs();
+    });
+  }
 
   // ── MOBILE MENU ──
   const menuBtn = document.getElementById('menuBtn');
@@ -160,16 +208,25 @@
   // ══════════════════════════════════════════
 
   function getThemeColors() {
-    const isDark = html.getAttribute('data-theme') === 'dark';
+    const theme = html.getAttribute('data-theme');
+    const isDark = theme === 'dark' || theme === 'focus';
+    const palettes = {
+      light:  { accent: '#4f46e5', secondary: '#0ea5e9' },
+      dark:   { accent: '#4f46e5', secondary: '#0ea5e9' },
+      calm:   { accent: '#EC4899', secondary: '#F472B6' },
+      focus:  { accent: '#3B82F6', secondary: '#60A5FA' },
+      nature: { accent: '#22C55E', secondary: '#4ADE80' }
+    };
+    const p = palettes[theme] || palettes.dark;
     return {
-      bg: isDark ? '#0c0f1a' : '#f1f4f9',
-      grid: isDark ? '#1e293b' : '#e5e7eb',
+      bg: isDark ? (theme === 'focus' ? '#0B0F14' : '#0c0f1a') : (theme === 'calm' ? '#FFF1F5' : theme === 'nature' ? '#F0FDF4' : '#f1f4f9'),
+      grid: isDark ? '#1e293b' : (theme === 'calm' ? '#F5D0E0' : theme === 'nature' ? '#BBF7D0' : '#e5e7eb'),
       axis: isDark ? '#334155' : '#9ca3af',
       text: isDark ? '#64748b' : '#9ca3af',
-      accent: '#4f46e5',
-      secondary: '#0ea5e9',
-      line: '#4f46e5',
-      point: '#4f46e5'
+      accent: p.accent,
+      secondary: p.secondary,
+      line: p.accent,
+      point: p.accent
     };
   }
 
@@ -349,15 +406,16 @@
     const sign = c >= 0 ? '+' : '−';
     linearEqEl.textContent = `f(x) = ${m}x ${sign} ${Math.abs(c)}`;
 
+    const tc = getThemeColors();
     drawGraph(linearCanvas, {
       xMin: -8, xMax: 8,
       yMin: -12, yMax: 12,
       functions: [{
         fn: (x) => m * x + c,
-        color: '#6366f1'
+        color: tc.accent
       }],
       points: [
-        { x: 0, y: c, label: `(0, ${c})`, color: '#a855f7' }
+        { x: 0, y: c, label: `(0, ${c})`, color: tc.secondary }
       ]
     });
   }
@@ -399,7 +457,7 @@
     quadInfoEl.textContent = `Vértice: (${vx.toFixed(1)}, ${vy.toFixed(1)}) | Δ = ${disc.toFixed(1)}`;
 
     const points = [
-      { x: vx, y: vy, label: `V(${vx.toFixed(1)}, ${vy.toFixed(1)})`, color: '#a855f7', radius: 6 }
+      { x: vx, y: vy, label: `V(${vx.toFixed(1)}, ${vy.toFixed(1)})`, color: getThemeColors().secondary, radius: 6 }
     ];
 
     drawGraph(quadCanvas, {
@@ -407,7 +465,7 @@
       yMin: -12, yMax: 12,
       functions: [{
         fn: (x) => a * x * x + b * x + c,
-        color: '#6366f1'
+        color: getThemeColors().accent
       }],
       points
     });
@@ -448,7 +506,7 @@
       yMin: -15, yMax: 15,
       functions: [{
         fn: (x) => a * x * x * x + b * x * x + c * x,
-        color: '#6366f1'
+        color: getThemeColors().accent
       }]
     });
   }
@@ -486,10 +544,10 @@
       yMin: -2, yMax: 20,
       functions: [{
         fn: (x) => a * Math.pow(b, x),
-        color: '#6366f1'
+        color: getThemeColors().accent
       }],
       points: [
-        { x: 0, y: a, label: `(0, ${a})`, color: '#a855f7' }
+        { x: 0, y: a, label: `(0, ${a})`, color: getThemeColors().secondary }
       ]
     });
   }
@@ -524,17 +582,17 @@
       functions: [
         {
           fn: (x) => m * x + c,
-          color: '#6366f1',
+          color: getThemeColors().accent,
           lineWidth: 2.5
         },
         {
           fn: (x) => (x - c) / m,
-          color: '#a855f7',
+          color: getThemeColors().secondary,
           lineWidth: 2.5
         },
         {
           fn: (x) => x,
-          color: '#666',
+          color: getThemeColors().text,
           lineWidth: 1,
           dash: [6, 4]
         }
@@ -586,7 +644,7 @@
       yMin: -5, yMax: 45,
       functions: [{
         fn,
-        color: '#6366f1'
+        color: getThemeColors().accent
       }],
       scatterData
     });
@@ -635,7 +693,12 @@
     7: { value: 40, explanation: 'f(3) = 5 · 2³ = 5 · 8 = 40 ✓' },
     8: { value: 3, explanation: 'f⁻¹(x) = (x−8)/4 → f⁻¹(20) = (20−8)/4 = 12/4 = 3 ✓' },
     9: { value: 3, explanation: 'Máximo de turning points = grau − 1 = 4 − 1 = 3 ✓' },
-    10: { value: 'c', explanation: 'R² = 0.95 está próximo de 1, indicando um ajuste forte ✓' }
+    10: { value: 'c', explanation: 'R² = 0.95 está próximo de 1, indicando um ajuste forte ✓' },
+    11: { value: 3, explanation: 'f(x − 3) desloca 3 unidades para a direita (contra-intuitivo!) ✓' },
+    12: { value: 9, explanation: 'g(2) = 2² = 4, depois f(4) = 2(4) + 1 = 9 ✓' },
+    13: { value: 9, explanation: 'x = 3 ≥ 2, então usa x²: f(3) = 3² = 9 ✓' },
+    14: { value: 3, explanation: 'Quando x → ∞, (0.8)ˣ → 0, então f(x) → 5·0 + 3 = 3. Assíntota: y = 3 ✓' },
+    15: { value: 4, explanation: 'Máximo de turning points = grau − 1 = 5 − 1 = 4 ✓' }
   };
 
   let completedExercises = new Set();
@@ -745,6 +808,54 @@
       }
 
       showExerciseFeedback(num, isCorrect, answer.explanation, feedbackEl, statusEl, card);
+    });
+  });
+
+  // ══════════════════════════════════════════
+  //  ACCORDION
+  // ══════════════════════════════════════════
+  document.querySelectorAll('.accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.parentElement;
+      const content = header.nextElementSibling;
+      const isOpen = header.classList.contains('active');
+
+      // Close all in same accordion
+      const accordion = item.closest('.accordion');
+      if (accordion) {
+        accordion.querySelectorAll('.accordion-header.active').forEach(h => {
+          if (h !== header) {
+            h.classList.remove('active');
+            h.nextElementSibling.style.maxHeight = null;
+          }
+        });
+      }
+
+      if (isOpen) {
+        header.classList.remove('active');
+        content.style.maxHeight = null;
+      } else {
+        header.classList.add('active');
+        content.style.maxHeight = content.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // ══════════════════════════════════════════
+  //  TABS
+  // ══════════════════════════════════════════
+  document.querySelectorAll('.tabs').forEach(tabGroup => {
+    const btns = tabGroup.querySelectorAll('.tab-btn');
+    const panels = tabGroup.querySelectorAll('.tab-panel');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        btns.forEach(b => b.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        const target = tabGroup.querySelector(btn.dataset.target);
+        if (target) target.classList.add('active');
+      });
     });
   });
 
