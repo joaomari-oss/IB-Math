@@ -23,8 +23,7 @@
   const CHAT_CONFIG = {
     // URL do backend — mude para a URL de deploy (Render, Railway, etc.)
     // Desenvolvimento local: 'http://localhost:3001'
-    // Produção (exemplo): 'https://ib-math-backend.onrender.com'
-    BACKEND_URL: 'http://localhost:3001',
+    BACKEND_URL: 'https://ib-math.onrender.com',
 
     // Tempo máximo de espera pela resposta do backend (ms)
     TIMEOUT: 15000
