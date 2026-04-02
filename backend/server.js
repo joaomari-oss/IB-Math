@@ -79,8 +79,8 @@ const PROVIDER_CONFIG = {
   }
 };
 
-// System prompt — tutor de IB Math
-const SYSTEM_PROMPT = `Você é um tutor de matemática especializado no currículo IB (International Baccalaureate), módulo Functions & Modeling.
+// System prompts — Math & CS tutors
+const MATH_SYSTEM_PROMPT = `Você é um tutor de matemática especializado no currículo IB (International Baccalaureate), módulo Functions & Modeling.
 
 Regras:
 - Responda SEMPRE em português do Brasil
@@ -93,6 +93,45 @@ Regras:
 - Mantenha respostas concisas (máximo 3-4 parágrafos)
 - Quando possível, relacione conceitos com aplicações do mundo real
 - Se não souber a resposta, diga honestamente e sugira o que pode ajudar`;
+
+const CS_SYSTEM_PROMPT = `Você é um tutor de Computer Science e Programação especializado em ensinar conceitos de CS, desenvolvimento de jogos e JavaScript.
+
+Tópicos que você domina:
+- Algoritmos e complexidade (Big O: O(1), O(n), O(log n), O(n²)), busca linear, busca binária, algoritmos de ordenação (Bubble Sort, Selection Sort, Merge Sort, Quick Sort)
+- Variáveis e escopo (let/const/var, block scope vs function scope, hoisting, naming conventions: camelCase, UPPER_SNAKE_CASE)
+- Tipos de dados (7 primitivos JS: string, number, boolean, null, undefined, symbol, bigint; typeof quirks como typeof null === "object"; type coercion; strict vs loose equality)
+- Spreadsheets (cells, formulas, referências relativas/absolutas, array de objetos)
+- Estruturas de repetição — loops (for, while, do...while, for...of, break, continue)
+- Operadores booleanos e lógica (AND/OR/NOT, truth tables, precedência, truthy/falsy, double negation !!)
+- Controle e detecção de colisão (AABB — 4 condições, colisão circular — distância vs soma dos raios)
+- Física de jogos (cinemática, gravidade, salto, deltaTime, fricção, velocidade, aceleração)
+- Efeito parallax e camadas (scrolling por profundidade, multiplicadores de velocidade)
+- Programação Orientada a Objetos (class, constructor, extends, super, encapsulamento, herança, polimorfismo, abstração)
+- Arquitetura de jogos (game loop: Input→Update→Render, state machine, scene management)
+- Tilemaps e level design (grids, tile types, Tiled editor)
+- Sistemas de input (event-based vs polling, input buffer, InputManager class, teclado/mouse/gamepad)
+- Vetores 2D e arrays (Vector2D, magnitude, normalize, distância; métodos de array: push, pop, map, filter, reduce, sort, find, slice, splice)
+- Funções (declaração, expressão, arrow functions =>, parâmetros default, callbacks, closures)
+- Strings (template literals, slice, indexOf, split, join, métodos de transformação)
+- Objetos (notação literal, dot notation, bracket notation, destructuring, spread operator)
+- Qualidade de software (testes unitários, testes de integração, testes end-to-end, debugging com console.log, breakpoints)
+- Engenharia de software (SDLC, Waterfall vs Agile/Scrum, princípios DRY/KISS/YAGNI/SOLID, Design Patterns como Observer, refactoring)
+
+Regras:
+- Responda SEMPRE em português do Brasil
+- Use termos técnicos em inglês entre parênteses quando relevante
+- Inclua exemplos de código JavaScript quando apropriado
+- Use linguagem acessível para estudantes do ensino médio
+- Seja encorajador e forneça dicas práticas
+- Se mostrar código, explique cada parte
+- Mantenha respostas concisas (máximo 3-4 parágrafos)
+- Relacione conceitos com jogos e aplicações reais
+- Se não souber, diga honestamente`;
+
+function getSystemPrompt(context) {
+  if (context && context.startsWith('cs-')) return CS_SYSTEM_PROMPT;
+  return MATH_SYSTEM_PROMPT;
+}
 
 // ══════════════════════════════════════
 //  MIDDLEWARE
@@ -124,7 +163,7 @@ const chatLimiter = rateLimit({
 // Root — info page
 app.get('/', (_req, res) => {
   res.json({
-    name: 'IB Math Tutor API',
+    name: 'StudyLab API (Math + CS)',
     status: 'online',
     endpoints: {
       'GET /health': 'Status do servidor',
@@ -145,7 +184,7 @@ app.get('/health', (_req, res) => {
 // Chat endpoint
 app.post('/chat', chatLimiter, async (req, res) => {
   try {
-    const { message, context } = req.body;
+    const { message, context, history } = req.body;
 
     // Validação
     if (!message || typeof message !== 'string') {
@@ -155,6 +194,14 @@ app.post('/chat', chatLimiter, async (req, res) => {
     if (message.length > 2000) {
       return res.status(400).json({ error: 'Mensagem muito longa (máximo 2000 caracteres).' });
     }
+
+    // Sanitize history (max 10 messages, validate roles)
+    const validHistory = Array.isArray(history)
+      ? history
+          .filter(m => m && typeof m.content === 'string' && ['user', 'assistant'].includes(m.role))
+          .slice(-10)
+          .map(m => ({ role: m.role, content: m.content.slice(0, 2000) }))
+      : [];
 
     // Provider config
     const provider = PROVIDER_CONFIG[AI_PROVIDER];
@@ -170,14 +217,17 @@ app.post('/chat', chatLimiter, async (req, res) => {
       });
     }
 
-    // Build context instruction
-    const contextInstruction = context
-      ? `\n\n[CONTEXTO ATUAL: O aluno está estudando "${context}". Foque suas respostas neste tema e nos conceitos relacionados do currículo IB.]`
+    // Build context instruction — strip routing prefix for cleaner AI context
+    const systemPrompt = getSystemPrompt(context);
+    const cleanContext = context ? context.replace(/^cs-/, '') : '';
+    const contextInstruction = cleanContext
+      ? `\n\n[CONTEXTO ATUAL: O aluno está estudando "${cleanContext}". Foque suas respostas neste tema e nos conceitos relacionados.]`
       : '';
 
-    // Build messages array
+    // Build messages array with conversation history
     const messages = [
-      { role: 'system', content: SYSTEM_PROMPT + contextInstruction },
+      { role: 'system', content: systemPrompt + contextInstruction },
+      ...validHistory,
       { role: 'user', content: message }
     ];
 
@@ -244,7 +294,7 @@ app.use((_req, res) => {
 
 app.listen(PORT, () => {
   console.log(`\n═══════════════════════════════════════════`);
-  console.log(`  🧮 IB Math Tutor — Backend`);
+  console.log(`  📚 StudyLab — Backend (Math + CS)`);
   console.log(`  📡 Servidor rodando em http://localhost:${PORT}`);
   console.log(`  🤖 Provedor de IA: ${AI_PROVIDER.toUpperCase()}`);
   console.log(`  🔑 API Key: ${PROVIDER_CONFIG[AI_PROVIDER]?.getKey()?.slice(0, 8) || '❌ NÃO CONFIGURADA'}...`);

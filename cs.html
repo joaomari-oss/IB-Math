@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="hacker">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#22d3ee">
+  <title>Computer Science — Programming & Game Dev</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/cs-styles.css">
+  <!-- CodeMirror -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/dracula.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/eclipse.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/javascript/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/closebrackets.min.js"></script>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="loader" class="loader">
+    <div class="loader-content">
+      <div class="loader-ring"></div>
+      <span class="loader-text">Inicializando...</span>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon">&lt;/&gt;</span>
+        <span class="logo-text">CS<span class="logo-accent">Lab</span></span>
+      </a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#overview">Tópicos</a></li>
+        <li class="nav-dropdown">
+          <button class="nav-dropdown-btn">Fundamentos <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <ul class="nav-dropdown-menu">
+            <li><a href="#algoritmos">Algoritmos</a></li>
+            <li><a href="#variaveis">Variáveis</a></li>
+            <li><a href="#tipos-dados">Tipos de Dados</a></li>
+            <li><a href="#loops">Loops</a></li>
+            <li><a href="#booleanos">Booleanos</a></li>
+          </ul>
+        </li>
+        <li class="nav-dropdown">
+          <button class="nav-dropdown-btn">Avançado <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></button>
+          <ul class="nav-dropdown-menu">
+            <li><a href="#oop">OOP</a></li>
+            <li><a href="#arrays">Arrays</a></li>
+            <li><a href="#game-physics">Física de Jogos</a></li>
+            <li><a href="#engenharia">Eng. Software</a></li>
+          </ul>
+        </li>
+        <li><a href="#playground">Playground</a></li>
+        <li><a href="#exercicios">Exercícios</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Mudar tema" title="Mudar tema">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <div class="theme-picker-panel" id="themePickerPanel">
+          <div class="theme-picker-title">Escolha o Tema</div>
+          <div class="theme-picker-grid">
+            <button class="theme-option" data-theme="hacker" title="Hacker">
+              <span class="theme-swatch" style="background: linear-gradient(135deg, #0a0e17, #22d3ee)"></span>
+              <span>Hacker</span>
+            </button>
+            <button class="theme-option" data-theme="light" title="Claro">
+              <span class="theme-swatch" style="background: linear-gradient(135deg, #f8fafc, #6366f1)"></span>
+              <span>Claro</span>
+            </button>
+            <button class="theme-option" data-theme="dark" title="Escuro">
+              <span class="theme-swatch" style="background: linear-gradient(135deg, #1a1a2e, #e94560)"></span>
+              <span>Escuro</span>
+            </button>
+            <button class="theme-option" data-theme="cyber" title="Cyber">
+              <span class="theme-swatch" style="background: linear-gradient(135deg, #0d0221, #ff6ec7)"></span>
+              <span>Cyber</span>
+            </button>
+            <button class="theme-option" data-theme="forest" title="Forest">
+              <span class="theme-swatch" style="background: linear-gradient(135deg, #1a2f1a, #4ade80)"></span>
+              <span>Forest</span>
+            </button>
+          </div>
+        </div>
+        <button class="nav-menu-btn" id="menuBtn" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" class="hero">
+    <div class="hero-matrix"></div>
+    <div class="hero-glow"></div>
+    <div class="container hero-content">
+      <div class="hero-badge animate-fade-up">Computer Science — Programming & Game Dev</div>
+      <h1 class="hero-title animate-fade-up delay-1">
+        Aprenda <span class="gradient-text">Programação</span> e<br>
+        <span class="gradient-text">Desenvolvimento de Jogos</span>
+      </h1>
+      <p class="hero-subtitle animate-fade-up delay-2">
+        Uma jornada completa pela ciência da computação: de algoritmos a arquitetura de jogos,
+        com código executável, exercícios práticos e conteúdo profundo.
+      </p>
+      <div class="hero-actions animate-fade-up delay-3">
+        <a href="#overview" class="btn btn-primary">
+          Começar Curso
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <a href="#playground" class="btn btn-outline">Abrir Playground</a>
+      </div>
+      <div class="hero-stats animate-fade-up delay-4">
+        <div class="stat"><span class="stat-number">16</span><span class="stat-label">Tópicos</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-number">50+</span><span class="stat-label">Exemplos</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-number">30+</span><span class="stat-label">Exercícios</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRESS BAR -->
+  <div id="progressBar" class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section id="overview" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Visão Geral</span>
+        <h2 class="section-title">Todos os Tópicos</h2>
+        <p class="section-subtitle">Do básico ao avançado em Computer Science e Game Development</p>
+      </div>
+      <div class="topics-grid">
+        <a href="#algoritmos" class="topic-card reveal" style="--delay:0"><div class="topic-icon">⚡</div><h3>Algoritmos</h3><p>Lógica, pseudocódigo e resolução de problemas</p><span class="topic-tag">Fundamento</span></a>
+        <a href="#variaveis" class="topic-card reveal" style="--delay:1"><div class="topic-icon">📦</div><h3>Variáveis</h3><p>Declaração, escopo, naming e boas práticas</p><span class="topic-tag">Fundamento</span></a>
+        <a href="#tipos-dados" class="topic-card reveal" style="--delay:2"><div class="topic-icon">🔤</div><h3>Tipos de Dados</h3><p>Primitivos, objetos e type coercion</p><span class="topic-tag">Fundamento</span></a>
+        <a href="#spreadsheets" class="topic-card reveal" style="--delay:3"><div class="topic-icon">📊</div><h3>Spreadsheets</h3><p>Fórmulas, referências e automatização</p><span class="topic-tag">Essencial</span></a>
+        <a href="#loops" class="topic-card reveal" style="--delay:4"><div class="topic-icon">🔁</div><h3>Loops</h3><p>for, while, do-while e iteradores</p><span class="topic-tag">Essencial</span></a>
+        <a href="#booleanos" class="topic-card reveal" style="--delay:5"><div class="topic-icon">🔀</div><h3>Booleanos</h3><p>AND, OR, NOT e tabelas verdade</p><span class="topic-tag">Essencial</span></a>
+        <a href="#controle-colisao" class="topic-card reveal" style="--delay:6"><div class="topic-icon">💥</div><h3>Controle & Colisão</h3><p>AABB, detecção e resposta a colisões</p><span class="topic-tag">Game Dev</span></a>
+        <a href="#game-physics" class="topic-card reveal" style="--delay:7"><div class="topic-icon">🎯</div><h3>Física de Jogo</h3><p>Gravidade, velocidade e aceleração</p><span class="topic-tag">Game Dev</span></a>
+        <a href="#parallax" class="topic-card reveal" style="--delay:8"><div class="topic-icon">🏔️</div><h3>Efeito Parallax</h3><p>Camadas, profundidade e scroll</p><span class="topic-tag">Game Dev</span></a>
+        <a href="#oop" class="topic-card reveal" style="--delay:9"><div class="topic-icon">🧱</div><h3>OOP</h3><p>Classes, herança e polimorfismo</p><span class="topic-tag">Avançado</span></a>
+        <a href="#game-arch" class="topic-card reveal" style="--delay:10"><div class="topic-icon">🏗️</div><h3>Arquitetura de Jogos</h3><p>Game loop, estados e scene management</p><span class="topic-tag">Avançado</span></a>
+        <a href="#tiled" class="topic-card reveal" style="--delay:11"><div class="topic-icon">🗺️</div><h3>Mapas & Tiled</h3><p>Tilemaps, mundos e level design</p><span class="topic-tag">Game Dev</span></a>
+        <a href="#input" class="topic-card reveal" style="--delay:12"><div class="topic-icon">🎮</div><h3>Tipos de Input</h3><p>Teclado, mouse, touch e gamepad</p><span class="topic-tag">Interação</span></a>
+        <a href="#arrays" class="topic-card reveal" style="--delay:13"><div class="topic-icon">📐</div><h3>Vetores & Matrizes</h3><p>Arrays, vetores 2D e operações</p><span class="topic-tag">Intermediário</span></a>
+        <a href="#qualidade" class="topic-card reveal" style="--delay:14"><div class="topic-icon">✅</div><h3>Qualidade de SW</h3><p>Testing, debugging e code review</p><span class="topic-tag">Profissional</span></a>
+        <a href="#engenharia" class="topic-card reveal" style="--delay:15"><div class="topic-icon">⚙️</div><h3>Engenharia de SW</h3><p>SDLC, Agile, patterns e arquitetura</p><span class="topic-tag">Profissional</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 1: ALGORITMOS ═══════════════════ -->
+  <section id="algoritmos" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 1</span>
+        <h2 class="section-title">Algoritmos <span class="en">(Algorithms)</span></h2>
+        <p class="section-subtitle">A base de toda programação: sequências lógicas de instruções para resolver problemas</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>O que é um Algoritmo?</h3></div>
+          <div class="concept-body">
+            <p>Um <strong>algoritmo</strong> é uma sequência finita e ordenada de instruções bem definidas que, quando executadas, resolvem um problema ou realizam uma tarefa. É como uma receita de cozinha: cada passo precisa ser claro e executável.</p>
+            <div class="teacher-tip"><span class="tip-icon">💡</span><div><strong>Analogia:</strong> Pense em como você prepara um café. Os passos são: (1) ferver a água, (2) colocar o pó no filtro, (3) despejar a água, (4) esperar filtrar, (5) servir. Essa sequência é um algoritmo!</div></div>
+            <div class="key-terms">
+              <div class="term"><strong>Entrada (Input)</strong><p>Dados que o algoritmo recebe para processar</p></div>
+              <div class="term"><strong>Processamento</strong><p>A lógica aplicada sobre os dados de entrada</p></div>
+              <div class="term"><strong>Saída (Output)</strong><p>O resultado produzido pelo algoritmo</p></div>
+            </div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Pseudocódigo — Representando Algoritmos</h4>
+            <p><strong>Pseudocódigo</strong> é uma forma de escrever algoritmos em linguagem natural estruturada, sem se prender à sintaxe de uma linguagem específica.</p>
+            <div class="code-example"><div class="code-header"><span>Pseudocódigo</span></div><pre><code>ALGORITMO: Verificar se número é par
+INÍCIO
+  RECEBER número
+  SE número MOD 2 == 0 ENTÃO
+    EXIBIR "O número é par"
+  SENÃO
+    EXIBIR "O número é ímpar"
+  FIM SE
+FIM</code></pre></div>
+            <p>Agora em JavaScript real — execute o código abaixo:</p>
+            <div class="code-playground-inline" data-code='// Algoritmo: Verificar se número é par
+function verificarPar(numero) {
+  if (numero % 2 === 0) {
+    console.log(numero + " é par");
+  } else {
+    console.log(numero + " é ímpar");
+  }
+}
+
+verificarPar(7);
+verificarPar(12);
+verificarPar(0);'></div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Complexidade de Algoritmos</h4>
+            <p>A <strong>eficiência</strong> de um algoritmo é medida pela sua <strong>complexidade de tempo</strong> (quanto tempo leva) e <strong>complexidade de espaço</strong> (quanta memória usa). Usamos a notação <strong>Big O</strong> para representar isso:</p>
+            <div class="key-terms">
+              <div class="term"><strong>O(1) — Constante</strong><p>Executar em tempo fixo, independente do tamanho dos dados</p></div>
+              <div class="term"><strong>O(n) — Linear</strong><p>Tempo cresce proporcionalmente ao tamanho dos dados</p></div>
+              <div class="term"><strong>O(n²) — Quadrática</strong><p>Tempo cresce com o quadrado dos dados (loops aninhados)</p></div>
+            </div>
+            <div class="code-playground-inline" data-code='// Exemplo O(n) — Busca Linear
+function buscaLinear(array, alvo) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === alvo) {
+      console.log("Encontrado na posição " + i);
+      return i;
+    }
+  }
+  console.log("Não encontrado");
+  return -1;
+}
+
+const numeros = [3, 7, 1, 9, 4, 6, 2, 8, 5];
+buscaLinear(numeros, 6);
+buscaLinear(numeros, 10);'></div>
+            <div class="example-box"><span class="example-label">Caso Real</span><p>O Google processa bilhões de buscas por dia. Se usasse um algoritmo O(n²), demoraria horas. Com algoritmos O(log n) como busca binária, responde em milissegundos. A escolha do algoritmo correto é crucial!</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 2: VARIÁVEIS ═══════════════════ -->
+  <section id="variaveis" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 2</span>
+        <h2 class="section-title">Variáveis <span class="en">(Variables)</span></h2>
+        <p class="section-subtitle">Contêineres nomeados que armazenam dados na memória do computador</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Declaração e Atribuição</h3></div>
+          <div class="concept-body">
+            <p>Uma <strong>variável</strong> é um espaço na memória do computador identificado por um nome, onde armazenamos valores que podem mudar durante a execução do programa.</p>
+            <div class="teacher-tip"><span class="tip-icon">💡</span><div><strong>Analogia:</strong> Pense em variáveis como caixas etiquetadas. A etiqueta é o nome (<code>idade</code>), e dentro da caixa colocamos o valor (<code>16</code>). Podemos trocar o conteúdo a qualquer momento.</div></div>
+            <p>Em JavaScript, existem <strong>três formas</strong> de declarar variáveis:</p>
+            <div class="code-playground-inline" data-code='// 1. let — variável que pode mudar (use na maioria dos casos)
+let pontuacao = 0;
+console.log("Pontuação inicial:", pontuacao);
+pontuacao = 100;
+console.log("Pontuação atualizada:", pontuacao);
+
+// 2. const — constante, não pode ser reatribuída
+const GRAVIDADE = 9.8;
+console.log("Gravidade:", GRAVIDADE);
+// GRAVIDADE = 10; // Erro! Não pode alterar const
+
+// 3. var — forma antiga, evite usar (tem problemas de escopo)
+var nome = "Estudante";
+console.log("Nome:", nome);'></div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Escopo de Variáveis</h4>
+            <p>O <strong>escopo</strong> determina onde uma variável pode ser acessada no código. Em JavaScript, existem dois tipos principais:</p>
+            <div class="two-col">
+              <div class="info-card"><h4>Escopo de Bloco (let/const)</h4><p>A variável só existe dentro do bloco <code>{ }</code> onde foi declarada. Mais seguro e previsível.</p></div>
+              <div class="info-card"><h4>Escopo de Função (var)</h4><p>A variável existe dentro de toda a função, mesmo antes de ser declarada (hoisting). Pode causar bugs.</p></div>
+            </div>
+            <div class="code-playground-inline" data-code='// Demonstração de escopo
+function exemploEscopo() {
+  let fora = "Visível em toda a função";
+  
+  if (true) {
+    let dentro = "Só visível neste bloco";
+    console.log(fora);   // ✅ Funciona
+    console.log(dentro);  // ✅ Funciona
+  }
+  
+  console.log(fora);   // ✅ Funciona
+  // console.log(dentro); // ❌ Erro! "dentro" não existe aqui
+}
+
+exemploEscopo();
+console.log("Escopo demonstrado com sucesso!");'></div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Boas Práticas de Naming</h4>
+            <div class="key-terms">
+              <div class="term"><strong>camelCase</strong><p><code>nomeDoJogador</code> — padrão para variáveis e funções em JS</p></div>
+              <div class="term"><strong>UPPER_SNAKE_CASE</strong><p><code>MAX_VELOCIDADE</code> — padrão para constantes</p></div>
+              <div class="term"><strong>Nomes Descritivos</strong><p>Use <code>pontuacaoFinal</code> em vez de <code>pf</code> ou <code>x</code></p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 3: TIPOS DE DADOS ═══════════════════ -->
+  <section id="tipos-dados" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 3</span>
+        <h2 class="section-title">Tipos de Dados <span class="en">(Data Types)</span></h2>
+        <p class="section-subtitle">Cada valor em um programa tem um tipo que determina o que pode ser feito com ele</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Tipos Primitivos em JavaScript</h3></div>
+          <div class="concept-body">
+            <p>JavaScript possui <strong>7 tipos primitivos</strong> (valores simples, imutáveis) e <strong>objetos</strong> (valores complexos, referência).</p>
+            <div class="code-playground-inline" data-code='// Os 7 tipos primitivos do JavaScript
+let texto = "Olá, mundo!";       // String — texto
+let numero = 42;                  // Number — número
+let decimal = 3.14;               // Number — decimal
+let verdadeiro = true;            // Boolean — verdadeiro/falso
+let indefinido;                   // Undefined — não atribuído
+let nulo = null;                  // Null — ausência intencional
+let simbolo = Symbol("id");      // Symbol — identificador único
+let grande = 9007199254740991n;   // BigInt — números muito grandes
+
+console.log("String:", typeof texto);
+console.log("Number:", typeof numero);
+console.log("Boolean:", typeof verdadeiro);
+console.log("Undefined:", typeof indefinido);
+console.log("Null:", typeof nulo);        // "object" (bug histórico!)
+console.log("Symbol:", typeof simbolo);
+console.log("BigInt:", typeof grande);'></div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Type Coercion — Conversão Automática</h4>
+            <p>JavaScript converte tipos automaticamente em algumas situações. Isso pode causar <strong>bugs inesperados</strong> se você não entender como funciona:</p>
+            <div class="code-playground-inline" data-code='// Type Coercion — cuidado!
+console.log("5" + 3);       // "53" — concatenação (string)
+console.log("5" - 3);       // 2 — subtração (number)
+console.log("5" * "3");     // 15 — multiplicação
+console.log(true + 1);      // 2 — true vira 1
+console.log(false + 1);     // 1 — false vira 0
+console.log("" == false);   // true — coerção frouxa
+console.log("" === false);  // false — comparação estrita
+
+// SEMPRE use === (estrita) em vez de == (frouxa)
+console.log("\n--- Use sempre === ---");
+console.log(0 == "");       // true (perigoso!)
+console.log(0 === "");      // false (seguro!)'></div>
+            <div class="teacher-tip"><span class="tip-icon">💡</span><div><strong>Regra de Ouro:</strong> Sempre use <code>===</code> (comparação estrita) em vez de <code>==</code> (comparação frouxa). A comparação frouxa faz conversões automáticas que geram resultados surpreendentes e bugs difíceis de encontrar.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 4: SPREADSHEETS ═══════════════════ -->
+  <section id="spreadsheets" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 4</span>
+        <h2 class="section-title">Spreadsheets <span class="en">(Planilhas)</span></h2>
+        <p class="section-subtitle">Dados organizados em grade: a base para entender bancos de dados e estruturas tabulares</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Pensando em Grade de Dados</h3></div>
+          <div class="concept-body">
+            <p>Uma <strong>planilha</strong> organiza dados em <strong>linhas</strong> e <strong>colunas</strong>, formando <strong>células</strong>. Cada célula é identificada por sua coluna (A, B, C...) e linha (1, 2, 3...). Planilhas são precursores de bancos de dados e estruturas de dados tabulares.</p>
+            <div class="key-terms">
+              <div class="term"><strong>Célula (Cell)</strong><p>Interseção de uma linha com uma coluna — ex: A1, B3</p></div>
+              <div class="term"><strong>Fórmula (Formula)</strong><p>Expressão que calcula valores — ex: =A1+B1, =SUM(A1:A10)</p></div>
+              <div class="term"><strong>Referência</strong><p>Apontar para outra célula: relativa (A1) ou absoluta ($A$1)</p></div>
+            </div>
+            <p>Em programação, representamos dados tabulares com <strong>arrays de objetos</strong>:</p>
+            <div class="code-playground-inline" data-code='// Simulando uma planilha com array de objetos
+const planilha = [
+  { nome: "Alice",  nota1: 8.5, nota2: 9.0 },
+  { nome: "Bruno",  nota1: 7.0, nota2: 6.5 },
+  { nome: "Carla",  nota1: 9.5, nota2: 10.0 },
+  { nome: "Daniel", nota1: 6.0, nota2: 7.5 }
+];
+
+// Fórmula: Calcular média de cada aluno
+planilha.forEach(aluno => {
+  const media = (aluno.nota1 + aluno.nota2) / 2;
+  console.log(aluno.nome + ": média = " + media.toFixed(1));
+});
+
+// SUM: soma de todas as nota1
+const somaNotas = planilha.reduce((soma, a) => soma + a.nota1, 0);
+console.log("\nSoma nota1: " + somaNotas);
+console.log("Média geral nota1: " + (somaNotas / planilha.length).toFixed(1));'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 5: LOOPS ═══════════════════ -->
+  <section id="loops" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 5</span>
+        <h2 class="section-title">Estruturas de Repetição <span class="en">(Loops)</span></h2>
+        <p class="section-subtitle">Executar blocos de código repetidamente enquanto uma condição for verdadeira</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Os Três Tipos de Loop</h3></div>
+          <div class="concept-body">
+            <p>Loops permitem repetir instruções sem escrever o mesmo código várias vezes. Em JavaScript, os três loops principais são:</p>
+            <div class="accordion">
+              <div class="accordion-item">
+                <button class="accordion-header">for — quando você sabe quantas vezes repetir<span class="accordion-icon">+</span></button>
+                <div class="accordion-content"><div class="accordion-body">
+                  <p>O loop <code>for</code> tem três partes: <strong>inicialização</strong>, <strong>condição</strong> e <strong>incremento</strong>.</p>
+                  <div class="code-example"><pre><code>for (let i = 0; i &lt; 5; i++) {
+  console.log("Iteração " + i);
+}</code></pre></div>
+                </div></div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">while — quando não sabe quantas vezes<span class="accordion-icon">+</span></button>
+                <div class="accordion-content"><div class="accordion-body">
+                  <p>O <code>while</code> repete enquanto a condição for verdadeira. Cuidado com loops infinitos!</p>
+                  <div class="code-example"><pre><code>let contador = 0;
+while (contador &lt; 3) {
+  console.log("Contagem: " + contador);
+  contador++;
+}</code></pre></div>
+                </div></div>
+              </div>
+              <div class="accordion-item">
+                <button class="accordion-header">do...while — executa pelo menos uma vez<span class="accordion-icon">+</span></button>
+                <div class="accordion-content"><div class="accordion-body">
+                  <p>Semelhante ao <code>while</code>, mas verifica a condição <em>depois</em> de executar.</p>
+                  <div class="code-example"><pre><code>let num = 10;
+do {
+  console.log("Número: " + num);
+  num--;
+} while (num > 7);</code></pre></div>
+                </div></div>
+              </div>
+            </div>
+            <div class="code-playground-inline" data-code='// for — contar de 1 a 5
+console.log("=== for loop ===");
+for (let i = 1; i <= 5; i++) {
+  console.log("Passo " + i);
+}
+
+// while — contar regressivamente
+console.log("\n=== while loop ===");
+let foguete = 5;
+while (foguete > 0) {
+  console.log(foguete + "...");
+  foguete--;
+}
+console.log("🚀 Lançamento!");
+
+// for...of — iterar sobre array
+console.log("\n=== for...of ===");
+const frutas = ["🍎 Maçã", "🍌 Banana", "🍊 Laranja"];
+for (const fruta of frutas) {
+  console.log(fruta);
+}'></div>
+            <div class="teacher-tip"><span class="tip-icon">💡</span><div><strong>Em jogos:</strong> O <strong>game loop</strong> é o loop mais importante da programação de jogos. Ele roda ~60 vezes por segundo, atualizando posições, verificando colisões e redesenhando a tela. Sem loops, não existem jogos!</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 6: BOOLEANOS ═══════════════════ -->
+  <section id="booleanos" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 6</span>
+        <h2 class="section-title">Operadores Booleanos <span class="en">(Boolean Operators)</span></h2>
+        <p class="section-subtitle">A lógica por trás de todas as decisões que um programa faz</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Lógica Booleana</h3></div>
+          <div class="concept-body">
+            <p>A álgebra booleana, criada por <strong>George Boole</strong>, trabalha com apenas dois valores: <strong>true</strong> (verdadeiro) e <strong>false</strong> (falso). É a base de toda a computação digital — os bits 0 e 1.</p>
+            <div class="key-terms">
+              <div class="term"><strong>AND (&&)</strong><p>Verdadeiro SOMENTE se AMBOS forem verdadeiros</p></div>
+              <div class="term"><strong>OR (||)</strong><p>Verdadeiro se PELO MENOS UM for verdadeiro</p></div>
+              <div class="term"><strong>NOT (!)</strong><p>Inverte o valor: true vira false e vice-versa</p></div>
+            </div>
+            <div class="code-playground-inline" data-code='// Tabela Verdade — AND (&&)
+console.log("=== AND (&&) ===");
+console.log("true  && true  =", true && true);    // true
+console.log("true  && false =", true && false);   // false
+console.log("false && true  =", false && true);   // false
+console.log("false && false =", false && false);  // false
+
+// Tabela Verdade — OR (||)
+console.log("\n=== OR (||) ===");
+console.log("true  || true  =", true || true);    // true
+console.log("true  || false =", true || false);   // true
+console.log("false || true  =", false || true);   // true
+console.log("false || false =", false || false);  // false
+
+// NOT (!)
+console.log("\n=== NOT (!) ===");
+console.log("!true  =", !true);    // false
+console.log("!false =", !false);   // true
+
+// Exemplo prático: sistema de acesso
+console.log("\n=== Exemplo Prático ===");
+const temIngresso = true;
+const maiorDe18 = false;
+const acompanhadoPais = true;
+
+const podeEntrar = temIngresso && (maiorDe18 || acompanhadoPais);
+console.log("Pode entrar?", podeEntrar);  // true'></div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Aplicação em Jogos</h4>
+            <div class="code-playground-inline" data-code='// Lógica booleana em jogos
+const jogador = {
+  vidas: 3,
+  temEscudo: true,
+  energia: 80,
+  temChave: false
+};
+
+// Condição para abrir porta do boss
+const podeEntrarBoss = jogador.temChave && jogador.vidas > 0;
+console.log("Pode enfrentar o boss?", podeEntrarBoss);
+
+// Condição para tomar dano
+const tomaDano = !jogador.temEscudo || jogador.energia <= 0;
+console.log("Toma dano?", tomaDano);
+
+// Sistema de power-up
+const podePegarPowerUp = jogador.vidas < 5 && jogador.energia < 100;
+console.log("Pode pegar power-up?", podePegarPowerUp);'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 7: CONTROLE & COLISÃO ═══════════════════ -->
+  <section id="controle-colisao" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 7</span>
+        <h2 class="section-title">Controle & Colisão <span class="en">(Control & Collision)</span></h2>
+        <p class="section-subtitle">Como programar movimentação e detecção de colisões em jogos 2D</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Detecção de Colisão AABB</h3></div>
+          <div class="concept-body">
+            <p>A <strong>colisão AABB</strong> (Axis-Aligned Bounding Box) é o método mais simples e eficiente para detectar se dois retângulos se sobrepõem. Funciona verificando se os limites de dois objetos se interceptam em ambos os eixos (X e Y).</p>
+            <div class="formula-box"><span class="formula-label">Condição de Colisão AABB</span><div class="formula" style="font-size: 0.95rem;">A.x &lt; B.x + B.w && A.x + A.w > B.x && A.y &lt; B.y + B.h && A.y + A.h > B.y</div><p class="formula-desc">Se TODAS as condições forem true, os retângulos estão colidindo.</p></div>
+            <div class="code-playground-inline" data-code='// Sistema de Colisão AABB
+function verificarColisao(a, b) {
+  return (
+    a.x < b.x + b.largura &&
+    a.x + a.largura > b.x &&
+    a.y < b.y + b.altura &&
+    a.y + a.altura > b.y
+  );
+}
+
+// Jogador e inimigo
+const jogador = { x: 50, y: 50, largura: 32, altura: 32 };
+const inimigo = { x: 70, y: 60, largura: 32, altura: 32 };
+const moeda   = { x: 200, y: 200, largura: 16, altura: 16 };
+
+console.log("Jogador vs Inimigo:", verificarColisao(jogador, inimigo));
+console.log("Jogador vs Moeda:", verificarColisao(jogador, moeda));
+
+// Simular movimento
+jogador.x = 195;
+jogador.y = 195;
+console.log("\nApós mover jogador para (195, 195):");
+console.log("Jogador vs Moeda:", verificarColisao(jogador, moeda));'></div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Colisão Circular (para objetos redondos)</h4>
+            <div class="code-playground-inline" data-code='// Colisão entre círculos
+function colisaoCircular(c1, c2) {
+  const dx = c1.x - c2.x;
+  const dy = c1.y - c2.y;
+  const distancia = Math.sqrt(dx * dx + dy * dy);
+  return distancia < (c1.raio + c2.raio);
+}
+
+const bola1 = { x: 100, y: 100, raio: 20 };
+const bola2 = { x: 130, y: 110, raio: 20 };
+const bola3 = { x: 300, y: 300, raio: 15 };
+
+const dist12 = Math.sqrt((bola1.x-bola2.x)**2 + (bola1.y-bola2.y)**2);
+console.log("Distância entre bola1 e bola2:", dist12.toFixed(1));
+console.log("Soma dos raios:", bola1.raio + bola2.raio);
+console.log("Colidindo?", colisaoCircular(bola1, bola2));
+
+console.log("\nBola1 vs Bola3:", colisaoCircular(bola1, bola3));'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 8: FÍSICA DE JOGO ═══════════════════ -->
+  <section id="game-physics" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 8</span>
+        <h2 class="section-title">Física de Jogo <span class="en">(Game Physics)</span></h2>
+        <p class="section-subtitle">Simular gravidade, velocidade e aceleração para criar movimentos realistas</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Cinemática em Jogos 2D</h3></div>
+          <div class="concept-body">
+            <p>A física de jogos simula leis do mundo real de forma simplificada. Os conceitos fundamentais são <strong>posição</strong>, <strong>velocidade</strong> e <strong>aceleração</strong>.</p>
+            <div class="formula-box"><span class="formula-label">Equações do Movimento</span><div class="formula">posição += velocidade × dt<br>velocidade += aceleração × dt</div><p class="formula-desc">dt (delta time) é o tempo entre frames, garantindo movimento consistente em diferentes FPS.</p></div>
+            <div class="code-playground-inline" data-code='// Simulação de gravidade e pulo
+const GRAVIDADE = 0.5;
+const FORCA_PULO = -10;
+const CHAO = 300;
+
+let jogador = {
+  x: 100,
+  y: 250,      // posição vertical
+  vy: 0,       // velocidade vertical
+  noChao: true
+};
+
+// Simular pulo
+function pular() {
+  if (jogador.noChao) {
+    jogador.vy = FORCA_PULO;
+    jogador.noChao = false;
+    console.log("🦘 Pulou! vy =", jogador.vy);
+  }
+}
+
+// Simular 20 frames de física
+function simularFrame(frame) {
+  // Aplicar gravidade
+  jogador.vy += GRAVIDADE;
+  jogador.y += jogador.vy;
+  
+  // Colisão com o chão
+  if (jogador.y >= CHAO) {
+    jogador.y = CHAO;
+    jogador.vy = 0;
+    jogador.noChao = true;
+  }
+  
+  if (frame % 5 === 0) {
+    console.log("Frame " + frame + ": y=" + jogador.y.toFixed(0) + " vy=" + jogador.vy.toFixed(1) + (jogador.noChao ? " [chão]" : " [ar]"));
+  }
+}
+
+pular();
+for (let i = 1; i <= 30; i++) simularFrame(i);
+console.log("\n✅ Jogador pousou de volta no chão!");'></div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Fricção e Resistência</h4>
+            <div class="code-playground-inline" data-code='// Sistema de movimento com fricção
+const FRICCAO = 0.85; // 0 a 1 (mais perto de 1 = menos fricção)
+const ACELERACAO = 2;
+
+let carro = { x: 0, vx: 0 };
+
+function moverDireita() { carro.vx += ACELERACAO; }
+function atualizar() {
+  carro.vx *= FRICCAO;    // Aplica fricção
+  carro.x += carro.vx;     // Atualiza posição
+  
+  // Para se velocidade for muito baixa
+  if (Math.abs(carro.vx) < 0.01) carro.vx = 0;
+}
+
+// Simular: acelerar por 5 frames, depois soltar
+console.log("=== Acelerando ===");
+for (let i = 0; i < 5; i++) {
+  moverDireita();
+  atualizar();
+  console.log("x=" + carro.x.toFixed(1) + " vx=" + carro.vx.toFixed(2));
+}
+
+console.log("\n=== Desacelerando (fricção) ===");
+for (let i = 0; i < 10; i++) {
+  atualizar();
+  console.log("x=" + carro.x.toFixed(1) + " vx=" + carro.vx.toFixed(2));
+}'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 9: PARALLAX ═══════════════════ -->
+  <section id="parallax" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 9</span>
+        <h2 class="section-title">Efeito Parallax <span class="en">(Parallax Effect)</span></h2>
+        <p class="section-subtitle">Criar ilusão de profundidade movendo camadas em velocidades diferentes</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Como Funciona o Parallax</h3></div>
+          <div class="concept-body">
+            <p>O <strong>efeito parallax</strong> cria uma ilusão de profundidade 3D em cenários 2D. Objetos distantes se movem mais devagar que objetos próximos — exatamente como na vida real quando você olha pela janela de um carro.</p>
+            <div class="teacher-tip"><span class="tip-icon">💡</span><div><strong>Analogia:</strong> Quando você anda de carro, as árvores na beira da estrada passam rápido, as montanhas ao fundo se movem lentamente, e o sol/lua parece parado. Isso é parallax!</div></div>
+            <div class="code-playground-inline" data-code='// Sistema de Parallax Scrolling
+class CamadaParallax {
+  constructor(nome, velocidade) {
+    this.nome = nome;
+    this.velocidade = velocidade;
+    this.posicaoX = 0;
+  }
+  
+  atualizar(velocidadeCamera) {
+    this.posicaoX -= velocidadeCamera * this.velocidade;
+  }
+  
+  info() {
+    return this.nome + " (vel: " + this.velocidade + "x) → posição: " + this.posicaoX.toFixed(1);
+  }
+}
+
+// Criar camadas com velocidades diferentes
+const camadas = [
+  new CamadaParallax("☁️ Céu (fundo)",    0.1),
+  new CamadaParallax("🏔️ Montanhas",      0.3),
+  new CamadaParallax("🌲 Árvores distantes", 0.5),
+  new CamadaParallax("🌳 Árvores próximas",  0.8),
+  new CamadaParallax("🏃 Chão (frente)",    1.0),
+];
+
+// Simular scroll da câmera
+const velocidadeCamera = 5;
+console.log("Velocidade da câmera:", velocidadeCamera);
+console.log("---");
+
+for (let frame = 1; frame <= 3; frame++) {
+  camadas.forEach(c => c.atualizar(velocidadeCamera));
+  console.log("Frame " + frame + ":");
+  camadas.forEach(c => console.log("  " + c.info()));
+  console.log("");
+}'></div>
+            <div class="example-box"><span class="example-label">Jogos Famosos</span><p>Parallax scrolling é usado em jogos como <strong>Hollow Knight</strong>, <strong>Ori and the Blind Forest</strong>, <strong>Celeste</strong> e <strong>Limbo</strong>. Cada um usa múltiplas camadas (3 a 7 camadas) para criar cenários imersivos.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 10: OOP ═══════════════════ -->
+  <section id="oop" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 10</span>
+        <h2 class="section-title">Programação Orientada a Objetos <span class="en">(OOP)</span></h2>
+        <p class="section-subtitle">Organizar código em objetos que combinam dados e comportamento</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Os 4 Pilares da OOP</h3></div>
+          <div class="concept-body">
+            <p>A <strong>Programação Orientada a Objetos</strong> organiza o código em "objetos" — entidades que possuem <strong>propriedades</strong> (dados) e <strong>métodos</strong> (comportamentos). É o paradigma mais usado no desenvolvimento de jogos.</p>
+            <div class="key-terms">
+              <div class="term"><strong>Encapsulamento</strong><p>Esconder detalhes internos e expor apenas uma interface</p></div>
+              <div class="term"><strong>Herança</strong><p>Uma classe filha herda propriedades e métodos da classe pai</p></div>
+              <div class="term"><strong>Polimorfismo</strong><p>Objetos diferentes respondem ao mesmo método de formas distintas</p></div>
+              <div class="term"><strong>Abstração</strong><p>Modelar entidades do mundo real em código simplificado</p></div>
+            </div>
+            <div class="code-playground-inline" data-code='// Classes e Herança em JavaScript
+class Entidade {
+  constructor(nome, x, y) {
+    this.nome = nome;
+    this.x = x;
+    this.y = y;
+    this.ativo = true;
+  }
+  
+  mover(dx, dy) {
+    this.x += dx;
+    this.y += dy;
+  }
+  
+  info() {
+    return this.nome + " em (" + this.x + ", " + this.y + ")";
+  }
+}
+
+// Herança — Jogador estende Entidade
+class Jogador extends Entidade {
+  constructor(nome, x, y) {
+    super(nome, x, y);  // Chama construtor da classe pai
+    this.vidas = 3;
+    this.pontos = 0;
+  }
+  
+  coletarMoeda() {
+    this.pontos += 10;
+    console.log("🪙 +" + 10 + " pontos! Total: " + this.pontos);
+  }
+  
+  info() {
+    return super.info() + " | ❤️ " + this.vidas + " | ⭐ " + this.pontos;
+  }
+}
+
+// Herança — Inimigo estende Entidade
+class Inimigo extends Entidade {
+  constructor(nome, x, y, dano) {
+    super(nome, x, y);
+    this.dano = dano;
+  }
+  
+  atacar(alvo) {
+    alvo.vidas -= this.dano;
+    console.log("⚔️ " + this.nome + " atacou " + alvo.nome + "! (-" + this.dano + " vida)");
+  }
+}
+
+// Usar as classes
+const heroi = new Jogador("Herói", 0, 0);
+const goblin = new Inimigo("Goblin", 5, 3, 1);
+
+console.log(heroi.info());
+console.log(goblin.info());
+
+heroi.coletarMoeda();
+heroi.coletarMoeda();
+heroi.mover(3, 2);
+goblin.atacar(heroi);
+console.log("\n" + heroi.info());'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 11: ARQUITETURA DE JOGOS ═══════════════════ -->
+  <section id="game-arch" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 11</span>
+        <h2 class="section-title">Arquitetura de Jogos <span class="en">(Game Architecture)</span></h2>
+        <p class="section-subtitle">O Game Loop, gerenciamento de estados e organização de cenas</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>O Game Loop</h3></div>
+          <div class="concept-body">
+            <p>O <strong>Game Loop</strong> é o coração de qualquer jogo. É um loop infinito que executa três etapas a cada frame: <strong>processar entrada</strong> (input), <strong>atualizar lógica</strong> (update) e <strong>renderizar</strong> (draw).</p>
+            <div class="formula-box"><span class="formula-label">Ciclo do Game Loop</span><div class="formula">Input → Update → Render → Repeat (60 FPS)</div><p class="formula-desc">A cada 16.67ms (60 FPS) o ciclo se repete, criando a ilusão de movimento.</p></div>
+            <div class="code-playground-inline" data-code='// Arquitetura: Game Loop + State Machine
+class GameState {
+  constructor(nome) { this.nome = nome; }
+  entrar() { console.log("→ Entrando em: " + this.nome); }
+  atualizar() {}
+  sair() { console.log("← Saindo de: " + this.nome); }
+}
+
+class MenuState extends GameState {
+  constructor() { super("Menu Principal"); }
+  atualizar() { console.log("  [Menu] Aguardando seleção..."); }
+}
+
+class PlayState extends GameState {
+  constructor() { 
+    super("Jogando"); 
+    this.frame = 0;
+  }
+  atualizar() {
+    this.frame++;
+    console.log("  [Jogo] Frame " + this.frame + " — processando input, física, colisões...");
+  }
+}
+
+class PauseState extends GameState {
+  constructor() { super("Pausado"); }
+  atualizar() { console.log("  [Pausa] Jogo congelado"); }
+}
+
+// State Machine
+class Game {
+  constructor() { this.estado = null; }
+  
+  trocarEstado(novoEstado) {
+    if (this.estado) this.estado.sair();
+    this.estado = novoEstado;
+    this.estado.entrar();
+  }
+  
+  update() { 
+    if (this.estado) this.estado.atualizar();
+  }
+}
+
+const jogo = new Game();
+
+// Simular fluxo do jogo
+jogo.trocarEstado(new MenuState());
+jogo.update();
+jogo.update();
+
+console.log(""); // linha em branco
+jogo.trocarEstado(new PlayState());
+jogo.update();
+jogo.update();
+jogo.update();
+
+console.log("");
+jogo.trocarEstado(new PauseState());
+jogo.update();'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 12: MAPAS & TILED ═══════════════════ -->
+  <section id="tiled" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 12</span>
+        <h2 class="section-title">Mapas & Tiled <span class="en">(Tilemaps)</span></h2>
+        <p class="section-subtitle">Construir mundos de jogo usando grids de tiles (blocos)</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>O que são Tilemaps?</h3></div>
+          <div class="concept-body">
+            <p>Um <strong>tilemap</strong> é uma grade 2D onde cada célula contém um <strong>tile</strong> (bloco) — uma pequena imagem que representa um pedaço do cenário. Combinando tiles, criamos mapas enormes de forma eficiente.</p>
+            <div class="teacher-tip"><span class="tip-icon">💡</span><div><strong>Exemplo clássico:</strong> Super Mario Bros usa tilemaps! O chão, os blocos de interrogação, os canos — tudo são tiles de 16x16 pixels organizados em uma grade.</div></div>
+            <div class="code-playground-inline" data-code='// Tilemap — Representação de mapa com números
+// 0 = vazio (ar), 1 = chão, 2 = parede, 3 = moeda, 4 = jogador
+const TILE_SYMBOLS = {
+  0: "  ",  // ar
+  1: "▓▓",  // chão
+  2: "██",  // parede
+  3: "🪙",  // moeda
+  4: "🏃",  // jogador
+};
+
+const mapa = [
+  [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+  [2, 0, 0, 0, 3, 0, 0, 3, 0, 2],
+  [2, 0, 0, 0, 0, 0, 0, 0, 0, 2],
+  [2, 0, 4, 0, 0, 2, 0, 0, 0, 2],
+  [2, 0, 0, 0, 0, 2, 0, 3, 0, 2],
+  [2, 1, 1, 0, 1, 1, 1, 1, 1, 2],
+  [2, 2, 2, 0, 2, 2, 2, 2, 2, 2],
+];
+
+// Renderizar mapa em texto
+console.log("=== Mapa do Nível 1 ===");
+mapa.forEach(linha => {
+  console.log(linha.map(t => TILE_SYMBOLS[t]).join(""));
+});
+
+// Contar elementos
+let moedas = 0, paredes = 0;
+mapa.forEach(l => l.forEach(t => {
+  if (t === 3) moedas++;
+  if (t === 2) paredes++;
+}));
+
+console.log("\n📊 Estatísticas do mapa:");
+console.log("  Largura: " + mapa[0].length + " tiles");
+console.log("  Altura: " + mapa.length + " tiles");
+console.log("  Moedas: " + moedas);
+console.log("  Blocos de parede: " + paredes);'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 13: TIPOS DE INPUT ═══════════════════ -->
+  <section id="input" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 13</span>
+        <h2 class="section-title">Tipos de Entrada <span class="en">(Input Types)</span></h2>
+        <p class="section-subtitle">Capturar e processar interações do usuário: teclado, mouse, touch e gamepad</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Processamento de Input</h3></div>
+          <div class="concept-body">
+            <p>Em jogos, o <strong>input</strong> é processado a cada frame. Precisamos rastrear quais teclas estão pressionadas (não apenas quando são apertadas) para movimentos suaves e contínuos.</p>
+            <div class="key-terms">
+              <div class="term"><strong>Event-Based</strong><p>Reagir a eventos: keydown, keyup, click. Bom para ações únicas.</p></div>
+              <div class="term"><strong>Polling</strong><p>Verificar estado a cada frame. Bom para movimentos contínuos.</p></div>
+              <div class="term"><strong>Input Buffer</strong><p>Armazenar inputs recentes. Usado para combos em jogos de luta.</p></div>
+            </div>
+            <div class="code-playground-inline" data-code='// Sistema de Input Manager para jogos
+class InputManager {
+  constructor() {
+    this.teclasPressionadas = {};
+    this.teclasAnterior = {};
+  }
+  
+  pressionar(tecla) {
+    this.teclasPressionadas[tecla] = true;
+  }
+  
+  soltar(tecla) {
+    this.teclasPressionadas[tecla] = false;
+  }
+  
+  // Tecla está pressionada agora?
+  isDown(tecla) {
+    return !!this.teclasPressionadas[tecla];
+  }
+  
+  // Tecla foi ACABOU de ser pressionada? (só no primeiro frame)
+  isJustPressed(tecla) {
+    return this.isDown(tecla) && !this.teclasAnterior[tecla];
+  }
+  
+  atualizar() {
+    this.teclasAnterior = { ...this.teclasPressionadas };
+  }
+}
+
+const input = new InputManager();
+
+// Simular: Frame 1 — pressionar ArrowRight e Space
+input.pressionar("ArrowRight");
+input.pressionar("Space");
+console.log("Frame 1:");
+console.log("  ArrowRight pressionada?", input.isDown("ArrowRight"));
+console.log("  Space acabou de ser pressionada?", input.isJustPressed("Space"));
+input.atualizar();
+
+// Frame 2 — Space continua pressionada
+console.log("\nFrame 2 (Space mantida):");
+console.log("  Space pressionada?", input.isDown("Space"));
+console.log("  Space acabou de ser pressionada?", input.isJustPressed("Space"));
+input.atualizar();
+
+// Frame 3 — Soltar Space
+input.soltar("Space");
+console.log("\nFrame 3 (Space solta):");
+console.log("  Space pressionada?", input.isDown("Space"));
+console.log("  ArrowRight ainda pressionada?", input.isDown("ArrowRight"));'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 14: VETORES & ARRAYS ═══════════════════ -->
+  <section id="arrays" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 14</span>
+        <h2 class="section-title">Vetores & Matrizes <span class="en">(Vectors & Arrays)</span></h2>
+        <p class="section-subtitle">Estruturas de dados fundamentais e vetores 2D para jogos</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Arrays e Vetores 2D</h3></div>
+          <div class="concept-body">
+            <p>Um <strong>array</strong> é uma coleção ordenada de elementos. Em jogos, usamos <strong>vetores 2D</strong> (Vector2) para representar posições, velocidades e direções.</p>
+            <div class="code-playground-inline" data-code='// Métodos de Array essenciais
+const inventario = ["Espada", "Poção", "Escudo", "Arco"];
+console.log("Inventário:", inventario);
+
+// Adicionar e remover
+inventario.push("Elmo");
+console.log("Após push:", inventario);
+
+const removido = inventario.splice(1, 1);
+console.log("Removido:", removido[0]);
+console.log("Inventário atual:", inventario);
+
+// map — transformar cada elemento
+const precos = [10, 25, 50, 15, 30];
+const comDesconto = precos.map(p => p * 0.8);
+console.log("\nPreços:", precos);
+console.log("Com 20% desconto:", comDesconto);
+
+// filter — filtrar elementos
+const caros = precos.filter(p => p >= 25);
+console.log("Itens caros (>= 25):", caros);
+
+// reduce — reduzir a um único valor
+const total = precos.reduce((soma, p) => soma + p, 0);
+console.log("Total:", total);
+
+// sort — ordenar
+const ranking = [45, 92, 18, 73, 56];
+ranking.sort((a, b) => b - a); // decrescente
+console.log("\nRanking:", ranking);'></div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Classe Vector2D para Jogos</h4>
+            <div class="code-playground-inline" data-code='// Vector2D — Essencial para game dev
+class Vector2D {
+  constructor(x = 0, y = 0) {
+    this.x = x;
+    this.y = y;
+  }
+  
+  adicionar(v)   { return new Vector2D(this.x + v.x, this.y + v.y); }
+  subtrair(v)    { return new Vector2D(this.x - v.x, this.y - v.y); }
+  multiplicar(s) { return new Vector2D(this.x * s, this.y * s); }
+  
+  magnitude() { return Math.sqrt(this.x ** 2 + this.y ** 2); }
+  
+  normalizar() {
+    const mag = this.magnitude();
+    if (mag === 0) return new Vector2D(0, 0);
+    return new Vector2D(this.x / mag, this.y / mag);
+  }
+  
+  distancia(v) { return this.subtrair(v).magnitude(); }
+  
+  toString() { return "(" + this.x.toFixed(1) + ", " + this.y.toFixed(1) + ")"; }
+}
+
+// Usar vetores em um cenário de jogo
+const posJogador = new Vector2D(100, 200);
+const posInimigo = new Vector2D(300, 150);
+
+console.log("Jogador:", posJogador.toString());
+console.log("Inimigo:", posInimigo.toString());
+
+const distancia = posJogador.distancia(posInimigo);
+console.log("Distância:", distancia.toFixed(1));
+
+// Calcular direção do jogador para o inimigo
+const direcao = posInimigo.subtrair(posJogador).normalizar();
+console.log("Direção normalizada:", direcao.toString());
+
+// Mover jogador na direção do inimigo (velocidade 5)
+const novaPosicao = posJogador.adicionar(direcao.multiplicar(5));
+console.log("Nova posição (após mover):", novaPosicao.toString());'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 15: QUALIDADE DE SOFTWARE ═══════════════════ -->
+  <section id="qualidade" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 15</span>
+        <h2 class="section-title">Qualidade de Software <span class="en">(Software Quality)</span></h2>
+        <p class="section-subtitle">Testar, depurar e garantir que o código funcione corretamente</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>Testing e Debugging</h3></div>
+          <div class="concept-body">
+            <p>Software de qualidade é <strong>testado sistematicamente</strong>. Os tipos de teste incluem: testes unitários, testes de integração e testes end-to-end.</p>
+            <div class="key-terms">
+              <div class="term"><strong>Teste Unitário</strong><p>Testar uma função/método isoladamente</p></div>
+              <div class="term"><strong>Teste de Integração</strong><p>Testar como componentes trabalham juntos</p></div>
+              <div class="term"><strong>Debugging</strong><p>Encontrar e corrigir erros no código</p></div>
+            </div>
+            <div class="code-playground-inline" data-code='// Mini framework de testes
+function assert(condicao, mensagem) {
+  if (condicao) {
+    console.log("✅ PASSOU: " + mensagem);
+  } else {
+    console.log("❌ FALHOU: " + mensagem);
+  }
+}
+
+// Função a ser testada
+function calcularDano(ataqueBase, defesa, critico) {
+  let dano = ataqueBase - defesa;
+  if (dano < 1) dano = 1;     // Dano mínimo de 1
+  if (critico) dano *= 2;
+  return Math.floor(dano);
+}
+
+// Testes unitários
+console.log("=== Testes: calcularDano ===\n");
+
+assert(calcularDano(10, 3, false) === 7, 
+  "Dano normal: 10 atk - 3 def = 7");
+
+assert(calcularDano(10, 3, true) === 14, 
+  "Dano crítico: (10-3) * 2 = 14");
+
+assert(calcularDano(5, 20, false) === 1, 
+  "Dano mínimo: defesa maior que ataque = 1");
+
+assert(calcularDano(5, 20, true) === 2, 
+  "Dano mínimo crítico: 1 * 2 = 2");
+
+assert(calcularDano(0, 0, false) === 1, 
+  "Zero ataque e defesa = dano mínimo 1");
+
+console.log("\n=== 5 testes executados ===");'></div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Técnicas de Debugging</h4>
+            <div class="code-playground-inline" data-code='// Técnicas de debugging
+// 1. console.log — rastrear valores
+function buscarItem(inventario, item) {
+  console.log("[DEBUG] Buscando:", item);
+  console.log("[DEBUG] Inventário:", inventario);
+  
+  for (let i = 0; i < inventario.length; i++) {
+    console.log("[DEBUG] Comparando:", inventario[i], "===", item, "→", inventario[i] === item);
+    if (inventario[i] === item) {
+      console.log("[DEBUG] Encontrado na posição", i);
+      return i;
+    }
+  }
+  
+  console.log("[DEBUG] Item não encontrado");
+  return -1;
+}
+
+const inv = ["Espada", "escudo", "Poção"];  // Note "escudo" minúsculo
+const resultado = buscarItem(inv, "Escudo");  // "Escudo" maiúsculo
+console.log("\nResultado:", resultado);
+console.log("💡 Bug encontrado! Case sensitivity — \"escudo\" ≠ \"Escudo\"");'></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MÓDULO 16: ENGENHARIA DE SOFTWARE ═══════════════════ -->
+  <section id="engenharia" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Módulo 16</span>
+        <h2 class="section-title">Engenharia de Software <span class="en">(Software Engineering)</span></h2>
+        <p class="section-subtitle">Processos, metodologias e boas práticas para construir software profissional</p>
+      </div>
+      <div class="content-block reveal">
+        <div class="concept-card">
+          <div class="concept-header"><span class="concept-badge">Conceito</span><h3>SDLC — Ciclo de Vida do Software</h3></div>
+          <div class="concept-body">
+            <p>O <strong>SDLC</strong> (Software Development Life Cycle) define as etapas para criar software de forma organizada:</p>
+            <div class="steps-list">
+              <div class="step"><span class="step-number">1</span><div class="step-content"><strong>Requisitos</strong> — O que o software precisa fazer?</div></div>
+              <div class="step"><span class="step-number">2</span><div class="step-content"><strong>Design</strong> — Como será a arquitetura e interface?</div></div>
+              <div class="step"><span class="step-number">3</span><div class="step-content"><strong>Implementação</strong> — Escrever o código</div></div>
+              <div class="step"><span class="step-number">4</span><div class="step-content"><strong>Testes</strong> — Verificar se funciona corretamente</div></div>
+              <div class="step"><span class="step-number">5</span><div class="step-content"><strong>Deploy</strong> — Entregar/publicar o software</div></div>
+              <div class="step"><span class="step-number">6</span><div class="step-content"><strong>Manutenção</strong> — Correções e melhorias contínuas</div></div>
+            </div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Metodologias Ágeis</h4>
+            <div class="two-col">
+              <div class="info-card"><h4>Waterfall (Cascata)</h4><p>Cada fase sequencial. Funciona para projetos com requisitos fixos. Difícil voltar atrás.</p></div>
+              <div class="info-card"><h4>Agile (Ágil)</h4><p>Iterativo e incremental. Sprints de 2-4 semanas. Adaptável a mudanças. Mais usado hoje.</p></div>
+            </div>
+            <h4 style="margin: 24px 0 12px; font-weight: 700;">Design Patterns</h4>
+            <div class="code-playground-inline" data-code='// Design Pattern: Observer (muito usado em jogos)
+class EventEmitter {
+  constructor() {
+    this.listeners = {};
+  }
+  
+  on(evento, callback) {
+    if (!this.listeners[evento]) {
+      this.listeners[evento] = [];
+    }
+    this.listeners[evento].push(callback);
+  }
+  
+  emit(evento, dados) {
+    if (this.listeners[evento]) {
+      this.listeners[evento].forEach(cb => cb(dados));
+    }
+  }
+}
+
+// Sistema de eventos do jogo
+const gameEvents = new EventEmitter();
+
+// Registrar listeners
+gameEvents.on("pontuacao", (dados) => {
+  console.log("🎯 UI atualizada: " + dados.pontos + " pontos");
+});
+
+gameEvents.on("pontuacao", (dados) => {
+  if (dados.pontos >= 100) {
+    console.log("🏆 Achievement desbloqueado: Centurião!");
+  }
+});
+
+gameEvents.on("vidaPerdida", (dados) => {
+  console.log("💔 Vidas restantes: " + dados.vidas);
+  if (dados.vidas <= 0) {
+    console.log("💀 GAME OVER!");
+  }
+});
+
+// Emitir eventos
+console.log("=== Simulação de eventos ===\n");
+gameEvents.emit("pontuacao", { pontos: 50 });
+gameEvents.emit("pontuacao", { pontos: 100 });
+gameEvents.emit("vidaPerdida", { vidas: 2 });
+gameEvents.emit("vidaPerdida", { vidas: 0 });'></div>
+            <div class="example-box"><span class="example-label">Boas Práticas</span>
+              <ul>
+                <li><strong>DRY</strong> (Don't Repeat Yourself) — Evite duplicação de código</li>
+                <li><strong>KISS</strong> (Keep It Simple, Stupid) — Mantenha simples</li>
+                <li><strong>SOLID</strong> — 5 princípios de design orientado a objetos</li>
+                <li><strong>Code Review</strong> — Revise código com colegas antes de integrar</li>
+                <li><strong>Version Control</strong> — Use Git para rastrear mudanças</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ CODE PLAYGROUND ═══════════════════ -->
+  <section id="playground" class="section section-alt">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Code Playground</span>
+        <h2 class="section-title">Editor de Código</h2>
+        <p class="section-subtitle">Escreva, execute e experimente código JavaScript diretamente no navegador</p>
+      </div>
+      <div class="playground-main reveal">
+        <div class="playground-editor">
+          <div class="playground-toolbar">
+            <div class="toolbar-left">
+              <span class="toolbar-dot red"></span>
+              <span class="toolbar-dot yellow"></span>
+              <span class="toolbar-dot green"></span>
+              <span class="toolbar-filename">main.js</span>
+            </div>
+            <div class="toolbar-right">
+              <button class="btn-clear-editor" id="clearEditor" title="Limpar código">Limpar</button>
+              <button class="btn-run" id="runCode">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                Executar
+              </button>
+            </div>
+          </div>
+          <div class="editor-wrap" id="cmEditorWrap">
+            <textarea class="code-editor" id="codeEditor" spellcheck="false">// Bem-vindo ao Code Playground! 🚀
+// Escreva seu código JavaScript aqui e clique "Executar"
+
+function fibonacci(n) {
+  if (n &lt;= 1) return n;
+  
+  let a = 0, b = 1;
+  for (let i = 2; i &lt;= n; i++) {
+    let temp = b;
+    b = a + b;
+    a = temp;
+  }
+  return b;
+}
+
+// Gerar os 10 primeiros números de Fibonacci
+console.log("Sequência de Fibonacci:");
+for (let i = 0; i &lt; 10; i++) {
+  console.log("F(" + i + ") = " + fibonacci(i));
+}</textarea>
+          </div>
+        </div>
+        <div class="playground-console">
+          <div class="console-header">
+            <span class="console-title">Console</span>
+            <button class="btn-clear-console" id="clearConsole">Limpar</button>
+          </div>
+          <div class="console-output" id="consoleOutput">
+            <div class="console-line info">// Output aparecerá aqui...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ EXERCÍCIOS ═══════════════════ -->
+  <section id="exercicios" class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Prática</span>
+        <h2 class="section-title">Exercícios Interativos</h2>
+        <p class="section-subtitle">Teste seus conhecimentos com questões teóricas e desafios de código</p>
+      </div>
+
+      <div class="exercises-progress reveal">
+        <div class="exercises-progress-bar"><div class="exercises-progress-fill" id="csExProgressFill"></div></div>
+        <span class="exercises-progress-text" id="csExProgressText">0 de 30 completos</span>
+      </div>
+
+      <!-- Exercise 1 -->
+      <div class="exercise-card reveal" data-exercise="1">
+        <div class="exercise-header"><span class="exercise-number">01</span><span class="exercise-topic">Algoritmos</span><span class="exercise-status" id="cs-status-1">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual a complexidade Big O de um algoritmo que percorre um array de n elementos uma vez?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="1" data-value="a">a) O(1)</button>
+            <button class="option-btn" data-exercise="1" data-value="b">b) O(n)</button>
+            <button class="option-btn" data-exercise="1" data-value="c">c) O(n²)</button>
+            <button class="option-btn" data-exercise="1" data-value="d">d) O(log n)</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-1"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 2 -->
+      <div class="exercise-card reveal" data-exercise="2">
+        <div class="exercise-header"><span class="exercise-number">02</span><span class="exercise-topic">Variáveis</span><span class="exercise-status" id="cs-status-2">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual a diferença principal entre <code>let</code> e <code>const</code> em JavaScript?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="2" data-value="a">a) let é mais rápido</button>
+            <button class="option-btn" data-exercise="2" data-value="b">b) const não pode ser reatribuído</button>
+            <button class="option-btn" data-exercise="2" data-value="c">c) let é global, const é local</button>
+            <button class="option-btn" data-exercise="2" data-value="d">d) Não há diferença</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-2"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 3 -->
+      <div class="exercise-card reveal" data-exercise="3">
+        <div class="exercise-header"><span class="exercise-number">03</span><span class="exercise-topic">Tipos de Dados</span><span class="exercise-status" id="cs-status-3">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual é o resultado de <code>"5" + 3</code> em JavaScript?</p>
+          <div class="exercise-input-group">
+            <input type="text" class="exercise-input" id="cs-answer-3" placeholder="Digite o resultado">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="3">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-3"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 4 -->
+      <div class="exercise-card reveal" data-exercise="4">
+        <div class="exercise-header"><span class="exercise-number">04</span><span class="exercise-topic">Loops</span><span class="exercise-status" id="cs-status-4">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Quantas vezes o loop <code>for (let i = 0; i &lt; 5; i++)</code> executa?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="cs-answer-4" placeholder="Número de execuções">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="4">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-4"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 5 -->
+      <div class="exercise-card reveal" data-exercise="5">
+        <div class="exercise-header"><span class="exercise-number">05</span><span class="exercise-topic">Booleanos</span><span class="exercise-status" id="cs-status-5">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual o resultado de <code>true && false || true</code>?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="5" data-value="a">a) true</button>
+            <button class="option-btn" data-exercise="5" data-value="b">b) false</button>
+            <button class="option-btn" data-exercise="5" data-value="c">c) undefined</button>
+            <button class="option-btn" data-exercise="5" data-value="d">d) TypeError</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-5"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 6 -->
+      <div class="exercise-card reveal" data-exercise="6">
+        <div class="exercise-header"><span class="exercise-number">06</span><span class="exercise-topic">Colisão</span><span class="exercise-status" id="cs-status-6">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Na colisão AABB, quantas condições precisam ser verdadeiras simultaneamente para haver colisão entre dois retângulos?</p>
+          <div class="exercise-input-group">
+            <input type="number" class="exercise-input" id="cs-answer-6" placeholder="Número de condições">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="6">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-6"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 7 -->
+      <div class="exercise-card reveal" data-exercise="7">
+        <div class="exercise-header"><span class="exercise-number">07</span><span class="exercise-topic">Física</span><span class="exercise-status" id="cs-status-7">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Em física de jogo, a fórmula para atualizar posição é:</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="7" data-value="a">a) posição = velocidade × aceleração</button>
+            <button class="option-btn" data-exercise="7" data-value="b">b) posição += velocidade × deltaTime</button>
+            <button class="option-btn" data-exercise="7" data-value="c">c) posição = aceleração × tempo²</button>
+            <button class="option-btn" data-exercise="7" data-value="d">d) posição = velocidade / tempo</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-7"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 8 -->
+      <div class="exercise-card reveal" data-exercise="8">
+        <div class="exercise-header"><span class="exercise-number">08</span><span class="exercise-topic">OOP</span><span class="exercise-status" id="cs-status-8">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual dos seguintes NÃO é um pilar da Programação Orientada a Objetos?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="8" data-value="a">a) Herança</button>
+            <button class="option-btn" data-exercise="8" data-value="b">b) Compilação</button>
+            <button class="option-btn" data-exercise="8" data-value="c">c) Encapsulamento</button>
+            <button class="option-btn" data-exercise="8" data-value="d">d) Polimorfismo</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-8"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 9 -->
+      <div class="exercise-card reveal" data-exercise="9">
+        <div class="exercise-header"><span class="exercise-number">09</span><span class="exercise-topic">Game Loop</span><span class="exercise-status" id="cs-status-9">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">As três etapas do Game Loop são, em ordem:</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="9" data-value="a">a) Render → Input → Update</button>
+            <button class="option-btn" data-exercise="9" data-value="b">b) Input → Update → Render</button>
+            <button class="option-btn" data-exercise="9" data-value="c">c) Update → Render → Input</button>
+            <button class="option-btn" data-exercise="9" data-value="d">d) Input → Render → Update</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-9"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 10 -->
+      <div class="exercise-card reveal" data-exercise="10">
+        <div class="exercise-header"><span class="exercise-number">10</span><span class="exercise-topic">Arrays</span><span class="exercise-status" id="cs-status-10">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual método de array cria um novo array com apenas os elementos que passam em um teste?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="10" data-value="a">a) .map()</button>
+            <button class="option-btn" data-exercise="10" data-value="b">b) .reduce()</button>
+            <button class="option-btn" data-exercise="10" data-value="c">c) .filter()</button>
+            <button class="option-btn" data-exercise="10" data-value="d">d) .find()</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-10"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 11: Code Challenge -->
+      <div class="exercise-card reveal" data-exercise="11">
+        <div class="exercise-header"><span class="exercise-number">11</span><span class="exercise-topic">Desafio de Código</span><span class="exercise-status" id="cs-status-11">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Escreva uma função que recebe um array de números e retorna o maior valor. <strong>Dica:</strong> use o Playground para testar!</p>
+          <div class="exercise-code-challenge">
+            <textarea class="code-challenge-editor" id="challenge-11" spellcheck="false">function maiorValor(arr) {
+  // Seu código aqui
+
+}
+
+// Testes:
+console.log(maiorValor([3, 7, 1, 9, 4]));  // Deve retornar 9
+console.log(maiorValor([-5, -2, -8]));       // Deve retornar -2</textarea>
+            <button class="btn btn-primary btn-sm challenge-run" data-exercise="11">Executar & Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-11"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 12: Code Challenge -->
+      <div class="exercise-card reveal" data-exercise="12">
+        <div class="exercise-header"><span class="exercise-number">12</span><span class="exercise-topic">Desafio de Código</span><span class="exercise-status" id="cs-status-12">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Escreva uma função que recebe uma string e retorna ela invertida. Ex: "hello" → "olleh"</p>
+          <div class="exercise-code-challenge">
+            <textarea class="code-challenge-editor" id="challenge-12" spellcheck="false">function inverterString(str) {
+  // Seu código aqui
+
+}
+
+// Testes:
+console.log(inverterString("hello"));     // "olleh"
+console.log(inverterString("JavaScript")); // "tpircSavaJ"</textarea>
+            <button class="btn btn-primary btn-sm challenge-run" data-exercise="12">Executar & Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-12"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 13 -->
+      <div class="exercise-card reveal" data-exercise="13">
+        <div class="exercise-header"><span class="exercise-number">13</span><span class="exercise-topic">Engenharia SW</span><span class="exercise-status" id="cs-status-13">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual princípio diz "Don't Repeat Yourself"?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="13" data-value="a">a) KISS</button>
+            <button class="option-btn" data-exercise="13" data-value="b">b) DRY</button>
+            <button class="option-btn" data-exercise="13" data-value="c">c) SOLID</button>
+            <button class="option-btn" data-exercise="13" data-value="d">d) YAGNI</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-13"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 14 -->
+      <div class="exercise-card reveal" data-exercise="14">
+        <div class="exercise-header"><span class="exercise-number">14</span><span class="exercise-topic">Parallax</span><span class="exercise-status" id="cs-status-14">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">No efeito parallax, camadas mais distantes se movem:</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="14" data-value="a">a) Mais rápido</button>
+            <button class="option-btn" data-exercise="14" data-value="b">b) Mais devagar</button>
+            <button class="option-btn" data-exercise="14" data-value="c">c) Na mesma velocidade</button>
+            <button class="option-btn" data-exercise="14" data-value="d">d) Na direção oposta</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-14"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 15 -->
+      <div class="exercise-card reveal" data-exercise="15">
+        <div class="exercise-header"><span class="exercise-number">15</span><span class="exercise-topic">Testing</span><span class="exercise-status" id="cs-status-15">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual tipo de teste verifica uma função ou método isoladamente?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="15" data-value="a">a) Teste de integração</button>
+            <button class="option-btn" data-exercise="15" data-value="b">b) Teste unitário</button>
+            <button class="option-btn" data-exercise="15" data-value="c">c) Teste end-to-end</button>
+            <button class="option-btn" data-exercise="15" data-value="d">d) Teste de regressão</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-15"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 16 -->
+      <div class="exercise-card reveal" data-exercise="16">
+        <div class="exercise-header"><span class="exercise-number">16</span><span class="exercise-topic">Tipos de Dados</span><span class="exercise-status" id="cs-status-16">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual o resultado de <code>typeof null</code> em JavaScript?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="16" data-value="a">a) "null"</button>
+            <button class="option-btn" data-exercise="16" data-value="b">b) "object"</button>
+            <button class="option-btn" data-exercise="16" data-value="c">c) "undefined"</button>
+            <button class="option-btn" data-exercise="16" data-value="d">d) "boolean"</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-16"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 17 -->
+      <div class="exercise-card reveal" data-exercise="17">
+        <div class="exercise-header"><span class="exercise-number">17</span><span class="exercise-topic">Arrays</span><span class="exercise-status" id="cs-status-17">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual o resultado de <code>[1,2,3].map(x => x * 2)</code>?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="17" data-value="a">a) [1,2,3]</button>
+            <button class="option-btn" data-exercise="17" data-value="b">b) [2,4,6]</button>
+            <button class="option-btn" data-exercise="17" data-value="c">c) 12</button>
+            <button class="option-btn" data-exercise="17" data-value="d">d) [1,4,9]</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-17"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 18 -->
+      <div class="exercise-card reveal" data-exercise="18">
+        <div class="exercise-header"><span class="exercise-number">18</span><span class="exercise-topic">Algoritmos</span><span class="exercise-status" id="cs-status-18">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual a complexidade Big O de um algoritmo de busca binária?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="18" data-value="a">a) O(n)</button>
+            <button class="option-btn" data-exercise="18" data-value="b">b) O(n²)</button>
+            <button class="option-btn" data-exercise="18" data-value="c">c) O(log n)</button>
+            <button class="option-btn" data-exercise="18" data-value="d">d) O(1)</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-18"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 19 -->
+      <div class="exercise-card reveal" data-exercise="19">
+        <div class="exercise-header"><span class="exercise-number">19</span><span class="exercise-topic">Variáveis</span><span class="exercise-status" id="cs-status-19">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual o resultado de <code>let x = 10; x += 5; console.log(x);</code>?</p>
+          <div class="exercise-input-group">
+            <input type="text" class="exercise-input" id="cs-answer-19" placeholder="Digite o resultado">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="19">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-19"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 20 -->
+      <div class="exercise-card reveal" data-exercise="20">
+        <div class="exercise-header"><span class="exercise-number">20</span><span class="exercise-topic">Loops</span><span class="exercise-status" id="cs-status-20">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual a diferença principal entre <code>while</code> e <code>do...while</code>?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="20" data-value="a">a) Não há diferença</button>
+            <button class="option-btn" data-exercise="20" data-value="b">b) do...while executa pelo menos uma vez</button>
+            <button class="option-btn" data-exercise="20" data-value="c">c) while é mais rápido</button>
+            <button class="option-btn" data-exercise="20" data-value="d">d) do...while não aceita condição</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-20"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 21 -->
+      <div class="exercise-card reveal" data-exercise="21">
+        <div class="exercise-header"><span class="exercise-number">21</span><span class="exercise-topic">Booleanos</span><span class="exercise-status" id="cs-status-21">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual o resultado de <code>!!"0"</code> em JavaScript?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="21" data-value="a">a) true</button>
+            <button class="option-btn" data-exercise="21" data-value="b">b) false</button>
+            <button class="option-btn" data-exercise="21" data-value="c">c) "0"</button>
+            <button class="option-btn" data-exercise="21" data-value="d">d) 0</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-21"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 22 -->
+      <div class="exercise-card reveal" data-exercise="22">
+        <div class="exercise-header"><span class="exercise-number">22</span><span class="exercise-topic">OOP</span><span class="exercise-status" id="cs-status-22">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Em JavaScript, como se define uma classe com um construtor que recebe o parâmetro <code>name</code>?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="22" data-value="a">a) <code>class Dog { init(name) {} }</code></button>
+            <button class="option-btn" data-exercise="22" data-value="b">b) <code>class Dog { constructor(name) {} }</code></button>
+            <button class="option-btn" data-exercise="22" data-value="c">c) <code>class Dog { new(name) {} }</code></button>
+            <button class="option-btn" data-exercise="22" data-value="d">d) <code>class Dog { create(name) {} }</code></button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-22"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 23 -->
+      <div class="exercise-card reveal" data-exercise="23">
+        <div class="exercise-header"><span class="exercise-number">23</span><span class="exercise-topic">Arrays</span><span class="exercise-status" id="cs-status-23">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual o resultado de <code>[1,2,3].reduce((acc, x) => acc + x, 0)</code>?</p>
+          <div class="exercise-input-group">
+            <input type="text" class="exercise-input" id="cs-answer-23" placeholder="Digite o resultado">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="23">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-23"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 24 -->
+      <div class="exercise-card reveal" data-exercise="24">
+        <div class="exercise-header"><span class="exercise-number">24</span><span class="exercise-topic">Funções</span><span class="exercise-status" id="cs-status-24">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual é a forma correta de uma arrow function que recebe <code>a</code> e <code>b</code> e retorna a soma?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="24" data-value="a">a) <code>const soma = (a, b) => a + b;</code></button>
+            <button class="option-btn" data-exercise="24" data-value="b">b) <code>const soma = (a, b) -> a + b;</code></button>
+            <button class="option-btn" data-exercise="24" data-value="c">c) <code>const soma = function(a, b) { a + b }</code></button>
+            <button class="option-btn" data-exercise="24" data-value="d">d) <code>const soma = [a, b] => a + b;</code></button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-24"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 25 -->
+      <div class="exercise-card reveal" data-exercise="25">
+        <div class="exercise-header"><span class="exercise-number">25</span><span class="exercise-topic">Desafio de Código</span><span class="exercise-status" id="cs-status-25">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Escreva uma função que verifica se um número é par. Retorne <code>true</code> ou <code>false</code>.</p>
+          <div class="exercise-code-challenge">
+            <textarea class="code-challenge-editor" id="challenge-25" spellcheck="false">function ehPar(n) {
+  // Seu código aqui
+
+}
+
+// Testes:
+console.log(ehPar(4));   // true
+console.log(ehPar(7));   // false
+console.log(ehPar(0));   // true</textarea>
+            <button class="btn btn-primary btn-sm challenge-run" data-exercise="25">Executar & Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-25"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 26 -->
+      <div class="exercise-card reveal" data-exercise="26">
+        <div class="exercise-header"><span class="exercise-number">26</span><span class="exercise-topic">Strings</span><span class="exercise-status" id="cs-status-26">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual o resultado de <code>"JavaScript".slice(0, 4)</code>?</p>
+          <div class="exercise-input-group">
+            <input type="text" class="exercise-input" id="cs-answer-26" placeholder="Digite o resultado">
+            <button class="btn btn-primary btn-sm exercise-submit" data-exercise="26">Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-26"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 27 -->
+      <div class="exercise-card reveal" data-exercise="27">
+        <div class="exercise-header"><span class="exercise-number">27</span><span class="exercise-topic">Algoritmos</span><span class="exercise-status" id="cs-status-27">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Qual algoritmo de ordenação tem complexidade O(n log n) no caso médio?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="27" data-value="a">a) Bubble Sort</button>
+            <button class="option-btn" data-exercise="27" data-value="b">b) Selection Sort</button>
+            <button class="option-btn" data-exercise="27" data-value="c">c) Merge Sort</button>
+            <button class="option-btn" data-exercise="27" data-value="d">d) Insertion Sort</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-27"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 28 -->
+      <div class="exercise-card reveal" data-exercise="28">
+        <div class="exercise-header"><span class="exercise-number">28</span><span class="exercise-topic">Objetos</span><span class="exercise-status" id="cs-status-28">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Como acessar a propriedade <code>name</code> de um objeto <code>const user = { name: "Ana", age: 20 }</code>?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="28" data-value="a">a) <code>user[name]</code></button>
+            <button class="option-btn" data-exercise="28" data-value="b">b) <code>user.name</code></button>
+            <button class="option-btn" data-exercise="28" data-value="c">c) <code>user->name</code></button>
+            <button class="option-btn" data-exercise="28" data-value="d">d) <code>user::name</code></button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-28"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 29 -->
+      <div class="exercise-card reveal" data-exercise="29">
+        <div class="exercise-header"><span class="exercise-number">29</span><span class="exercise-topic">Desafio de Código</span><span class="exercise-status" id="cs-status-29">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">Escreva uma função que conta quantas vogais existem em uma string.</p>
+          <div class="exercise-code-challenge">
+            <textarea class="code-challenge-editor" id="challenge-29" spellcheck="false">function contarVogais(str) {
+  // Seu código aqui
+
+}
+
+// Testes:
+console.log(contarVogais("hello"));       // 2
+console.log(contarVogais("JavaScript"));  // 3
+console.log(contarVogais("xyz"));         // 0</textarea>
+            <button class="btn btn-primary btn-sm challenge-run" data-exercise="29">Executar & Verificar</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-29"></div>
+        </div>
+      </div>
+
+      <!-- Exercise 30 -->
+      <div class="exercise-card reveal" data-exercise="30">
+        <div class="exercise-header"><span class="exercise-number">30</span><span class="exercise-topic">Engenharia SW</span><span class="exercise-status" id="cs-status-30">Pendente</span></div>
+        <div class="exercise-body">
+          <p class="exercise-question">O que é "refactoring" no desenvolvimento de software?</p>
+          <div class="exercise-options">
+            <button class="option-btn" data-exercise="30" data-value="a">a) Adicionar novas funcionalidades</button>
+            <button class="option-btn" data-exercise="30" data-value="b">b) Melhorar a estrutura interna sem mudar o comportamento</button>
+            <button class="option-btn" data-exercise="30" data-value="c">c) Corrigir bugs</button>
+            <button class="option-btn" data-exercise="30" data-value="d">d) Deletar código antigo</button>
+          </div>
+          <div class="exercise-feedback" id="cs-feedback-30"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand"><span class="logo-icon">&lt;/&gt;</span><span class="logo-text">CS<span class="logo-accent">Lab</span></span></div>
+        <p class="footer-text">Material de estudo — Computer Science & Game Development</p>
+        <p class="footer-copy">Desenvolvido com dedicação para estudantes &copy; 2026</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CHATBOT -->
+  <button class="chat-fab" id="chatFab" aria-label="Abrir assistente">
+    <svg class="chat-fab-icon chat-fab-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <svg class="chat-fab-icon chat-fab-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+  <div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+      <div class="chat-header-info">
+        <div class="chat-avatar"><span>&lt;/&gt;</span></div>
+        <div>
+          <div class="chat-header-title">CS Tutor</div>
+          <div class="chat-header-status" id="chatStatus">Online — pronto para ajudar</div>
+        </div>
+      </div>
+      <div class="chat-header-actions">
+        <button class="chat-header-btn" id="chatClear" aria-label="Limpar conversa"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>
+        <button class="chat-header-btn" id="chatClose" aria-label="Fechar chat"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+    </div>
+    <div class="chat-context-bar" id="chatContextBar">
+      <span class="chat-context-icon">📌</span>
+      <span class="chat-context-text" id="chatContextText">Chat Geral</span>
+      <button class="chat-context-clear" id="chatContextClear" title="Remover contexto">&times;</button>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-typing" id="chatTyping"><div class="typing-dots"><span></span><span></span><span></span></div><span>Pensando...</span></div>
+    <form class="chat-input-area" id="chatForm">
+      <input type="text" class="chat-input" id="chatInput" placeholder="Pergunte sobre programação..." autocomplete="off">
+      <button type="submit" class="chat-send" id="chatSend" aria-label="Enviar"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+    </form>
+  </div>
+
+  <script src="js/cs-app.js"></script>
+</body>
+</html>
