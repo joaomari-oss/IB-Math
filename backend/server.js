@@ -22,11 +22,36 @@ const rateLimit = require('express-rate-limit');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.disable('x-powered-by');
+app.set('trust proxy', 1);
+
 // ══════════════════════════════════════
 //  CONFIGURAÇÃO
 // ══════════════════════════════════════
 
 const AI_PROVIDER = process.env.AI_PROVIDER || 'groq';
+const DEFAULT_ALLOWED_ORIGINS = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+  'https://joaomari-oss.github.io'
+];
+
+const ALLOWED_ORIGINS = Array.from(
+  new Set(
+    (process.env.ALLOWED_ORIGINS || '')
+      .split(',')
+      .map(origin => origin.trim())
+      .filter(Boolean)
+      .concat(DEFAULT_ALLOWED_ORIGINS)
+  )
+);
+
+function isAllowedOrigin(origin) {
+  if (!origin || origin === 'null') return true;
+  return ALLOWED_ORIGINS.includes(origin);
+}
 
 const PROVIDER_CONFIG = {
   groq: {
@@ -170,12 +195,24 @@ function getSystemPrompt(context) {
 
 // CORS — aceita requisições do frontend
 app.use(cors({
-  origin: '*',
+  origin: (origin, callback) => {
+    if (isAllowedOrigin(origin)) {
+      return callback(null, true);
+    }
+    return callback(null, false);
+  },
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type']
+  allowedHeaders: ['Content-Type'],
+  maxAge: 86400
 }));
 
-app.use((_req, res, next) => {
+app.use((req, res, next) => {
+  const origin = req.get('origin');
+
+  if (origin && !isAllowedOrigin(origin)) {
+    return res.status(403).json({ error: 'Origem não permitida.' });
+  }
+
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   next();
 });
@@ -333,6 +370,7 @@ app.listen(PORT, () => {
   console.log(`  📚 StudyLab — Backend (Math + CS + Python)`);
   console.log(`  📡 Servidor rodando em http://localhost:${PORT}`);
   console.log(`  🤖 Provedor de IA: ${AI_PROVIDER.toUpperCase()}`);
-  console.log(`  🔑 API Key: ${PROVIDER_CONFIG[AI_PROVIDER]?.getKey()?.slice(0, 8) || '❌ NÃO CONFIGURADA'}...`);
+  console.log(`  🔑 API Key: ${PROVIDER_CONFIG[AI_PROVIDER]?.getKey() ? '✅ CONFIGURADA' : '❌ NÃO CONFIGURADA'}`);
+  console.log(`  🌐 Origens permitidas: ${ALLOWED_ORIGINS.join(', ')}`);
   console.log(`═══════════════════════════════════════════\n`);
 });
