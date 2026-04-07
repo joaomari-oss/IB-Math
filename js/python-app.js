@@ -989,6 +989,9 @@
       var div = document.createElement('div');
       div.className = 'chat-msg bot';
       div.innerHTML = formatMarkdown(text);
+      if (div.querySelector('.chat-code-card')) {
+        div.classList.add('has-code');
+      }
       chatMessages.appendChild(div);
       chatMessages.scrollTop = chatMessages.scrollHeight;
       chatHistory.push({ role: 'assistant', content: text });
@@ -997,13 +1000,61 @@
       }
     }
 
-    function formatMarkdown(text) {
-      return text
-        .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+    function escapeHtml(text) {
+      return String(text == null ? '' : text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatInlineMarkdown(text) {
+      return escapeHtml(text)
         .replace(/`([^`]+)`/g, '<code>$1</code>')
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/\n/g, '<br>');
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    }
+
+    function formatMarkdown(text) {
+      var source = String(text == null ? '' : text).replace(/\r\n/g, '\n');
+      var codeBlocks = [];
+
+      source = source.replace(/```([\w+-]*)\n?([\s\S]*?)```/g, function (_, lang, code) {
+        var index = codeBlocks.length;
+        var language = (lang || 'python').trim() || 'python';
+
+        codeBlocks.push(
+          '<div class="chat-code-card" data-lang="' + escapeHtml(language.toLowerCase()) + '">' +
+            '<div class="chat-code-card-header">' +
+              '<div class="chat-code-dots" aria-hidden="true">' +
+                '<span class="dot-red"></span>' +
+                '<span class="dot-yellow"></span>' +
+                '<span class="dot-green"></span>' +
+              '</div>' +
+              '<span class="chat-code-card-title">' + escapeHtml(language) + '</span>' +
+              '<span class="chat-code-card-badge">Colab</span>' +
+            '</div>' +
+            '<pre><code>' + escapeHtml(code.replace(/\n$/, '')) + '</code></pre>' +
+          '</div>'
+        );
+
+        return '\n\n[[[CODE_BLOCK_' + index + ']]]\n\n';
+      });
+
+      var html = source
+        .split(/\n{2,}/)
+        .map(function (block) {
+          var trimmed = block.trim();
+          if (!trimmed) return '';
+          if (/^\[\[\[CODE_BLOCK_\d+\]\]\]$/.test(trimmed)) return trimmed;
+          return '<p>' + formatInlineMarkdown(trimmed).replace(/\n/g, '<br>') + '</p>';
+        })
+        .filter(Boolean)
+        .join('');
+
+      return html.replace(/\[\[\[CODE_BLOCK_(\d+)\]\]\]/g, function (_, idx) {
+        return codeBlocks[Number(idx)] || '';
+      });
     }
 
     function showTyping() { if (chatTyping) chatTyping.classList.add('visible'); }

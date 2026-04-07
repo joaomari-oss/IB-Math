@@ -1468,17 +1468,73 @@ code {
   color: var(--text-primary);
   line-height: 1.5;
 }
-.quiz-card .code-example {
-  background: var(--bg-cell-code);
+/* Shared Colab-style code cards */
+.quiz-card .code-example,
+.explainer-content .code-example,
+.chat-code-card {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 12px 0 16px;
   border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  margin: 12px 0 18px;
+  border-radius: 14px;
+  background: var(--bg-card);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.quiz-card .code-example,
+.explainer-content .code-example {
+  padding: 44px 18px 16px;
   font-size: .84rem;
-  line-height: 1.6;
-  overflow-x: auto;
+  line-height: 1.65;
   color: var(--text-primary);
   font-family: var(--font-mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.quiz-card .code-example code,
+.explainer-content .code-example code,
+.chat-code-card pre code {
+  display: block;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.quiz-card .code-example::before,
+.explainer-content .code-example::before {
+  content: 'Python • Colab cell';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px 0 52px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--colab-toolbar-bg);
+  color: var(--text-muted);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+.quiz-card .code-example::after,
+.explainer-content .code-example::after {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: 16px;
+  width: 28px;
+  height: 12px;
+  background:
+    radial-gradient(circle at 4px 6px, #ff5f57 0 4px, transparent 4.2px),
+    radial-gradient(circle at 14px 6px, #febc2e 0 4px, transparent 4.2px),
+    radial-gradient(circle at 24px 6px, #28c840 0 4px, transparent 4.2px);
 }
 .quiz-options {
   display: flex;
@@ -1573,16 +1629,7 @@ code {
   color: var(--text-primary);
 }
 .explainer-content .code-example {
-  background: var(--bg-cell-code);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
   margin: 12px 0;
-  font-family: var(--font-mono);
-  font-size: .84rem;
-  line-height: 1.6;
-  overflow-x: auto;
-  color: var(--text-primary);
 }
 .explainer-content strong { color: var(--text-primary); font-weight: 600; }
 .explainer-content ul, .explainer-content ol {
@@ -1871,15 +1918,93 @@ code {
   max-height: 340px; min-height: 200px;
 }
 .chat-msg {
-  max-width: 85%; padding: 10px 14px; border-radius: var(--radius-md);
-  font-size: .85rem; line-height: 1.5; word-wrap: break-word;
+  max-width: 85%; padding: 10px 14px;
+  border-radius: var(--radius-md); font-size: .85rem;
+  line-height: 1.5; word-wrap: break-word;
 }
 .chat-msg.bot {
-  align-self: flex-start; background: var(--bg-elevated);
-  color: var(--text-secondary); border-bottom-left-radius: 4px;
+  align-self: flex-start;
+  background: var(--bg-elevated); color: var(--text-secondary);
+  border-bottom-left-radius: 4px;
+}
+.chat-msg.bot.has-code {
+  width: 85%;
+}
+.chat-msg.bot > *:first-child { margin-top: 0; }
+.chat-msg.bot > *:last-child { margin-bottom: 0; }
+.chat-msg.bot p { margin: 0 0 10px; }
+.chat-msg.bot ul,
+.chat-msg.bot ol {
+  margin: 0 0 10px 18px;
+  padding: 0;
+}
+.chat-msg.bot li + li { margin-top: 4px; }
+.chat-msg.bot strong { color: var(--text-primary); }
+.chat-msg.bot code:not(pre code) {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--bg-cell-code);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-size: .82em;
+  font-family: var(--font-mono);
 }
 .chat-msg.user {
   align-self: flex-end; background: var(--py); color: #fff; border-bottom-right-radius: 4px;
+}
+.chat-code-card {
+  margin: 10px 0 2px;
+}
+.chat-code-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--colab-toolbar-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+.chat-code-dots {
+  display: inline-flex;
+  gap: 5px;
+}
+.chat-code-dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  display: block;
+}
+.chat-code-dots .dot-red { background: #ff5f57; }
+.chat-code-dots .dot-yellow { background: #febc2e; }
+.chat-code-dots .dot-green { background: #28c840; }
+.chat-code-card-title {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.chat-code-card-badge {
+  margin-left: auto;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  font-weight: 700;
+}
+.chat-code-card pre {
+  margin: 0;
+  padding: 14px 16px 16px;
+  background: var(--bg-cell-code);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  line-height: 1.65;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 .chat-typing { display: none; align-items: center; gap: 8px; padding: 8px 18px; font-size: .78rem; color: var(--text-muted); }
 .chat-typing.visible { display: flex; }
