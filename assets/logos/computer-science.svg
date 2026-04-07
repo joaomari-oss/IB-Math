@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none" style="--logo-surface:#ecfeff; --logo-frame:#a5f3fc; --logo-accent:#0f7c73; --logo-ink:#172033;">
+  <title>Computer Science</title>
+  <rect x="10" y="10" width="76" height="76" rx="24" fill="var(--logo-surface)" stroke="var(--logo-frame)" stroke-width="2"/>
+  <!-- Terminal / monitor -->
+  <rect x="22" y="24" width="52" height="36" rx="5" stroke="var(--logo-accent)" stroke-width="3.5" fill="none"/>
+  <path d="M34 38L44 46L34 54" stroke="var(--logo-accent)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M48 54H58" stroke="var(--logo-accent)" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M40 68H56" stroke="var(--logo-ink)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M48 60V68" stroke="var(--logo-ink)" stroke-width="3" stroke-linecap="round"/>
+</svg>

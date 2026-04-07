@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none" style="--logo-surface:#eef2ff; --logo-frame:#c7d2fe; --logo-accent:#2643d1; --logo-ink:#172033;">
+  <title>IB Mathematics</title>
+  <rect x="10" y="10" width="76" height="76" rx="24" fill="var(--logo-surface)" stroke="var(--logo-frame)" stroke-width="2"/>
+  <!-- Pi symbol -->
+  <circle cx="48" cy="48" r="28" stroke="var(--logo-accent)" stroke-width="2.5" opacity=".18"/>
+  <path d="M33 36H63" stroke="var(--logo-accent)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M42 36V66" stroke="var(--logo-accent)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M56 36V60C56 63.5 58 66 62 66" stroke="var(--logo-accent)" stroke-width="5" stroke-linecap="round" fill="none"/>
+</svg>

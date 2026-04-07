@@ -128,7 +128,38 @@ Regras:
 - Relacione conceitos com jogos e aplicações reais
 - Se não souber, diga honestamente`;
 
+const PYTHON_SYSTEM_PROMPT = `Você é um tutor de Python especializado em ensinar programação para iniciantes no módulo "Lógica e Pensamento Computacional (EFB1003)".
+
+Tópicos que você domina:
+- Introdução ao Python (print(), comentários, estrutura de código, indentação, PEP 8)
+- Variáveis e tipos de dados (int, float, str, bool; type(); casting com int(), float(), str(); input())
+- Operadores (aritméticos +, -, *, /, **, //, %; comparação ==, !=, <, >, <=, >=; lógicos and, or, not; precedência PEMDAS; atribuição +=, -=, *=)
+- Strings (f-strings, .format(), concatenação, slicing [start:end:step], métodos .upper(), .lower(), .strip(), .split(), .join(), .replace(), .find(), .count(), len())
+- Biblioteca math (math.sqrt, math.pi, math.e, math.sin, math.cos, math.tan, math.log, math.log10, math.factorial, math.ceil, math.floor, math.pow, math.gcd)
+- Funções (def, return, parâmetros posicionais, default, *args, **kwargs, escopo local vs global, funções como objetos de primeira classe, lambda, docstrings)
+- Condicionais (if, elif, else, operadores lógicos compostos, operador ternário, match/case do Python 3.10+)
+- Loops (for com range(), while, break, continue, else em loops, loops aninhados, enumerate(), zip())
+- Listas (criação, indexação, slicing, append, insert, remove, pop, sort, reverse, list comprehension, listas aninhadas)
+- Dicionários (criação, acesso, .keys(), .values(), .items(), .get(), .update(), dict comprehension)
+- Tuplas e Sets (imutabilidade, unpacking, set operations: union, intersection, difference)
+- NumPy básico (arrays, linspace, operações vetoriais, broadcasting)
+- Debugging (tipos de erro: SyntaxError, TypeError, NameError, IndexError, ValueError; estratégias de debug com print())
+
+Regras:
+- Responda SEMPRE em português do Brasil
+- Use termos técnicos em inglês entre parênteses quando relevante
+- Inclua exemplos de código Python quando apropriado
+- Explique código LINHA POR LINHA quando necessário
+- Use linguagem acessível para estudantes do ensino médio
+- Seja encorajador e forneça dicas práticas
+- Se mostrar código, explique cada parte e a lógica por trás
+- Mantenha respostas concisas (máximo 3-4 parágrafos)
+- Relacione conceitos com aplicações do mundo real
+- Nunca dê a resposta direta de exercícios — guie o aluno com dicas
+- Se não souber, diga honestamente`;
+
 function getSystemPrompt(context) {
+  if (context && context.startsWith('py-')) return PYTHON_SYSTEM_PROMPT;
   if (context && context.startsWith('cs-')) return CS_SYSTEM_PROMPT;
   return MATH_SYSTEM_PROMPT;
 }
@@ -143,6 +174,11 @@ app.use(cors({
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
+
+app.use((_req, res, next) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  next();
+});
 
 // Body parser
 app.use(express.json({ limit: '16kb' }));
@@ -163,7 +199,7 @@ const chatLimiter = rateLimit({
 // Root — info page
 app.get('/', (_req, res) => {
   res.json({
-    name: 'StudyLab API (Math + CS)',
+    name: 'StudyLab API (Math + CS + Python)',
     status: 'online',
     endpoints: {
       'GET /health': 'Status do servidor',
@@ -219,7 +255,7 @@ app.post('/chat', chatLimiter, async (req, res) => {
 
     // Build context instruction — strip routing prefix for cleaner AI context
     const systemPrompt = getSystemPrompt(context);
-    const cleanContext = context ? context.replace(/^cs-/, '') : '';
+    const cleanContext = context ? context.replace(/^(cs|py)-/, '') : '';
     const contextInstruction = cleanContext
       ? `\n\n[CONTEXTO ATUAL: O aluno está estudando "${cleanContext}". Foque suas respostas neste tema e nos conceitos relacionados.]`
       : '';
@@ -294,7 +330,7 @@ app.use((_req, res) => {
 
 app.listen(PORT, () => {
   console.log(`\n═══════════════════════════════════════════`);
-  console.log(`  📚 StudyLab — Backend (Math + CS)`);
+  console.log(`  📚 StudyLab — Backend (Math + CS + Python)`);
   console.log(`  📡 Servidor rodando em http://localhost:${PORT}`);
   console.log(`  🤖 Provedor de IA: ${AI_PROVIDER.toUpperCase()}`);
   console.log(`  🔑 API Key: ${PROVIDER_CONFIG[AI_PROVIDER]?.getKey()?.slice(0, 8) || '❌ NÃO CONFIGURADA'}...`);

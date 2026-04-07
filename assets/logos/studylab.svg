@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" fill="none" style="--logo-surface:#ffffff; --logo-frame:#d6d9df; --logo-ink:#172033; --logo-math:#2643d1; --logo-cs:#0f7c73;">
+  <title>Study Lab</title>
+  <rect x="10" y="10" width="76" height="76" rx="24" fill="var(--logo-surface)" stroke="var(--logo-frame)" stroke-width="2"/>
+  <path d="M26 60V32H44" stroke="var(--logo-math)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M30 54C33.5 52.8 36.2 49.8 38.3 45.1C41.1 38.9 44.6 33 56 32" stroke="var(--logo-math)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M62 34L72 48L62 62" stroke="var(--logo-cs)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M49 66H63" stroke="var(--logo-ink)" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="39" cy="45" r="3.5" fill="var(--logo-ink)"/>
+</svg>

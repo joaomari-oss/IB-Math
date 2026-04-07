@@ -1,0 +1,3161 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR" data-theme="colab">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#3776ab">
+  <title>Python Studio &mdash; L&oacute;gica e Programa&ccedil;&atilde;o</title>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="assets/logos/python.svg">
+  <link rel="apple-touch-icon" href="assets/logos/python.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Python Studio &mdash; L&oacute;gica e Programa&ccedil;&atilde;o">
+  <meta property="og:description" content="Ambiente interativo estilo Google Colab para aprender Python com execu&ccedil;&atilde;o real no navegador.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/python-styles.css">
+
+  <!-- CodeMirror -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/eclipse.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/dracula.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/theme/monokai.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/closebrackets.min.js"></script>
+
+  <!-- Skulpt for Python execution -->
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+
+  <!-- Apply saved theme before first paint to prevent flash -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('py-lab-theme');
+        if (t && ['colab','dark','monokai'].indexOf(t) !== -1) {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) {}
+    }());
+  </script>
+</head>
+<body>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     SVG SPRITE
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+  <!-- Official Python-style mark -->
+  <symbol id="icon-python" viewBox="0 0 128 128" fill="none">
+    <path fill="#3776AB" d="M63.8 12c-24.8 0-23.2 10.8-23.2 10.8l.03 11.2h23.6v3.4H31.2s-11.7-1.3-11.7 17.1c0 18.4 10 17.7 10 17.7h6V57.4s-.3-10 9.7-10h19.2s10.8.2 10.8-10.5V23.1S76.7 12 59.2 12h4.6Z"/>
+    <circle cx="52.2" cy="24.9" r="4" fill="#fff"/>
+    <path fill="#FFD43B" d="M64.2 116c24.8 0 23.2-10.8 23.2-10.8l-.03-11.2H63.8v-3.4h33s11.7 1.3 11.7-17.1c0-18.4-10-17.7-10-17.7h-6v14.8s.3 10-9.7 10H63.6s-10.8-.2-10.8 10.5v13.8S51.3 116 68.8 116h-4.6Z"/>
+    <circle cx="75.8" cy="103.1" r="4" fill="#fff"/>
+  </symbol>
+
+  <!-- Play button -->
+  <symbol id="icon-play" viewBox="0 0 24 24">
+    <polygon points="5 3 19 12 5 21 5 3" fill="currentColor"/>
+  </symbol>
+
+  <!-- Chevron down -->
+  <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none">
+    <polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- Checkmark -->
+  <symbol id="icon-check" viewBox="0 0 24 24" fill="none">
+    <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- Arrow right -->
+  <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none">
+    <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <polyline points="12 5 19 12 12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- X / close -->
+  <symbol id="icon-x" viewBox="0 0 24 24" fill="none">
+    <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Lightbulb / hint -->
+  <symbol id="icon-bulb" viewBox="0 0 24 24" fill="none">
+    <path d="M9 21h6M12 3a6 6 0 0 1 6 6c0 2.4-1.2 4.5-3 5.7V17H9v-2.3A6 6 0 0 1 6 9a6 6 0 0 1 6-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="9" y1="17" x2="15" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Chat bubble -->
+  <symbol id="icon-chat" viewBox="0 0 24 24" fill="none">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+</svg>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     LOADER
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<div id="loader" class="loader">
+  <div class="loader-content">
+    <div class="loader-ring"></div>
+    <span class="loader-text">Carregando Python Studio...</span>
+  </div>
+</div>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     NAVBAR
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<nav id="navbar" class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo" aria-label="Voltar ao hub principal">
+      <span class="logo-icon logo-icon-python" aria-hidden="true">
+        <svg width="32" height="32"><use href="#icon-python"/></svg>
+      </span>
+      <span class="logo-copy">
+        <span class="logo-text">Python <span class="logo-accent">Studio</span></span>
+        <span class="logo-caption">Ambiente oficial de Python</span>
+      </span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#overview">T&oacute;picos</a></li>
+
+      <li class="nav-dropdown">
+        <button class="nav-dropdown-btn">Fundamentos
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <ul class="nav-dropdown-menu">
+          <li><a href="#intro">Introdu&ccedil;&atilde;o</a></li>
+          <li><a href="#variaveis">Vari&aacute;veis</a></li>
+          <li><a href="#operadores">Operadores</a></li>
+          <li><a href="#strings">Strings</a></li>
+          <li><a href="#math-lib">Biblioteca Math</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-dropdown">
+        <button class="nav-dropdown-btn">Estruturas
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <ul class="nav-dropdown-menu">
+          <li><a href="#funcoes">Fun&ccedil;&otilde;es</a></li>
+          <li><a href="#condicionais">Condicionais</a></li>
+          <li><a href="#loops">Loops</a></li>
+          <li><a href="#listas">Listas</a></li>
+        </ul>
+      </li>
+
+      <li class="nav-dropdown">
+        <button class="nav-dropdown-btn">Avan&ccedil;ado
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <ul class="nav-dropdown-menu">
+          <li><a href="#numpy">NumPy</a></li>
+          <li><a href="#matplotlib">Matplotlib</a></li>
+        </ul>
+      </li>
+
+      <li><a href="#playground">Playground</a></li>
+      <li><a href="#exercicios">Exerc&iacute;cios</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <div class="theme-picker-wrap">
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Mudar tema" aria-expanded="false">
+          <span class="theme-toggle-preview">
+            <span class="theme-swatch"></span>
+          </span>
+          <span class="theme-toggle-value" id="themeToggleValue">Colab Style</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="theme-panel" id="themePanel">
+          <div class="theme-panel-header">Temas Python</div>
+          <button class="theme-option active" data-theme="colab">
+            <span class="theme-option-swatch" style="background:#ffffff; border:1px solid #e0e0e0;"></span>
+            Colab Style
+          </button>
+          <button class="theme-option" data-theme="dark">
+            <span class="theme-option-swatch" style="background:#0d1117;"></span>
+            Python Dark
+          </button>
+          <button class="theme-option" data-theme="monokai">
+            <span class="theme-option-swatch" style="background:#272822;"></span>
+            Python Night
+          </button>
+        </div>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Reading progress bar -->
+  <div class="reading-progress"><div class="reading-progress-fill" id="progressFill"></div></div>
+</nav>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     MAIN CONTENT
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<main class="main-content">
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 1: HERO / OVERVIEW
+───────────────────────────────────────────────────────── -->
+<section id="overview" class="hero-section">
+  <div class="container">
+    <span class="eyebrow-tag">
+      <svg width="16" height="16"><use href="#icon-python"/></svg>
+      Python Studio
+    </span>
+    <h1 class="hero-title">Aprenda Python com<br><span class="accent-text">pr&aacute;tica real</span></h1>
+    <p class="hero-desc">
+      Ambiente interativo baseado no curr&iacute;culo <strong>EFB1003 &mdash; L&oacute;gica e Pensamento Computacional</strong>.
+      Execute c&oacute;digo Python diretamente no navegador, no estilo Google Colab &mdash; sem instala&ccedil;&atilde;o.
+    </p>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">10</span>
+        <span class="stat-label">m&oacute;dulos</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">30</span>
+        <span class="stat-label">exerc&iacute;cios</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">interativo</span>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="global-progress-wrap reveal" style="--delay:1">
+      <div class="global-progress-label">
+        <span>Seu progresso</span>
+        <span id="globalProgressText">0 / 30 exerc&iacute;cios conclu&iacute;dos</span>
+      </div>
+      <div class="global-progress-track">
+        <div class="global-progress-fill" id="globalProgressFill"></div>
+      </div>
+    </div>
+
+    <!-- Topic cards grid -->
+    <div class="topics-grid">
+      <a href="#intro" class="topic-card reveal" data-topic="intro" style="--delay:0">
+        <div class="topic-card-icon" style="background: linear-gradient(135deg,#3776ab,#4b8dc0);">
+          <svg width="22" height="22"><use href="#icon-python"/></svg>
+        </div>
+        <div class="topic-card-body">
+          <h3>Introdu&ccedil;&atilde;o ao Python</h3>
+          <p>print(), coment&aacute;rios, estrutura b&aacute;sica</p>
+        </div>
+        <svg class="topic-card-arrow" width="16" height="16"><use href="#icon-arrow-right"/></svg>
+      </a>
+
+      <a href="#variaveis" class="topic-card reveal" data-topic="variaveis" style="--delay:1">
+        <div class="topic-card-icon" style="background: linear-gradient(135deg,#1a73e8,#34a853);">
+          <span style="font-size:1.2rem;font-weight:700;font-family:var(--font-mono)">x=</span>
+        </div>
+        <div class="topic-card-body">
+          <h3>Vari&aacute;veis e Tipos</h3>
+          <p>int, float, str, bool, input()</p>
+        </div>
+        <svg class="topic-card-arrow" width="16" height="16"><use href="#icon-arrow-right"/></svg>
+      </a>
+
+      <a href="#operadores" class="topic-card reveal" data-topic="operadores" style="--delay:2">
+        <div class="topic-card-icon" style="background: linear-gradient(135deg,#e8710a,#f29900);">
+          <span style="font-size:1.3rem;font-weight:700;font-family:var(--font-mono)">+-*/</span>
+        </div>
+        <div class="topic-card-body">
+          <h3>Operadores</h3>
+          <p>Aritm&eacute;ticos, compara&ccedil;&atilde;o, preced&ecirc;ncia</p>
+        </div>
+        <svg class="topic-card-arrow" width="16" height="16"><use href="#icon-arrow-right"/></svg>
+      </a>
+
+      <a href="#strings" class="topic-card reveal" data-topic="strings" style="--delay:3">
+        <div class="topic-card-icon" style="background: linear-gradient(135deg,#7c3aed,#a142f4);">
+          <span style="font-size:1rem;font-weight:700;font-family:var(--font-mono)">"abc"</span>
+        </div>
+        <div class="topic-card-body">
+          <h3>Strings</h3>
+          <p>f-strings, format(), concatena&ccedil;&atilde;o</p>
+        </div>
+        <svg class="topic-card-arrow" width="16" height="16"><use href="#icon-arrow-right"/></svg>
+      </a>
+
+      <a href="#math-lib" class="topic-card reveal" data-topic="math-lib" style="--delay:4">
+        <div class="topic-card-icon" style="background: linear-gradient(135deg,#188038,#34a853);">
+          <span style="font-size:1rem;font-weight:700;font-family:var(--font-mono)">math</span>
+        </div>
+        <div class="topic-card-body">
+          <h3>Biblioteca Math</h3>
+          <p>sqrt, pi, trig, log, factorial</p>
+        </div>
+        <svg class="topic-card-arrow" width="16" height="16"><use href="#icon-arrow-right"/></svg>
+      </a>
+
+      <a href="#funcoes" class="topic-card reveal" data-topic="funcoes" style="--delay:5">
+        <div class="topic-card-icon" style="background: linear-gradient(135deg,#3776ab,#ffd43b);">
+          <span style="font-size:1rem;font-weight:700;font-family:var(--font-mono)">def</span>
+        </div>
+        <div class="topic-card-body">
+          <h3>Fun&ccedil;&otilde;es</h3>
+          <p>def, par&acirc;metros, return, procedimentos</p>
+        </div>
+        <svg class="topic-card-arrow" width="16" height="16"><use href="#icon-arrow-right"/></svg>
+      </a>
+
+      <a href="#condicionais" class="topic-card reveal" data-topic="condicionais" style="--delay:6">
+        <div class="topic-card-icon" style="background: linear-gradient(135deg,#c5221f,#e8710a);">
+          <span style="font-size:1rem;font-weight:700;font-family:var(--font-mono)">if</span>
+        </div>
+        <div class="topic-card-body">
+          <h3>Condicionais</h3>
+          <p>if, elif, else, and, or, not</p>
+        </div>
+        <svg class="topic-card-arrow" width="16" height="16"><use href="#icon-arrow-right"/></svg>
+      </a>
+
+      <a href="#loops" class="topic-card reveal" data-topic="loops" style="--delay:7">
+        <div class="topic-card-icon" style="background: linear-gradient(135deg,#0f7c73,#34a853);">
+          <span style="font-size:1rem;font-weight:700;font-family:var(--font-mono)">for</span>
+        </div>
+        <div class="topic-card-body">
+          <h3>Loops</h3>
+          <p>for, while, range, break, continue</p>
+        </div>
+        <svg class="topic-card-arrow" width="16" height="16"><use href="#icon-arrow-right"/></svg>
+      </a>
+
+      <a href="#listas" class="topic-card reveal" data-topic="listas" style="--delay:8">
+        <div class="topic-card-icon" style="background: linear-gradient(135deg,#1a73e8,#7c3aed);">
+          <span style="font-size:1rem;font-weight:700;font-family:var(--font-mono)">[ ]</span>
+        </div>
+        <div class="topic-card-body">
+          <h3>Listas</h3>
+          <p>indexing, append, comprehension</p>
+        </div>
+        <svg class="topic-card-arrow" width="16" height="16"><use href="#icon-arrow-right"/></svg>
+      </a>
+
+      <a href="#numpy" class="topic-card reveal" data-topic="numpy" style="--delay:9">
+        <div class="topic-card-icon" style="background: linear-gradient(135deg,#4479b5,#2e6b9e);">
+          <span style="font-size:1rem;font-weight:700;font-family:var(--font-mono)">np</span>
+        </div>
+        <div class="topic-card-body">
+          <h3>NumPy</h3>
+          <p>arrays, linspace, opera&ccedil;&otilde;es vetoriais</p>
+        </div>
+        <svg class="topic-card-arrow" width="16" height="16"><use href="#icon-arrow-right"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 2: INTRODUÇÃO AO PYTHON
+───────────────────────────────────────────────────────── -->
+<section id="intro" class="section topic-section" data-topic="intro">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">M&oacute;dulo 01</div>
+      <h2 class="section-title">Introdu&ccedil;&atilde;o ao Python</h2>
+      <p class="section-desc">
+        Python &eacute; uma linguagem de programa&ccedil;&atilde;o de alto n&iacute;vel, interpretada e de prop&oacute;sito geral.
+        Criada por <strong>Guido van Rossum</strong> em 1991, ela se tornou uma das linguagens mais populares do mundo
+        graças &agrave; sua sintaxe simples e legibilidade.
+      </p>
+    </div>
+
+    <div class="theory-grid">
+      <div class="theory-card reveal" style="--delay:0">
+        <h3>Por que Python?</h3>
+        <ul class="theory-list">
+          <li><strong>Sintaxe simples</strong> &mdash; similar ao pseudoc&oacute;digo, f&aacute;cil de ler</li>
+          <li><strong>Vers&aacute;til</strong> &mdash; web, cient&iacute;fico, IA, automa&ccedil;&atilde;o</li>
+          <li><strong>Bibliotecas ricas</strong> &mdash; NumPy, Pandas, Matplotlib, TensorFlow</li>
+          <li><strong>Comunidade enorme</strong> &mdash; suporte e recursos abundantes</li>
+          <li><strong>Interpretada</strong> &mdash; execute linha a linha, sem compilar</li>
+        </ul>
+      </div>
+
+      <div class="theory-card reveal" style="--delay:1">
+        <h3>Conceitos B&aacute;sicos</h3>
+        <ul class="theory-list">
+          <li><code>print()</code> &mdash; exibe valores no output</li>
+          <li><code>#</code> &mdash; inicia um coment&aacute;rio (ignorado pelo Python)</li>
+          <li>Indenta&ccedil;&atilde;o &mdash; 4 espa&ccedil;os definem blocos de c&oacute;digo</li>
+          <li>Case-sensitive &mdash; <code>Nome</code> &ne; <code>nome</code></li>
+          <li>N&atilde;o precisa de ponto-e-v&iacute;rgula ao final das linhas</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cell 1: Hello World -->
+    <div class="notebook-cell reveal" data-cell-id="intro-1" style="--delay:2">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Hello World</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar c&eacute;lula">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Primeiro programa em Python!
+# Use print() para exibir texto na tela
+
+print(&quot;Olá, Mundo!&quot;)
+print(&quot;Bem-vindo ao Python Studio&quot;)
+print(&quot;Este é seu primeiro programa Python!&quot;)
+
+# print() pode exibir vários tipos de dados
+print(42)           # inteiro
+print(3.14)         # decimal
+print(True)         # booleano"></div>
+
+    <div class="concept-explainer reveal" style="--delay:1">
+      <h3>&#x1F4A1; Entendendo a Fundo</h3>
+      <div class="explainer-content">
+        <p><strong>O que significa "linguagem interpretada"?</strong></p>
+        <p>Diferente de linguagens como C++ (que precisam ser compiladas antes de rodar), Python l&ecirc; e executa seu c&oacute;digo <strong>linha por linha</strong>. Isso significa que voc&ecirc; pode testar trechos de c&oacute;digo rapidamente &mdash; exatamente como fazemos neste ambiente!</p>
+        
+        <p><strong>O que &eacute; indenta&ccedil;&atilde;o e por que importa?</strong></p>
+        <p>Em Python, os espa&ccedil;os no in&iacute;cio das linhas n&atilde;o s&atilde;o opcionais &mdash; eles definem a estrutura do c&oacute;digo. Use <strong>4 espa&ccedil;os</strong> para cada n&iacute;vel. Exemplo:</p>
+        <pre class="code-example"><code>if True:
+    print("Estou dentro do if")   # 4 espa&ccedil;os
+    print("Ainda dentro!")         # mesmo n&iacute;vel
+print("Fora do if")               # sem espa&ccedil;os</code></pre>
+        
+        <p><strong>Diferen&ccedil;a entre print() e return:</strong></p>
+        <p><code>print()</code> apenas <em>mostra</em> algo na tela. N&atilde;o salva o valor. J&aacute; <code>return</code> (que veremos em fun&ccedil;&otilde;es) <em>devolve</em> um valor para ser usado depois.</p>
+        
+        <p><strong>&#x1F30D; Aplica&ccedil;&atilde;o no Mundo Real:</strong> Python &eacute; usado pela NASA para c&aacute;lculos de trajet&oacute;rias, pela Netflix para recomendar filmes, pelo Instagram (feito em Python!), e por cientistas para analisar dados de DNA.</p>
+      </div>
+    </div>
+
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 2: print() details -->
+    <div class="notebook-cell reveal" data-cell-id="intro-2" style="--delay:3">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Fun&ccedil;&atilde;o print()</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar c&eacute;lula">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# print() tem parâmetros opcionais úteis
+
+# sep= define o separador entre os argumentos (padrão é espaço)
+print(&quot;Python&quot;, &quot;é&quot;, &quot;incrível!&quot;)
+print(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, sep=&quot;-&quot;)
+print(1, 2, 3, sep=&quot;, &quot;)
+
+# end= define o que vem no final (padrão é nova linha \n)
+print(&quot;Mesma &quot;, end=&quot;&quot;)
+print(&quot;linha!&quot;)
+
+# Imprimindo linhas em branco
+print()  # linha vazia
+print(&quot;--- Fim ---&quot;)"
+        ></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 3: comments -->
+    <div class="notebook-cell reveal" data-cell-id="intro-3" style="--delay:4">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Coment&aacute;rios</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar c&eacute;lula">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Comentários de uma linha começam com #
+# Eles são ignorados pelo Python — servem para documentar o código
+
+print(&quot;Linha 1&quot;)  # comentário inline também funciona
+
+# Comentários multi-linha usam aspas triplas (tecnicamente são strings)
+&quot;&quot;&quot;
+Este é um comentário de
+múltiplas linhas.
+Útil para documentação de funções.
+&quot;&quot;&quot;
+
+print(&quot;Comentários não aparecem no output&quot;)
+# print(&quot;Esta linha está comentada e não será executada!&quot;)
+print(&quot;Mas esta sim!&quot;)"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-chat-cta reveal">
+      <button class="btn-contextual-chat" data-context="intro" data-topic="Introdução ao Python — print(), comentários, estrutura básica, indentação">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tirar dúvida sobre este conteúdo
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 3: VARIÁVEIS
+───────────────────────────────────────────────────────── -->
+<section id="variaveis" class="section topic-section" data-topic="variaveis">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">M&oacute;dulo 02</div>
+      <h2 class="section-title">Vari&aacute;veis e Tipos de Dados</h2>
+      <p class="section-desc">
+        Uma <strong>vari&aacute;vel</strong> &eacute; como uma caixinha com um nome &mdash; voc&ecirc; guarda um valor dentro e pode acess&aacute;-lo
+        pelo nome quando precisar. Em Python, n&atilde;o &eacute; preciso declarar o tipo: ele &eacute; inferido automaticamente.
+      </p>
+    </div>
+
+    <div class="theory-grid">
+      <div class="theory-card reveal" style="--delay:0">
+        <h3>Tipos Primitivos</h3>
+        <div class="type-table">
+          <div class="type-row"><code>int</code><span>N&uacute;mero inteiro &mdash; <code>42</code>, <code>-7</code>, <code>0</code></span></div>
+          <div class="type-row"><code>float</code><span>N&uacute;mero decimal &mdash; <code>3.14</code>, <code>-0.5</code></span></div>
+          <div class="type-row"><code>str</code><span>Texto &mdash; <code>"ol&aacute;"</code>, <code>'mundo'</code></span></div>
+          <div class="type-row"><code>bool</code><span>Booleano &mdash; <code>True</code>, <code>False</code></span></div>
+        </div>
+      </div>
+      <div class="theory-card reveal" style="--delay:1">
+        <h3>Regras de Nomes</h3>
+        <ul class="theory-list">
+          <li>Letras, n&uacute;meros e underscores (<code>_</code>)</li>
+          <li>N&atilde;o pode come&ccedil;ar com n&uacute;mero</li>
+          <li>N&atilde;o pode ser palavra reservada (<code>if</code>, <code>for</code>...)</li>
+          <li>Use <strong>snake_case</strong>: <code>minha_variavel</code></li>
+          <li>Case-sensitive: <code>nome</code> &ne; <code>Nome</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cell 1: Basic variables -->
+    <div class="notebook-cell reveal" data-cell-id="var-1" style="--delay:2">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Declarando Vari&aacute;veis</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Declarando variáveis dos 4 tipos básicos
+
+# int — números inteiros
+idade = 20
+ano = 2024
+quantidade = -5
+
+# float — números com ponto decimal
+altura = 1.75
+temperatura = 36.6
+pi_aprox = 3.14159
+
+# str — texto (use aspas simples ou duplas)
+nome = &quot;Maria&quot;
+curso = 'Engenharia'
+mensagem = &quot;Olá, mundo!&quot;
+
+# bool — verdadeiro ou falso
+aprovado = True
+matriculado = False
+
+# Exibindo os valores e seus tipos
+print(&quot;=== Inteiros ===&quot;)
+print(idade, type(idade))
+
+print(&quot;\n=== Floats ===&quot;)
+print(altura, type(altura))
+
+print(&quot;\n=== Strings ===&quot;)
+print(nome, type(nome))
+
+print(&quot;\n=== Booleanos ===&quot;)
+print(aprovado, type(aprovado))"></div>
+
+    <div class="concept-explainer reveal" style="--delay:2">
+      <h3>&#x1F4A1; Entendendo Vari&aacute;veis a Fundo</h3>
+      <div class="explainer-content">
+        <p><strong>O que acontece na mem&oacute;ria?</strong></p>
+        <p>Quando voc&ecirc; escreve <code>nome = "Maria"</code>, o Python faz 3 coisas:</p>
+        <ol>
+          <li>Cria o valor <code>"Maria"</code> na mem&oacute;ria</li>
+          <li>Cria um r&oacute;tulo chamado <code>nome</code></li>
+          <li>Liga esse r&oacute;tulo ao valor (como uma etiqueta)</li>
+        </ol>
+        
+        <p><strong>Tipagem Din&acirc;mica:</strong> Python descobre o tipo sozinho!</p>
+        <pre class="code-example"><code>x = 10        # Python sabe que &eacute; int
+x = "texto"   # Agora x &eacute; str &mdash; Python n&atilde;o reclama!
+x = 3.14      # Agora &eacute; float &mdash; flexibilidade total</code></pre>
+        
+        <p><strong>Convers&atilde;o de Tipos (Casting):</strong></p>
+        <pre class="code-example"><code>idade_str = "20"           # &eacute; string!
+idade_num = int(idade_str) # agora &eacute; int: 20
+preco = float("9.99")     # string para float: 9.99
+texto = str(42)            # int para string: "42"</code></pre>
+        
+        <p><strong>&#x26A0;&#xFE0F; Erro Comum:</strong> Tentar somar string com n&uacute;mero:<br>
+        <code>"Idade: " + 20</code> &rarr; <strong>TypeError!</strong><br>
+        Correto: <code>"Idade: " + str(20)</code> ou <code>f"Idade: {20}"</code></p>
+        
+        <p><strong>&#x1F30D; Aplica&ccedil;&atilde;o Real:</strong> Em jogos, vari&aacute;veis guardam a pontua&ccedil;&atilde;o, vidas e posi&ccedil;&atilde;o do jogador. Em apps, guardam nome, email e prefer&ecirc;ncias do usu&aacute;rio.</p>
+      </div>
+    </div>
+
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 2: Type conversion -->
+    <div class="notebook-cell reveal" data-cell-id="var-2" style="--delay:3">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Convers&atilde;o de Tipos</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Conversão entre tipos com int(), float(), str(), bool()
+
+# String para número
+texto_numero = &quot;42&quot;
+numero = int(texto_numero)
+print(&quot;String '42' → int:&quot;, numero, &quot;| Tipo:&quot;, type(numero))
+
+# Float para int (trunca a parte decimal)
+preco = 29.99
+preco_int = int(preco)
+print(&quot;float 29.99 → int:&quot;, preco_int)  # Resultado: 29
+
+# Int para float
+inteiro = 7
+decimal = float(inteiro)
+print(&quot;int 7 → float:&quot;, decimal)  # Resultado: 7.0
+
+# Número para string
+numero = 100
+texto = str(numero)
+print(&quot;int 100 → str:&quot;, repr(texto), &quot;| Tipo:&quot;, type(texto))
+
+# Conversão para booleano
+print(&quot;\n--- Truthy/Falsy ---&quot;)
+print(bool(0))      # False — zero é falso
+print(bool(1))      # True — qualquer número não-zero é verdadeiro
+print(bool(&quot;&quot;))     # False — string vazia é falsa
+print(bool(&quot;Oi&quot;))  # True — string não-vazia é verdadeira"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 3: input() -->
+    <div class="notebook-cell reveal" data-cell-id="var-3" style="--delay:4">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Entrada com input()</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# input() lê dados digitados pelo usuário
+# ATENÇÃO: input() SEMPRE retorna uma string!
+# Este código vai abrir um prompt — insira os valores pedidos.
+
+nome = input(&quot;Qual é o seu nome? &quot;)
+print(&quot;Olá,&quot;, nome + &quot;!&quot;)
+
+# Para receber números, precisamos converter
+idade_str = input(&quot;Qual é a sua idade? &quot;)
+idade = int(idade_str)  # converte string para int
+
+print(&quot;Você tem&quot;, idade, &quot;anos.&quot;)
+print(&quot;Em 10 anos, você terá&quot;, idade + 10, &quot;anos.&quot;)
+
+# Forma mais comum: converter direto
+altura = float(input(&quot;Qual é a sua altura em metros? &quot;))
+print(f&quot;Sua altura é {altura}m&quot;)"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 4: Multiple assignment -->
+    <div class="notebook-cell reveal" data-cell-id="var-4" style="--delay:5">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Atribui&ccedil;&atilde;o M&uacute;ltipla</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Python permite várias formas de atribuição
+
+# Atribuição múltipla em uma linha
+x, y, z = 10, 20, 30
+print(&quot;x =&quot;, x, &quot;| y =&quot;, y, &quot;| z =&quot;, z)
+
+# Mesmo valor para várias variáveis
+a = b = c = 0
+print(&quot;a, b, c =&quot;, a, b, c)
+
+# Troca de valores (Pythônico!)
+x, y = 5, 10
+print(&quot;\nAntes: x =&quot;, x, &quot;| y =&quot;, y)
+x, y = y, x  # troca sem variável temporária!
+print(&quot;Depois: x =&quot;, x, &quot;| y =&quot;, y)
+
+# Operadores de atribuição compostos
+contador = 0
+contador += 1   # equivale a: contador = contador + 1
+print(&quot;\ncontador após +=1:&quot;, contador)
+contador *= 5   # equivale a: contador = contador * 5
+print(&quot;contador após *=5:&quot;, contador)"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-chat-cta reveal">
+      <button class="btn-contextual-chat" data-context="variaveis" data-topic="Variáveis e Tipos de Dados — int, float, str, bool, type(), casting, input()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tirar dúvida sobre este conteúdo
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 4: OPERADORES
+───────────────────────────────────────────────────────── -->
+<section id="operadores" class="section topic-section" data-topic="operadores">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">M&oacute;dulo 03</div>
+      <h2 class="section-title">Operadores</h2>
+      <p class="section-desc">
+        Operadores s&atilde;o s&iacute;mbolos que executam opera&ccedil;&otilde;es sobre valores (operandos).
+        Python possui operadores aritm&eacute;ticos, de compara&ccedil;&atilde;o, l&oacute;gicos e de atribui&ccedil;&atilde;o.
+      </p>
+    </div>
+
+    <div class="theory-grid three-col">
+      <div class="theory-card reveal" style="--delay:0">
+        <h3>Aritm&eacute;ticos</h3>
+        <div class="op-table">
+          <div class="op-row"><code>+</code><span>Adi&ccedil;&atilde;o</span><code>5 + 3 = 8</code></div>
+          <div class="op-row"><code>-</code><span>Subtra&ccedil;&atilde;o</span><code>5 - 3 = 2</code></div>
+          <div class="op-row"><code>*</code><span>Multiplica&ccedil;&atilde;o</span><code>5 * 3 = 15</code></div>
+          <div class="op-row"><code>/</code><span>Divis&atilde;o (float)</span><code>7 / 2 = 3.5</code></div>
+          <div class="op-row"><code>**</code><span>Pot&ecirc;ncia</span><code>2 ** 3 = 8</code></div>
+          <div class="op-row"><code>//</code><span>Divis&atilde;o inteira</span><code>7 // 2 = 3</code></div>
+          <div class="op-row"><code>%</code><span>Resto (m&oacute;dulo)</span><code>7 % 2 = 1</code></div>
+        </div>
+      </div>
+      <div class="theory-card reveal" style="--delay:1">
+        <h3>Compara&ccedil;&atilde;o</h3>
+        <div class="op-table">
+          <div class="op-row"><code>==</code><span>Igual a</span><code>5 == 5 → True</code></div>
+          <div class="op-row"><code>!=</code><span>Diferente de</span><code>5 != 3 → True</code></div>
+          <div class="op-row"><code>&lt;</code><span>Menor que</span><code>3 &lt; 5 → True</code></div>
+          <div class="op-row"><code>&gt;</code><span>Maior que</span><code>5 &gt; 3 → True</code></div>
+          <div class="op-row"><code>&lt;=</code><span>Menor ou igual</span><code>3 &lt;= 3 → True</code></div>
+          <div class="op-row"><code>&gt;=</code><span>Maior ou igual</span><code>5 &gt;= 4 → True</code></div>
+        </div>
+      </div>
+      <div class="theory-card reveal" style="--delay:2">
+        <h3>Preced&ecirc;ncia (PEMDAS)</h3>
+        <div class="op-table">
+          <div class="op-row"><code>( )</code><span>Par&ecirc;nteses</span><span>1&ordm; (maior)</span></div>
+          <div class="op-row"><code>**</code><span>Pot&ecirc;ncia</span><span>2&ordm;</span></div>
+          <div class="op-row"><code>* / // %</code><span>Multiplica&ccedil;&atilde;o/Divis&atilde;o</span><span>3&ordm;</span></div>
+          <div class="op-row"><code>+ -</code><span>Adi&ccedil;&atilde;o/Subtra&ccedil;&atilde;o</span><span>4&ordm; (menor)</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 1: Arithmetic -->
+    <div class="notebook-cell reveal" data-cell-id="op-1" style="--delay:3">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Operadores Aritm&eacute;ticos</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="a = 17
+b = 5
+
+print(&quot;=== Operações com&quot;, a, &quot;e&quot;, b, &quot;===&quot;)
+print(&quot;Adição:          &quot;, a + b)
+print(&quot;Subtração:       &quot;, a - b)
+print(&quot;Multiplicação:   &quot;, a * b)
+print(&quot;Divisão (float): &quot;, a / b)   # sempre retorna float
+print(&quot;Divisão inteira: &quot;, a // b)  # descarta a parte decimal
+print(&quot;Resto (módulo):  &quot;, a % b)   # restante da divisão inteira
+print(&quot;Potência:        &quot;, a ** b)  # 17^5
+
+# Exemplos práticos
+print(&quot;\n=== Aplicações ===&quot;)
+# Verificar se número é par ou ímpar
+n = 24
+print(n, &quot;é par?&quot;, n % 2 == 0)
+
+# Separar parte inteira e decimal
+preco = 47.85
+reais = int(preco)
+centavos = round((preco - reais) * 100)
+print(f&quot;R$ {preco} → {reais} reais e {centavos} centavos&quot;)"></div>
+
+    <div class="concept-explainer reveal" style="--delay:3">
+      <h3>&#x1F4A1; Entendendo Operadores a Fundo</h3>
+      <div class="explainer-content">
+        <p><strong>Divis&atilde;o: 3 tipos diferentes!</strong></p>
+        <pre class="code-example"><code>7 / 2    # 3.5  &mdash; divis&atilde;o normal (sempre retorna float)
+7 // 2   # 3    &mdash; divis&atilde;o inteira (descarta decimais)
+7 % 2    # 1    &mdash; resto da divis&atilde;o (m&oacute;dulo)</code></pre>
+        <p><strong>Dica pr&aacute;tica:</strong> Use <code>%</code> para verificar se um n&uacute;mero &eacute; par: <code>n % 2 == 0</code></p>
+        
+        <p><strong>Preced&ecirc;ncia (PEMDAS) &mdash; Resolvendo passo a passo:</strong></p>
+        <pre class="code-example"><code># Exemplo: 2 + 3 * 4 ** 2 - 1
+# Passo 1: 4 ** 2 = 16         (pot&ecirc;ncia primeiro)
+# Passo 2: 3 * 16 = 48         (multiplica&ccedil;&atilde;o)
+# Passo 3: 2 + 48 = 50         (adi&ccedil;&atilde;o)
+# Passo 4: 50 - 1 = 49         (subtra&ccedil;&atilde;o)
+# Resultado: 49</code></pre>
+        
+        <p><strong>Operadores de Atribui&ccedil;&atilde;o Compostos:</strong></p>
+        <pre class="code-example"><code>x = 10
+x += 5   # x = x + 5   &rarr; 15
+x -= 3   # x = x - 3   &rarr; 12
+x *= 2   # x = x * 2   &rarr; 24
+x /= 4   # x = x / 4   &rarr; 6.0
+x **= 2  # x = x ** 2  &rarr; 36.0</code></pre>
+        
+        <p><strong>&#x1F30D; Aplica&ccedil;&atilde;o Real:</strong> O operador <code>%</code> (m&oacute;dulo) &eacute; usado em criptografia RSA, na valida&ccedil;&atilde;o de CPFs, e para criar rota&ccedil;&otilde;es c&iacute;clicas em jogos.</p>
+      </div>
+    </div>
+
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 2: Precedence -->
+    <div class="notebook-cell reveal" data-cell-id="op-2" style="--delay:4">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Preced&ecirc;ncia e Compara&ccedil;&atilde;o</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Precedência de operadores — PEMDAS
+print(&quot;2 + 3 * 4 =&quot;, 2 + 3 * 4)          # 14, não 20!
+print(&quot;(2 + 3) * 4 =&quot;, (2 + 3) * 4)      # 20
+print(&quot;2 ** 3 + 1 =&quot;, 2 ** 3 + 1)        # 9 (** antes de +)
+print(&quot;2 ** (3 + 1) =&quot;, 2 ** (3 + 1))    # 16
+
+# Operadores de comparação retornam True ou False
+x = 10
+print(&quot;\n=== Comparações com x =&quot;, x, &quot;===&quot;)
+print(&quot;x == 10:&quot;, x == 10)   # True
+print(&quot;x != 5:&quot;,  x != 5)    # True
+print(&quot;x &gt; 15:&quot;,  x &gt; 15)    # False
+print(&quot;x &lt; 15:&quot;,  x &lt; 15)    # True
+print(&quot;x &gt;= 10:&quot;, x &gt;= 10)   # True
+print(&quot;x &lt;= 9:&quot;,  x &lt;= 9)    # False
+
+# Comparações podem ser encadeadas!
+a = 5
+print(&quot;\n1 &lt; a &lt; 10:&quot;, 1 &lt; a &lt; 10)    # True (muito pythônico!)
+print(&quot;1 &lt; a &lt; 4:&quot;,  1 &lt; a &lt; 4)     # False"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 3: Practical math -->
+    <div class="notebook-cell reveal" data-cell-id="op-3" style="--delay:5">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; C&aacute;lculos Pr&aacute;ticos</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="import math
+
+# Exemplo 1: Velocidade média
+distancia = 120  # km
+tempo = 1.5      # horas
+velocidade_media = distancia / tempo
+print(f&quot;Velocidade média: {velocidade_media:.1f} km/h&quot;)
+
+# Exemplo 2: IMC (Índice de Massa Corporal)
+peso = 70.0   # kg
+altura = 1.75  # m
+imc = peso / altura ** 2
+print(f&quot;\nIMC: {imc:.2f}&quot;)
+
+# Exemplo 3: Porcentagem
+nota = 78
+total = 100
+percentual = (nota / total) * 100
+print(f&quot;Aproveitamento: {percentual:.1f}%&quot;)
+
+# Exemplo 4: Conversão de temperatura
+celsius = 25
+fahrenheit = celsius * 9/5 + 32
+kelvin = celsius + 273.15
+print(f&quot;\n{celsius}°C = {fahrenheit:.1f}°F = {kelvin:.2f} K&quot;)"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-chat-cta reveal">
+      <button class="btn-contextual-chat" data-context="operadores" data-topic="Operadores — aritméticos, comparação, lógicos, precedência PEMDAS">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tirar dúvida sobre este conteúdo
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 5: STRINGS
+───────────────────────────────────────────────────────── -->
+<section id="strings" class="section topic-section" data-topic="strings">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">M&oacute;dulo 04</div>
+      <h2 class="section-title">Strings e Formata&ccedil;&atilde;o</h2>
+      <p class="section-desc">
+        Strings s&atilde;o sequ&ecirc;ncias de caracteres entre aspas. Python oferece v&aacute;rias formas de formatar e
+        manipular texto &mdash; sendo as <strong>f-strings</strong> a forma mais moderna e recomendada.
+      </p>
+    </div>
+
+    <!-- Cell 1: String basics -->
+    <div class="notebook-cell reveal" data-cell-id="str-1" style="--delay:0">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Opera&ccedil;&otilde;es com Strings</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Criando strings
+s1 = &quot;Olá&quot;
+s2 = 'Mundo'
+
+# Concatenação com +
+saudacao = s1 + &quot;, &quot; + s2 + &quot;!&quot;
+print(saudacao)
+
+# Repetição com *
+linha = &quot;-&quot; * 30
+print(linha)
+
+# Comprimento com len()
+frase = &quot;Python é fantástico&quot;
+print(&quot;Comprimento:&quot;, len(frase))
+
+# Métodos de string
+print(frase.upper())         # TUDO MAIÚSCULO
+print(frase.lower())         # tudo minúsculo
+print(frase.title())         # Primeira Letra De Cada Palavra
+
+# Verificar conteúdo
+print(&quot;\n'Python' está na frase?&quot;, &quot;Python&quot; in frase)
+print(&quot;Começa com 'Python'?&quot;, frase.startswith(&quot;Python&quot;))
+print(&quot;Termina com 'tico'?&quot;, frase.endswith(&quot;tico&quot;))"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 2: f-strings -->
+    <div class="notebook-cell reveal" data-cell-id="str-2" style="--delay:1">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; f-strings (Recomendado)</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# f-strings: coloque f antes das aspas e use {} para inserir variáveis
+nome = &quot;Ana&quot;
+idade = 22
+media = 8.756
+
+# Interpolação básica
+print(f&quot;Olá, {nome}! Você tem {idade} anos.&quot;)
+
+# Formatação de números
+print(f&quot;Média: {media:.2f}&quot;)          # 2 casas decimais → 8.76
+print(f&quot;Média: {media:.4f}&quot;)          # 4 casas decimais → 8.7560
+print(f&quot;Inteiro: {media:.0f}&quot;)        # 0 decimais → 9
+
+# Expressões dentro de {}
+print(f&quot;Daqui a 5 anos: {idade + 5} anos&quot;)
+print(f&quot;Média arredondada: {round(media, 1)}&quot;)
+
+# Alinhamento e preenchimento
+for i in range(1, 6):
+    print(f&quot;Número {i:2d}: {'*' * i}&quot;)
+
+# round() — arredondamento
+pi = 3.14159265
+print(f&quot;\npi = {pi}&quot;)
+print(f&quot;round(pi, 2) = {round(pi, 2)}&quot;)
+print(f&quot;round(pi, 4) = {round(pi, 4)}&quot;)"></div>
+
+    <div class="concept-explainer reveal" style="--delay:2">
+      <h3>&#x1F4A1; Entendendo Strings a Fundo</h3>
+      <div class="explainer-content">
+        <p><strong>Strings s&atilde;o imut&aacute;veis!</strong></p>
+        <p>Depois de criar uma string, voc&ecirc; n&atilde;o pode alterar caracteres individuais. Os m&eacute;todos <em>criam novas strings</em>:</p>
+        <pre class="code-example"><code>nome = "Python"
+# nome[0] = "J"  # ERRO! Strings s&atilde;o imut&aacute;veis
+novo = "J" + nome[1:]  # "Jython" &mdash; cria nova string</code></pre>
+        
+        <p><strong>Slicing (Fatiar) &mdash; A ferramenta mais poderosa:</strong></p>
+        <pre class="code-example"><code>texto = "ABCDEFGH"
+#        01234567  (indexa&ccedil;&atilde;o come&ccedil;a do 0!)
+texto[0]      # "A"    &mdash; primeiro caractere
+texto[-1]     # "H"    &mdash; &uacute;ltimo caractere
+texto[2:5]    # "CDE"  &mdash; do &iacute;ndice 2 ao 4
+texto[:3]     # "ABC"  &mdash; do in&iacute;cio at&eacute; 2
+texto[5:]     # "FGH"  &mdash; do 5 at&eacute; o fim
+texto[::2]    # "ACEG" &mdash; pula de 2 em 2
+texto[::-1]   # "HGFEDCBA" &mdash; invertida!</code></pre>
+        
+        <p><strong>3 formas de formatar strings:</strong></p>
+        <pre class="code-example"><code>nome = "Ana"
+idade = 17
+# 1. f-string (RECOMENDADO &mdash; Python 3.6+)
+f"Ol&aacute;, {nome}! Voc&ecirc; tem {idade} anos."
+
+# 2. .format()
+"Ol&aacute;, {}! Voc&ecirc; tem {} anos.".format(nome, idade)
+
+# 3. % (legado &mdash; evite)
+"Ol&aacute;, %s! Voc&ecirc; tem %d anos." % (nome, idade)</code></pre>
+        
+        <p><strong>&#x1F30D; Aplica&ccedil;&atilde;o Real:</strong> Processamento de texto est&aacute; em todo lugar &mdash; filtros de spam, an&aacute;lise de sentimentos, chatbots, e at&eacute; no autocomplete do seu celular!</p>
+      </div>
+    </div>
+
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 3: format() and conversion -->
+    <div class="notebook-cell reveal" data-cell-id="str-3" style="--delay:2">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; .format() e convers&otilde;es</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# .format() — outra forma de formatar (Python 3.0+)
+nome = &quot;Carlos&quot;
+nota = 9.5
+print(&quot;Aluno: {} — Nota: {:.1f}&quot;.format(nome, nota))
+
+# Com índices
+print(&quot;{0} tem nota {1:.2f} (aprovado = {2})\&quot;.format(nome, nota, nota &gt;= 7))
+
+# Concatenação forçada com str()
+# ERRO: &quot;Nota: &quot; + 9.5   →  TypeError!
+# CERTO:
+nota_texto = &quot;Nota: &quot; + str(nota)
+print(nota_texto)
+
+# Técnicas de manipulação de string
+frase = &quot;  Python é incrível!   &quot;
+print(repr(frase.strip()))       # remove espaços das bordas
+print(frase.strip().replace(&quot;incrível&quot;, &quot;poderoso&quot;))
+
+# Dividir string em lista de palavras
+palavras = &quot;maçã,banana,uva,laranja&quot;
+lista = palavras.split(&quot;,&quot;)
+print(&quot;\nFrutas:&quot;, lista)
+print(&quot;Primeira fruta:&quot;, lista[0])
+print(&quot;Número de frutas:&quot;, len(lista))"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-chat-cta reveal">
+      <button class="btn-contextual-chat" data-context="strings" data-topic="Strings — f-strings, format(), slicing, métodos de string">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tirar dúvida sobre este conteúdo
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 6: BIBLIOTECA MATH
+───────────────────────────────────────────────────────── -->
+<section id="math-lib" class="section topic-section" data-topic="math-lib">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">M&oacute;dulo 05</div>
+      <h2 class="section-title">Biblioteca Math</h2>
+      <p class="section-desc">
+        A biblioteca <code>math</code> fornece fun&ccedil;&otilde;es matem&aacute;ticas avan&ccedil;adas. &Eacute; essencial para engenharia,
+        f&iacute;sica e c&aacute;lculos cient&iacute;ficos. Importe com <code>import math</code> antes de usar.
+      </p>
+    </div>
+
+    <div class="theory-grid three-col">
+      <div class="theory-card reveal" style="--delay:0">
+        <h3>Constantes</h3>
+        <div class="op-table">
+          <div class="op-row"><code>math.pi</code><span>3.14159...</span></div>
+          <div class="op-row"><code>math.e</code><span>2.71828...</span></div>
+          <div class="op-row"><code>math.tau</code><span>6.28318... (2&pi;)</span></div>
+          <div class="op-row"><code>math.inf</code><span>Infinito</span></div>
+        </div>
+      </div>
+      <div class="theory-card reveal" style="--delay:1">
+        <h3>Fun&ccedil;&otilde;es Num&eacute;ricas</h3>
+        <div class="op-table">
+          <div class="op-row"><code>math.sqrt(x)</code><span>Raiz quadrada</span></div>
+          <div class="op-row"><code>math.pow(x, y)</code><span>x elevado a y</span></div>
+          <div class="op-row"><code>math.abs(x)</code><span>Valor absoluto</span></div>
+          <div class="op-row"><code>math.factorial(n)</code><span>n!</span></div>
+          <div class="op-row"><code>math.log(x)</code><span>log natural</span></div>
+          <div class="op-row"><code>math.log10(x)</code><span>log base 10</span></div>
+          <div class="op-row"><code>math.exp(x)</code><span>e^x</span></div>
+        </div>
+      </div>
+      <div class="theory-card reveal" style="--delay:2">
+        <h3>Trigonom&eacute;tricas</h3>
+        <div class="op-table">
+          <div class="op-row"><code>math.sin(x)</code><span>seno (rad)</span></div>
+          <div class="op-row"><code>math.cos(x)</code><span>cosseno (rad)</span></div>
+          <div class="op-row"><code>math.tan(x)</code><span>tangente (rad)</span></div>
+          <div class="op-row"><code>math.radians(d)</code><span>graus &rarr; rad</span></div>
+          <div class="op-row"><code>math.degrees(r)</code><span>rad &rarr; graus</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 1: constants and basic -->
+    <div class="notebook-cell reveal" data-cell-id="math-1" style="--delay:3">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Constantes e Fun&ccedil;&otilde;es B&aacute;sicas</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="import math
+
+# Constantes matemáticas
+print(&quot;=== Constantes ===&quot;)
+print(f&quot;pi = {math.pi}&quot;)
+print(f&quot;e  = {math.e}&quot;)
+print(f&quot;tau = {math.tau}&quot;)
+
+# Raiz quadrada e potência
+print(&quot;\n=== Raiz e Potência ===&quot;)
+print(f&quot;sqrt(16)   = {math.sqrt(16)}&quot;)
+print(f&quot;sqrt(2)    = {math.sqrt(2):.6f}&quot;)
+print(f&quot;pow(2, 10) = {math.pow(2, 10)}&quot;)   # 1024.0
+
+# Logaritmos
+print(&quot;\n=== Logaritmos ===&quot;)
+print(f&quot;log(math.e)  = {math.log(math.e)}&quot;)   # log natural de e = 1
+print(f&quot;log10(100)   = {math.log10(100)}&quot;)     # 2.0
+print(f&quot;log2(8)      = {math.log2(8)}&quot;)        # 3.0
+print(f&quot;exp(1)       = {math.exp(1):.6f}&quot;)     # e^1 ≈ 2.71828
+
+# Fatorial
+print(&quot;\n=== Fatorial ===&quot;)
+for n in range(1, 8):
+    print(f&quot;{n}! = {math.factorial(n)}&quot;)"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 2: Trigonometry -->
+    <div class="notebook-cell reveal" data-cell-id="math-2" style="--delay:4">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Trigonom&eacute;trica</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="import math
+
+# ATENÇÃO: funções trigonométricas em Python usam RADIANOS
+# Converta graus com math.radians()
+
+angulos_graus = [0, 30, 45, 60, 90, 180]
+
+print(f&quot;{'Ângulo':>8} | {'sin':>8} | {'cos':>8} | {'tan':>10}&quot;)
+print(&quot;-&quot; * 46)
+
+for grau in angulos_graus:
+    rad = math.radians(grau)
+    s = math.sin(rad)
+    c = math.cos(rad)
+    # tan(90) tende a infinito
+    if grau == 90:
+        t_str = '  undef'
+    else:
+        t = math.tan(rad)
+        t_str = f'{t:10.4f}'
+    print(f'{grau:8d} | {s:8.4f} | {c:8.4f} | {t_str}')"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-chat-cta reveal">
+      <button class="btn-contextual-chat" data-context="math-lib" data-topic="Biblioteca Math — sqrt, pi, trigonometria, log, factorial">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tirar dúvida sobre este conteúdo
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 7: FUNÇÕES
+───────────────────────────────────────────────────────── -->
+<section id="funcoes" class="section topic-section" data-topic="funcoes">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">M&oacute;dulo 06</div>
+      <h2 class="section-title">Fun&ccedil;&otilde;es</h2>
+      <p class="section-desc">
+        Fun&ccedil;&otilde;es s&atilde;o blocos de c&oacute;digo reutiliz&aacute;veis que executam uma tarefa espec&iacute;fica.
+        Use <code>def</code> para definir uma fun&ccedil;&atilde;o, <code>return</code> para retornar valores,
+        e chame-a pelo nome para executar.
+      </p>
+    </div>
+
+    <div class="theory-grid">
+      <div class="theory-card reveal" style="--delay:0">
+        <h3>Sintaxe B&aacute;sica</h3>
+        <ul class="theory-list">
+          <li><code>def nome(params):</code> &mdash; define a fun&ccedil;&atilde;o</li>
+          <li>Corpo indentado com 4 espa&ccedil;os</li>
+          <li><code>return valor</code> &mdash; retorna resultado</li>
+          <li>Sem <code>return</code> &rarr; retorna <code>None</code></li>
+          <li>Chamada: <code>nome(argumentos)</code></li>
+        </ul>
+      </div>
+      <div class="theory-card reveal" style="--delay:1">
+        <h3>Par&acirc;metros</h3>
+        <ul class="theory-list">
+          <li>Posicionais: <code>def f(a, b)</code></li>
+          <li>Com valor padr&atilde;o: <code>def f(a, b=10)</code></li>
+          <li>Nomeados: <code>f(b=5, a=3)</code></li>
+          <li><code>*args</code> &mdash; argumentos vari&aacute;veis</li>
+          <li><code>**kwargs</code> &mdash; argumentos nomeados vari&aacute;veis</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cell 1: Basic functions -->
+    <div class="notebook-cell reveal" data-cell-id="func-1" style="--delay:2">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Definindo Fun&ccedil;&otilde;es</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="import math
+
+# Sintaxe: def nome_funcao(parametros):
+#              corpo da função
+#              return valor
+
+# Função simples sem parâmetros
+def saudacao():
+    print(&quot;Olá! Bem-vindo ao Python Studio.&quot;)
+
+saudacao()  # chamando a função
+
+# Função com parâmetro
+def cumprimentar(nome):
+    print(f&quot;Olá, {nome}!&quot;)
+
+cumprimentar(&quot;Maria&quot;)
+cumprimentar(&quot;João&quot;)
+
+# Função com return
+def quadrado(x):
+    return x ** 2
+
+resultado = quadrado(5)
+print(f&quot;5² = {resultado}&quot;)
+print(f&quot;8² = {quadrado(8)}&quot;)"></div>
+
+    <div class="concept-explainer reveal" style="--delay:2">
+      <h3>&#x1F4A1; Entendendo Fun&ccedil;&otilde;es a Fundo</h3>
+      <div class="explainer-content">
+        <p><strong>Fun&ccedil;&atilde;o vs Procedimento:</strong></p>
+        <p>Uma <strong>fun&ccedil;&atilde;o</strong> retorna um valor (tem <code>return</code>). Um <strong>procedimento</strong> apenas executa a&ccedil;&otilde;es (sem <code>return</code>).</p>
+        <pre class="code-example"><code># Fun&ccedil;&atilde;o (retorna valor)
+def dobro(n):
+    return n * 2
+
+# Procedimento (apenas executa)
+def saudacao(nome):
+    print(f"Ol&aacute;, {nome}!")</code></pre>
+        
+        <p><strong>Escopo de Vari&aacute;veis:</strong></p>
+        <pre class="code-example"><code>x = 10  # vari&aacute;vel GLOBAL
+
+def teste():
+    x = 5  # vari&aacute;vel LOCAL (diferente da global!)
+    print(x)  # imprime 5
+
+teste()
+print(x)    # imprime 10 (global n&atilde;o mudou)</code></pre>
+        
+        <p><strong>Par&acirc;metros Avan&ccedil;ados:</strong></p>
+        <pre class="code-example"><code># Valor padr&atilde;o
+def saudacao(nome, titulo="Sr."):
+    return f"Ol&aacute;, {titulo} {nome}!"
+
+saudacao("Jo&atilde;o")            # "Ol&aacute;, Sr. Jo&atilde;o!"
+saudacao("Ana", "Dra.")     # "Ol&aacute;, Dra. Ana!"
+
+# *args &mdash; n&uacute;mero vari&aacute;vel de argumentos
+def soma(*numeros):
+    return sum(numeros)
+
+soma(1, 2, 3, 4, 5)  # 15</code></pre>
+        
+        <p><strong>&#x1F30D; Aplica&ccedil;&atilde;o Real:</strong> Fun&ccedil;&otilde;es s&atilde;o o bloco fundamental da programa&ccedil;&atilde;o. APIs inteiras s&atilde;o constru&iacute;das como conjuntos de fun&ccedil;&otilde;es. No Django (framework web Python), cada p&aacute;gina &eacute; uma fun&ccedil;&atilde;o!</p>
+      </div>
+    </div>
+
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 2: Parameters and defaults -->
+    <div class="notebook-cell reveal" data-cell-id="func-2" style="--delay:3">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Par&acirc;metros e Valores Padr&atilde;o</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Múltiplos parâmetros
+def area_retangulo(base, altura):
+    return base * altura
+
+print(f&quot;Área: {area_retangulo(5, 3)}&quot;)
+
+# Valor padrão (default)
+def potencia(base, exp=2):
+    return base ** exp
+
+print(f&quot;3² = {potencia(3)}&quot;)       # usa exp=2
+print(f&quot;2¹⁰ = {potencia(2, 10)}&quot;)  # exp=10
+
+# Argumentos nomeados
+def info_aluno(nome, idade, curso=&quot;Engenharia&quot;):
+    print(f&quot;{nome}, {idade} anos — {curso}&quot;)
+
+info_aluno(&quot;Ana&quot;, 20)
+info_aluno(&quot;Pedro&quot;, 22, &quot;Ciência da Computação&quot;)
+info_aluno(idade=19, nome=&quot;Lucas&quot;)
+
+# Múltiplos retornos
+def dividir(a, b):
+    quociente = a // b
+    resto = a % b
+    return quociente, resto
+
+q, r = dividir(17, 5)
+print(f&quot;\n17 ÷ 5 = {q} com resto {r}&quot;)"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-chat-cta reveal">
+      <button class="btn-contextual-chat" data-context="funcoes" data-topic="Funções — def, return, parâmetros, escopo, lambda">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tirar dúvida sobre este conteúdo
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 8: CONDICIONAIS
+───────────────────────────────────────────────────────── -->
+<section id="condicionais" class="section topic-section" data-topic="condicionais">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">M&oacute;dulo 07</div>
+      <h2 class="section-title">Condicionais</h2>
+      <p class="section-desc">
+        Estruturas condicionais permitem que o programa tome <strong>decis&otilde;es</strong>.
+        Use <code>if</code>, <code>elif</code> e <code>else</code> para executar blocos de c&oacute;digo
+        apenas quando certas condi&ccedil;&otilde;es forem verdadeiras.
+      </p>
+    </div>
+
+    <div class="theory-grid">
+      <div class="theory-card reveal" style="--delay:0">
+        <h3>Sintaxe</h3>
+        <ul class="theory-list">
+          <li><code>if condi&ccedil;&atilde;o:</code> &mdash; executa se verdadeiro</li>
+          <li><code>elif condi&ccedil;&atilde;o:</code> &mdash; alternativa</li>
+          <li><code>else:</code> &mdash; quando nenhuma condi&ccedil;&atilde;o &eacute; True</li>
+          <li>Blocos definidos por indenta&ccedil;&atilde;o</li>
+          <li>Condi&ccedil;&otilde;es retornam <code>True</code> ou <code>False</code></li>
+        </ul>
+      </div>
+      <div class="theory-card reveal" style="--delay:1">
+        <h3>Operadores L&oacute;gicos</h3>
+        <ul class="theory-list">
+          <li><code>and</code> &mdash; ambas verdadeiras</li>
+          <li><code>or</code> &mdash; pelo menos uma verdadeira</li>
+          <li><code>not</code> &mdash; nega&ccedil;&atilde;o</li>
+          <li><code>==</code>, <code>!=</code> &mdash; igualdade / diferen&ccedil;a</li>
+          <li><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code> &mdash; compara&ccedil;&atilde;o</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cell 1: if/elif/else basics -->
+    <div class="notebook-cell reveal" data-cell-id="cond-1" style="--delay:2">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; if / elif / else</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# if simples
+idade = 18
+if idade >= 18:
+    print(&quot;Maior de idade&quot;)
+
+# if / else
+temperatura = 35
+if temperatura > 30:
+    print(&quot;Está muito quente!&quot;)
+else:
+    print(&quot;Temperatura agradável&quot;)
+
+# if / elif / else — classificação de notas
+nota = 7.5
+print(f&quot;\nNota: {nota}&quot;)
+
+if nota >= 9:
+    conceito = &quot;A — Excelente&quot;
+elif nota >= 7:
+    conceito = &quot;B — Bom&quot;
+elif nota >= 5:
+    conceito = &quot;C — Regular&quot;
+elif nota >= 3:
+    conceito = &quot;D — Insuficiente&quot;
+else:
+    conceito = &quot;F — Reprovado&quot;
+
+print(f&quot;Conceito: {conceito}&quot;)"></div>
+
+    <div class="concept-explainer reveal" style="--delay:2">
+      <h3>&#x1F4A1; Entendendo Condicionais a Fundo</h3>
+      <div class="explainer-content">
+        <p><strong>Fluxo de Execu&ccedil;&atilde;o Passo a Passo:</strong></p>
+        <pre class="code-example"><code>nota = 7.5
+
+if nota >= 9:          # 7.5 >= 9? N&atilde;o &rarr; pula
+    print("A")
+elif nota >= 7:        # 7.5 >= 7? SIM &rarr; executa e SAI
+    print("B")         # &larr; isso executa
+elif nota >= 5:        # N&atilde;o chega aqui (j&aacute; encontrou match)
+    print("C")
+else:                  # N&atilde;o chega aqui tamb&eacute;m
+    print("D")
+# Resultado: "B"</code></pre>
+        
+        <p><strong>Combinando Condi&ccedil;&otilde;es:</strong></p>
+        <pre class="code-example"><code>idade = 17
+tem_carteira = True
+
+# and &mdash; AMBAS precisam ser verdade
+if idade >= 18 and tem_carteira:
+    print("Pode dirigir")
+
+# or &mdash; pelo menos UMA precisa ser verdade
+if idade < 12 or idade >= 65:
+    print("Desconto especial")
+
+# not &mdash; inverte o valor
+if not tem_carteira:
+    print("Tire sua carteira primeiro")</code></pre>
+        
+        <p><strong>Truques &Uacute;teis:</strong></p>
+        <pre class="code-example"><code># Tern&aacute;rio (if em uma linha)
+status = "maior" if idade >= 18 else "menor"
+
+# Verificar se est&aacute; em uma faixa
+if 0 <= nota <= 10:    # Encadeamento Python!
+    print("Nota v&aacute;lida")</code></pre>
+        
+        <p><strong>&#x1F30D; Aplica&ccedil;&atilde;o Real:</strong> Condicionais decidem tudo: se o email vai para spam, se o jogador pode comprar um item, se a temperatura est&aacute; segura num reator nuclear.</p>
+      </div>
+    </div>
+
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 2: Logical operators -->
+    <div class="notebook-cell reveal" data-cell-id="cond-2" style="--delay:3">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Operadores L&oacute;gicos</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Operadores lógicos: and, or, not
+
+idade = 20
+renda = 3000
+
+# and — ambas condições devem ser verdadeiras
+if idade >= 18 and renda >= 2000:
+    print(&quot;Aprovado para o empréstimo&quot;)
+
+# or — pelo menos uma condição verdadeira
+dia = &quot;sábado&quot;
+if dia == &quot;sábado&quot; or dia == &quot;domingo&quot;:
+    print(&quot;É fim de semana!&quot;)
+
+# not — nega a condição
+chovendo = False
+if not chovendo:
+    print(&quot;Pode ir ao parque&quot;)
+
+# Combinações complexas
+nota = 8
+frequencia = 0.80
+
+if nota >= 7 and frequencia >= 0.75:
+    print(&quot;\nAprovado!&quot;)
+elif nota >= 5 and frequencia >= 0.75:
+    print(&quot;\nEm recuperação&quot;)
+else:
+    print(&quot;\nReprovado&quot;)
+
+# Operador ternário (condicional em uma linha)
+x = 15
+resultado = &quot;par&quot; if x % 2 == 0 else &quot;ímpar&quot;
+print(f&quot;\n{x} é {resultado}&quot;)"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-chat-cta reveal">
+      <button class="btn-contextual-chat" data-context="condicionais" data-topic="Condicionais — if, elif, else, operadores lógicos">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tirar dúvida sobre este conteúdo
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 9: LOOPS
+───────────────────────────────────────────────────────── -->
+<section id="loops" class="section topic-section" data-topic="loops">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">M&oacute;dulo 08</div>
+      <h2 class="section-title">Loops (Repeti&ccedil;&atilde;o)</h2>
+      <p class="section-desc">
+        Loops permitem executar um bloco de c&oacute;digo <strong>m&uacute;ltiplas vezes</strong>.
+        Python possui dois tipos principais: <code>for</code> (itera sobre sequ&ecirc;ncias)
+        e <code>while</code> (repete enquanto condi&ccedil;&atilde;o for verdadeira).
+      </p>
+    </div>
+
+    <div class="theory-grid">
+      <div class="theory-card reveal" style="--delay:0">
+        <h3>for loop</h3>
+        <ul class="theory-list">
+          <li><code>for x in range(n):</code> &mdash; 0 a n-1</li>
+          <li><code>for x in lista:</code> &mdash; itera itens</li>
+          <li><code>range(start, stop, step)</code></li>
+          <li><code>enumerate()</code> &mdash; &iacute;ndice + valor</li>
+          <li><code>break</code> &mdash; sai do loop</li>
+        </ul>
+      </div>
+      <div class="theory-card reveal" style="--delay:1">
+        <h3>while loop</h3>
+        <ul class="theory-list">
+          <li><code>while condi&ccedil;&atilde;o:</code> &mdash; repete enquanto True</li>
+          <li>Cuidado com loops infinitos!</li>
+          <li><code>break</code> &mdash; sai imediatamente</li>
+          <li><code>continue</code> &mdash; pula para pr&oacute;xima itera&ccedil;&atilde;o</li>
+          <li>Sempre atualize a vari&aacute;vel de controle</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cell 1: for loops -->
+    <div class="notebook-cell reveal" data-cell-id="loop-1" style="--delay:2">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; for Loop</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# for com range()
+print(&quot;=== Contagem de 0 a 4 ===&quot;)
+for i in range(5):
+    print(f&quot;  i = {i}&quot;)
+
+# range com início e fim
+print(&quot;\n=== Números de 1 a 10 ===&quot;)
+for n in range(1, 11):
+    print(n, end=&quot; &quot;)
+print()
+
+# range com step
+print(&quot;\n=== Pares de 0 a 20 ===&quot;)
+for p in range(0, 21, 2):
+    print(p, end=&quot; &quot;)
+print()
+
+# Iterando sobre uma lista
+print(&quot;\n=== Iterando lista ===&quot;)
+frutas = [&quot;maçã&quot;, &quot;banana&quot;, &quot;uva&quot;, &quot;laranja&quot;]
+for fruta in frutas:
+    print(f&quot;  🍎 {fruta}&quot;)
+
+# enumerate — índice + valor
+print(&quot;\n=== Com índice (enumerate) ===&quot;)
+for i, fruta in enumerate(frutas):
+    print(f&quot;  [{i}] {fruta}&quot;)
+
+# Soma com acumulador
+soma = 0
+for n in range(1, 101):
+    soma += n
+print(f&quot;\nSoma de 1 a 100 = {soma}&quot;)"></div>
+
+    <div class="concept-explainer reveal" style="--delay:2">
+      <h3>&#x1F4A1; Entendendo Loops a Fundo</h3>
+      <div class="explainer-content">
+        <p><strong>for vs while &mdash; Quando usar cada?</strong></p>
+        <ul class="theory-list">
+          <li><strong>for:</strong> quando voc&ecirc; sabe quantas vezes repetir (iterar sobre lista, range, etc.)</li>
+          <li><strong>while:</strong> quando a repeti&ccedil;&atilde;o depende de uma condi&ccedil;&atilde;o (leitura de dados, jogos, etc.)</li>
+        </ul>
+        
+        <p><strong>Rastreando a Execu&ccedil;&atilde;o (Trace Table):</strong></p>
+        <pre class="code-example"><code># Itera&ccedil;&atilde;o | i | soma | print
+# ---------|---|------|------
+soma = 0
+for i in range(1, 5):
+    soma += i
+#    1      | 1 |  1   |
+#    2      | 2 |  3   |
+#    3      | 3 |  6   |
+#    4      | 4 |  10  |
+print(soma)  # 10</code></pre>
+        
+        <p><strong>Ferramentas &Uacute;teis em Loops:</strong></p>
+        <pre class="code-example"><code># enumerate &mdash; &iacute;ndice + valor
+frutas = ["ma&ccedil;&atilde;", "banana", "laranja"]
+for i, fruta in enumerate(frutas):
+    print(f"{i}: {fruta}")
+
+# zip &mdash; iterar em paralelo
+nomes = ["Ana", "Bob"]
+notas = [9.5, 8.0]
+for nome, nota in zip(nomes, notas):
+    print(f"{nome}: {nota}")
+
+# break e continue
+for n in range(100):
+    if n % 2 != 0:
+        continue   # pula &iacute;mpares
+    if n > 10:
+        break      # para ao chegar em 10
+    print(n)       # 0, 2, 4, 6, 8, 10</code></pre>
+        
+        <p><strong>&#x26A0;&#xFE0F; Cuidado com Loop Infinito:</strong></p>
+        <pre class="code-example"><code># PERIGO! Isso nunca para:
+# while True:
+#     print("Infinito!")
+# Sempre tenha uma condi&ccedil;&atilde;o de sa&iacute;da ou use break!</code></pre>
+        
+        <p><strong>&#x1F30D; Aplica&ccedil;&atilde;o Real:</strong> Loops processam cada pixel de uma imagem, cada linha de um arquivo CSV, cada email na caixa de entrada, e cada frame de um jogo (game loop).</p>
+      </div>
+    </div>
+
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 2: while loops -->
+    <div class="notebook-cell reveal" data-cell-id="loop-2" style="--delay:3">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; while Loop</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# while básico — contagem regressiva
+print(&quot;=== Contagem Regressiva ===&quot;)
+contador = 5
+while contador > 0:
+    print(f&quot;  {contador}...&quot;)
+    contador -= 1
+print(&quot;  Lançar! 🚀&quot;)
+
+# while com break
+print(&quot;\n=== Encontrar primeiro múltiplo de 7 > 50 ===&quot;)
+n = 1
+while True:
+    if n * 7 > 50:
+        print(f&quot;  Encontrado: {n * 7}&quot;)
+        break
+    n += 1
+
+# while com continue — pular ímpares
+print(&quot;\n=== Pares até 10 (com continue) ===&quot;)
+i = 0
+while i < 10:
+    i += 1
+    if i % 2 != 0:
+        continue
+    print(f&quot;  {i}&quot;, end=&quot; &quot;)
+print()
+
+# Fibonacci com while
+print(&quot;\n=== Fibonacci (até 100) ===&quot;)
+a, b = 0, 1
+while a <= 100:
+    print(a, end=&quot; &quot;)
+    a, b = b, a + b
+print()"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-chat-cta reveal">
+      <button class="btn-contextual-chat" data-context="loops" data-topic="Loops — for, while, range, break, continue, enumerate">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tirar dúvida sobre este conteúdo
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 10: LISTAS
+───────────────────────────────────────────────────────── -->
+<section id="listas" class="section topic-section" data-topic="listas">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">M&oacute;dulo 09</div>
+      <h2 class="section-title">Listas</h2>
+      <p class="section-desc">
+        Listas s&atilde;o cole&ccedil;&otilde;es <strong>ordenadas e mut&aacute;veis</strong> de elementos.
+        Podem conter qualquer tipo de dado e s&atilde;o a estrutura de dados mais usada em Python.
+        Use colchetes <code>[]</code> para criar uma lista.
+      </p>
+    </div>
+
+    <div class="theory-grid">
+      <div class="theory-card reveal" style="--delay:0">
+        <h3>Opera&ccedil;&otilde;es B&aacute;sicas</h3>
+        <ul class="theory-list">
+          <li><code>lista[i]</code> &mdash; acessa &iacute;ndice i</li>
+          <li><code>lista[-1]</code> &mdash; &uacute;ltimo elemento</li>
+          <li><code>lista[a:b]</code> &mdash; fatiamento (slice)</li>
+          <li><code>len(lista)</code> &mdash; tamanho</li>
+          <li><code>x in lista</code> &mdash; pertinência</li>
+        </ul>
+      </div>
+      <div class="theory-card reveal" style="--delay:1">
+        <h3>M&eacute;todos</h3>
+        <ul class="theory-list">
+          <li><code>.append(x)</code> &mdash; adiciona ao final</li>
+          <li><code>.insert(i, x)</code> &mdash; insere na posi&ccedil;&atilde;o i</li>
+          <li><code>.remove(x)</code> &mdash; remove primeira ocorr&ecirc;ncia</li>
+          <li><code>.pop(i)</code> &mdash; remove e retorna &iacute;ndice i</li>
+          <li><code>.sort()</code> &mdash; ordena in-place</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cell 1: List basics -->
+    <div class="notebook-cell reveal" data-cell-id="list-1" style="--delay:2">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Criando e Acessando Listas</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Criando listas
+numeros = [10, 20, 30, 40, 50]
+nomes = [&quot;Ana&quot;, &quot;Bruno&quot;, &quot;Carlos&quot;]
+mista = [1, &quot;dois&quot;, 3.0, True]
+
+print(&quot;Números:&quot;, numeros)
+print(&quot;Nomes:&quot;, nomes)
+
+# Indexação (começa em 0)
+print(f&quot;\nPrimeiro: {numeros[0]}&quot;)
+print(f&quot;Último: {numeros[-1]}&quot;)
+print(f&quot;Penúltimo: {numeros[-2]}&quot;)
+
+# Fatiamento (slice)
+print(f&quot;\nSlice [1:4]: {numeros[1:4]}&quot;)   # [20, 30, 40]
+print(f&quot;Slice [:3]: {numeros[:3]}&quot;)      # [10, 20, 30]
+print(f&quot;Slice [2:]: {numeros[2:]}&quot;)      # [30, 40, 50]
+print(f&quot;Slice [::2]: {numeros[::2]}&quot;)    # [10, 30, 50] — step 2
+
+# Tamanho
+print(f&quot;\nTamanho: {len(numeros)}&quot;)
+
+# Pertinência
+print(f&quot;30 está na lista? {30 in numeros}&quot;)
+print(f&quot;99 está na lista? {99 in numeros}&quot;)"></div>
+
+    <div class="concept-explainer reveal" style="--delay:2">
+      <h3>&#x1F4A1; Entendendo Listas a Fundo</h3>
+      <div class="explainer-content">
+        <p><strong>Listas s&atilde;o mut&aacute;veis!</strong> (Diferente de strings)</p>
+        <pre class="code-example"><code>frutas = ["ma&ccedil;&atilde;", "banana", "laranja"]
+frutas[0] = "uva"          # OK! Pode alterar
+frutas.append("manga")     # Adiciona no final
+frutas.insert(1, "kiwi")   # Insere na posi&ccedil;&atilde;o 1
+frutas.remove("banana")    # Remove por valor
+ultimo = frutas.pop()      # Remove e retorna &uacute;ltimo</code></pre>
+        
+        <p><strong>List Comprehension &mdash; Linha por Linha:</strong></p>
+        <pre class="code-example"><code># Forma tradicional (4 linhas):
+quadrados = []
+for x in range(1, 6):
+    quadrados.append(x ** 2)
+# quadrados = [1, 4, 9, 16, 25]
+
+# Comprehension (1 linha!):
+quadrados = [x ** 2 for x in range(1, 6)]
+
+# Com filtro:
+pares = [x for x in range(20) if x % 2 == 0]
+# [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]</code></pre>
+        
+        <p><strong>Ordena&ccedil;&atilde;o:</strong></p>
+        <pre class="code-example"><code>nums = [3, 1, 4, 1, 5, 9, 2, 6]
+nums.sort()               # Ordena a lista original
+print(nums)               # [1, 1, 2, 3, 4, 5, 6, 9]
+
+# sorted() cria nova lista (n&atilde;o altera original)
+nomes = ["Carlos", "Ana", "Bruno"]
+ordenados = sorted(nomes)  # ["Ana", "Bruno", "Carlos"]</code></pre>
+
+        <p><strong>Listas Aninhadas (Matriz):</strong></p>
+        <pre class="code-example"><code>matriz = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
+print(matriz[1][2])  # 6 (linha 1, coluna 2)</code></pre>
+        
+        <p><strong>&#x1F30D; Aplica&ccedil;&atilde;o Real:</strong> Listas s&atilde;o usadas em rankings de jogos, playlists de m&uacute;sica, feeds de redes sociais, e resultados de busca do Google.</p>
+      </div>
+    </div>
+
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cell 2: List methods and comprehension -->
+    <div class="notebook-cell reveal" data-cell-id="list-2" style="--delay:3">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; M&eacute;todos e Compreens&atilde;o</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Métodos de lista
+frutas = [&quot;maçã&quot;, &quot;banana&quot;]
+print(&quot;Inicial:&quot;, frutas)
+
+frutas.append(&quot;uva&quot;)
+print(&quot;Após append:&quot;, frutas)
+
+frutas.insert(1, &quot;laranja&quot;)
+print(&quot;Após insert(1):&quot;, frutas)
+
+removido = frutas.pop()
+print(f&quot;Após pop(): {frutas} (removido: {removido})&quot;)
+
+frutas.remove(&quot;banana&quot;)
+print(&quot;Após remove('banana'):&quot;, frutas)
+
+# Ordenação
+nums = [5, 2, 8, 1, 9, 3]
+nums.sort()
+print(f&quot;\nOrdenado: {nums}&quot;)
+nums.sort(reverse=True)
+print(f&quot;Decrescente: {nums}&quot;)
+
+# List Comprehension — forma elegante de criar listas
+quadrados = [x**2 for x in range(1, 11)]
+print(f&quot;\nQuadrados: {quadrados}&quot;)
+
+pares = [x for x in range(20) if x % 2 == 0]
+print(f&quot;Pares: {pares}&quot;)
+
+# Funções úteis
+notas = [8.5, 7.0, 9.2, 6.8, 8.0]
+print(f&quot;\nNotas: {notas}&quot;)
+print(f&quot;Soma: {sum(notas)}&quot;)
+print(f&quot;Média: {sum(notas)/len(notas):.2f}&quot;)
+print(f&quot;Máximo: {max(notas)}&quot;)
+print(f&quot;Mínimo: {min(notas)}&quot;)"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-chat-cta reveal">
+      <button class="btn-contextual-chat" data-context="listas" data-topic="Listas — indexação, slicing, append, list comprehension">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tirar dúvida sobre este conteúdo
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 11: NUMPY
+───────────────────────────────────────────────────────── -->
+<section id="numpy" class="section topic-section" data-topic="numpy">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">M&oacute;dulo 10</div>
+      <h2 class="section-title">NumPy &mdash; Computa&ccedil;&atilde;o Num&eacute;rica</h2>
+      <p class="section-desc">
+        <strong>NumPy</strong> &eacute; a biblioteca fundamental para computa&ccedil;&atilde;o cient&iacute;fica em Python.
+        Oferece arrays multidimensionais eficientes e fun&ccedil;&otilde;es matem&aacute;ticas vetorizadas.
+        <em>Nota: NumPy n&atilde;o est&aacute; dispon&iacute;vel no Skulpt &mdash; os exemplos abaixo s&atilde;o demonstrativos.</em>
+      </p>
+    </div>
+
+    <div class="theory-grid">
+      <div class="theory-card reveal" style="--delay:0">
+        <h3>Criando Arrays</h3>
+        <ul class="theory-list">
+          <li><code>np.array([1,2,3])</code> &mdash; de uma lista</li>
+          <li><code>np.zeros(n)</code> &mdash; array de zeros</li>
+          <li><code>np.ones(n)</code> &mdash; array de uns</li>
+          <li><code>np.arange(a,b,step)</code> &mdash; sequ&ecirc;ncia</li>
+          <li><code>np.linspace(a,b,n)</code> &mdash; n pontos uniformes</li>
+        </ul>
+      </div>
+      <div class="theory-card reveal" style="--delay:1">
+        <h3>Opera&ccedil;&otilde;es</h3>
+        <ul class="theory-list">
+          <li>Opera&ccedil;&otilde;es vetorizadas: <code>a + b</code>, <code>a * 2</code></li>
+          <li><code>np.sum()</code>, <code>np.mean()</code>, <code>np.std()</code></li>
+          <li><code>np.sin()</code>, <code>np.cos()</code> &mdash; element-wise</li>
+          <li><code>np.dot(a, b)</code> &mdash; produto escalar</li>
+          <li><code>a.shape</code>, <code>a.dtype</code> &mdash; propriedades</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cell 1: NumPy demo (informational) -->
+    <div class="notebook-cell reveal" data-cell-id="np-1" style="--delay:2">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; NumPy (Demonstrativo)</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# NumPy — Demonstração conceitual
+# (Execute em ambiente local com NumPy instalado)
+
+# Simulação de operações NumPy com listas puras:
+import math
+
+# Simulando np.linspace(0, 2*pi, 5)
+n = 5
+start, end = 0, 2 * math.pi
+step = (end - start) / (n - 1)
+x = [start + i * step for i in range(n)]
+print(&quot;x (linspace simulado):&quot;)
+for val in x:
+    print(f&quot;  {val:.4f}&quot;)
+
+# Simulando np.sin(x)
+y = [math.sin(val) for val in x]
+print(&quot;\nsin(x):&quot;)
+for i, val in enumerate(y):
+    print(f&quot;  sin({x[i]:.4f}) = {val:.4f}&quot;)
+
+# Operações vetoriais simuladas
+a = [1, 2, 3, 4, 5]
+b = [10, 20, 30, 40, 50]
+soma = [ai + bi for ai, bi in zip(a, b)]
+produto = [ai * bi for ai, bi in zip(a, b)]
+
+print(f&quot;\na = {a}&quot;)
+print(f&quot;b = {b}&quot;)
+print(f&quot;a + b = {soma}&quot;)
+print(f&quot;a * b = {produto}&quot;)
+print(f&quot;sum(a) = {sum(a)}&quot;)
+print(f&quot;mean(a) = {sum(a)/len(a)}&quot;)"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-chat-cta reveal">
+      <button class="btn-contextual-chat" data-context="numpy" data-topic="NumPy — arrays, linspace, operações vetoriais">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Tirar dúvida sobre este conteúdo
+      </button>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 12: MATPLOTLIB (Conceitual)
+───────────────────────────────────────────────────────── -->
+<section id="matplotlib" class="section topic-section" data-topic="matplotlib">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Avan&ccedil;ado</div>
+      <h2 class="section-title">Matplotlib &mdash; Visualiza&ccedil;&atilde;o de Dados</h2>
+      <p class="section-desc">
+        <strong>Matplotlib</strong> &eacute; a principal biblioteca para cria&ccedil;&atilde;o de gr&aacute;ficos em Python.
+        Use <code>matplotlib.pyplot</code> para criar gr&aacute;ficos de linhas, barras, dispers&atilde;o e muito mais.
+        <em>Os exemplos abaixo mostram a sintaxe correta para uso em ambiente local.</em>
+      </p>
+    </div>
+
+    <div class="theory-grid">
+      <div class="theory-card reveal" style="--delay:0">
+        <h3>Tipos de Gr&aacute;fico</h3>
+        <ul class="theory-list">
+          <li><code>plt.plot(x, y)</code> &mdash; linha</li>
+          <li><code>plt.bar(x, y)</code> &mdash; barras</li>
+          <li><code>plt.scatter(x, y)</code> &mdash; dispers&atilde;o</li>
+          <li><code>plt.hist(dados)</code> &mdash; histograma</li>
+          <li><code>plt.pie(dados)</code> &mdash; pizza</li>
+        </ul>
+      </div>
+      <div class="theory-card reveal" style="--delay:1">
+        <h3>Personaliza&ccedil;&atilde;o</h3>
+        <ul class="theory-list">
+          <li><code>plt.title()</code> &mdash; t&iacute;tulo</li>
+          <li><code>plt.xlabel()</code>, <code>plt.ylabel()</code></li>
+          <li><code>plt.legend()</code> &mdash; legenda</li>
+          <li><code>plt.grid(True)</code> &mdash; grade</li>
+          <li><code>plt.savefig('file.png')</code> &mdash; salvar</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Cell 1: Matplotlib syntax demo -->
+    <div class="notebook-cell reveal" data-cell-id="mpl-1" style="--delay:2">
+      <div class="cell-indicator"></div>
+      <div class="cell-content">
+        <div class="cell-toolbar">
+          <span class="cell-tag">Python &mdash; Matplotlib (Sintaxe)</span>
+          <div class="cell-actions">
+            <button class="cell-run-btn" data-action="run" aria-label="Executar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Executar
+            </button>
+          </div>
+        </div>
+        <div class="cell-editor" data-code="# Matplotlib — Exemplo de Sintaxe
+# Execute em ambiente local com matplotlib instalado
+#
+# import matplotlib.pyplot as plt
+# import numpy as np
+#
+# x = np.linspace(0, 2 * np.pi, 100)
+# y_sin = np.sin(x)
+# y_cos = np.cos(x)
+#
+# plt.figure(figsize=(10, 6))
+# plt.plot(x, y_sin, label='sin(x)', color='#3776ab', linewidth=2)
+# plt.plot(x, y_cos, label='cos(x)', color='#ffd43b', linewidth=2)
+# plt.title('Funções Trigonométricas')
+# plt.xlabel('x (radianos)')
+# plt.ylabel('y')
+# plt.legend()
+# plt.grid(True, alpha=0.3)
+# plt.show()
+
+# Demonstração com print (funciona aqui)
+import math
+print(&quot;=== Gráfico ASCII: sin(x) ===&quot;)
+print()
+for i in range(0, 63):
+    x = i * math.pi / 10
+    y = math.sin(x)
+    pos = int((y + 1) * 20)
+    line = &quot; &quot; * pos + &quot;â—&quot;
+    if i % 10 == 0:
+        print(f&quot;x={x:5.2f} |{line}&quot;)
+    else:
+        print(f&quot;        |{line}&quot;)"></div>
+        <div class="cell-output-wrap">
+          <div class="cell-output-header">Output:</div>
+          <div class="cell-output"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 13: PLAYGROUND
+───────────────────────────────────────────────────────── -->
+<section id="playground" class="section topic-section" data-topic="playground">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Pr&aacute;tica Livre</div>
+      <h2 class="section-title">Python Playground</h2>
+      <p class="section-desc">
+        Escreva e execute qualquer c&oacute;digo Python livremente. Experimente, teste ideias e pratique!
+      </p>
+    </div>
+
+    <div class="playground-wrap reveal" style="--delay:0">
+      <div class="playground-toolbar">
+        <span class="playground-label">
+          <svg width="16" height="16"><use href="#icon-python"/></svg>
+          Editor Python
+        </span>
+        <div class="playground-actions">
+          <button class="btn-playground btn-run" id="pyRunBtn">
+            <svg width="14" height="14"><use href="#icon-play"/></svg>
+            Executar (Ctrl+Enter)
+          </button>
+          <button class="btn-playground btn-clear" id="pyClearBtn">Limpar Output</button>
+        </div>
+      </div>
+      <div class="playground-editor" id="pyPlaygroundEditor" data-code="# 🐍 Python Playground — Escreva seu código aqui!
+# Pressione Ctrl+Enter para executar
+
+print(&quot;Olá do Playground!&quot;)
+
+# Tente qualquer exemplo dos módulos acima
+for i in range(5):
+    print(f&quot;  Linha {i+1}&quot;)
+"></div>
+      <div class="playground-output-wrap">
+        <div class="playground-output-header">Output:</div>
+        <div class="playground-output" id="pyPlaygroundOutput"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────────
+     SECTION 14: EXERCÍCIOS INTERATIVOS
+───────────────────────────────────────────────────────── -->
+<section id="exercicios" class="section topic-section" data-topic="exercicios">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Pratique</div>
+      <h2 class="section-title">Exerc&iacute;cios Interativos</h2>
+      <p class="section-desc">
+        Teste seus conhecimentos com <strong>30 exerc&iacute;cios variados</strong>: m&uacute;ltipla escolha,
+        verdadeiro/falso, interpreta&ccedil;&atilde;o de c&oacute;digo, completar c&oacute;digo e desafios pr&aacute;ticos.
+        Cada exerc&iacute;cio tem feedback detalhado para ajudar no aprendizado.
+      </p>
+    </div>
+
+    <!-- ═══ BLOCO A: MÚLTIPLA ESCOLHA (8 exercícios) ═══ -->
+    <h3 class="exercise-group-title reveal">&#x1F4DD; M&uacute;ltipla Escolha</h3>
+
+    <!-- MC-01 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="mc-01" data-check="quiz" data-answer="b" style="--delay:0">
+      <div class="exercise-number">01</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Qual &eacute; o tipo de <code>3.14</code> em Python?</h3>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="mc-01" value="a"><span class="quiz-label">a) <code>int</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-01" value="b"><span class="quiz-label">b) <code>float</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-01" value="c"><span class="quiz-label">c) <code>str</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-01" value="d"><span class="quiz-label">d) <code>bool</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: b) float</strong> &mdash; N&uacute;meros com ponto decimal s&atilde;o automaticamente do tipo <code>float</code>.
+          <code>type(3.14)</code> retorna <code>&lt;class 'float'&gt;</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- MC-02 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="mc-02" data-check="quiz" data-answer="c" style="--delay:1">
+      <div class="exercise-number">02</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">O que <code>print(10 // 3)</code> exibe?</h3>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="mc-02" value="a"><span class="quiz-label">a) <code>3.33</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-02" value="b"><span class="quiz-label">b) <code>3.0</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-02" value="c"><span class="quiz-label">c) <code>3</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-02" value="d"><span class="quiz-label">d) <code>1</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: c) 3</strong> &mdash; O operador <code>//</code> faz divis&atilde;o inteira: descarta a parte decimal.
+          <code>10 / 3 = 3.33...</code> mas <code>10 // 3 = 3</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- MC-03 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="mc-03" data-check="quiz" data-answer="b" style="--delay:2">
+      <div class="exercise-number">03</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Qual forma correta de criar uma f-string?</h3>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="mc-03" value="a"><span class="quiz-label">a) <code>"Ol&aacute;, {nome}"</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-03" value="b"><span class="quiz-label">b) <code>f"Ol&aacute;, {nome}"</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-03" value="c"><span class="quiz-label">c) <code>$"Ol&aacute;, {nome}"</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-03" value="d"><span class="quiz-label">d) <code>format("Ol&aacute;, {nome}")</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: b)</strong> &mdash; F-strings come&ccedil;am com <code>f</code> antes das aspas: <code>f"texto {variavel}"</code>.
+          A op&ccedil;&atilde;o (a) n&atilde;o interpola a vari&aacute;vel sem o <code>f</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- MC-04 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="mc-04" data-check="quiz" data-answer="d" style="--delay:0">
+      <div class="exercise-number">04</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Qual &eacute; o resultado de <code>len("Python")</code>?</h3>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="mc-04" value="a"><span class="quiz-label">a) <code>5</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-04" value="b"><span class="quiz-label">b) <code>7</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-04" value="c"><span class="quiz-label">c) <code>"Python"</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-04" value="d"><span class="quiz-label">d) <code>6</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: d) 6</strong> &mdash; <code>len()</code> retorna o n&uacute;mero de caracteres: P-y-t-h-o-n = 6.
+        </div>
+      </div>
+    </div>
+
+    <!-- MC-05 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="mc-05" data-check="quiz" data-answer="a" style="--delay:1">
+      <div class="exercise-number">05</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">O que <code>range(2, 10, 3)</code> gera?</h3>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="mc-05" value="a"><span class="quiz-label">a) <code>2, 5, 8</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-05" value="b"><span class="quiz-label">b) <code>2, 5, 8, 11</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-05" value="c"><span class="quiz-label">c) <code>3, 6, 9</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-05" value="d"><span class="quiz-label">d) <code>2, 4, 6, 8</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: a) 2, 5, 8</strong> &mdash; <code>range(inicio, fim, passo)</code>: come&ccedil;a em 2, pula de 3, para antes de 10.
+          2 &rarr; 5 &rarr; 8 &rarr; (11 j&aacute; passa de 10, ent&atilde;o para).
+        </div>
+      </div>
+    </div>
+
+    <!-- MC-06 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="mc-06" data-check="quiz" data-answer="c" style="--delay:2">
+      <div class="exercise-number">06</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Qual m&eacute;todo adiciona um item ao final de uma lista?</h3>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="mc-06" value="a"><span class="quiz-label">a) <code>lista.add("x")</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-06" value="b"><span class="quiz-label">b) <code>lista.insert("x")</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-06" value="c"><span class="quiz-label">c) <code>lista.append("x")</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-06" value="d"><span class="quiz-label">d) <code>lista.push("x")</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: c) append()</strong> &mdash; Em Python, <code>.append()</code> adiciona ao final. <code>.add()</code> &eacute; para sets, <code>.push()</code> n&atilde;o existe, e <code>.insert()</code> requer posi&ccedil;&atilde;o.
+        </div>
+      </div>
+    </div>
+
+    <!-- MC-07 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="mc-07" data-check="quiz" data-answer="b" style="--delay:0">
+      <div class="exercise-number">07</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Qual a sa&iacute;da de <code>bool("")</code>?</h3>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="mc-07" value="a"><span class="quiz-label">a) <code>True</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-07" value="b"><span class="quiz-label">b) <code>False</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-07" value="c"><span class="quiz-label">c) <code>""</code></span></label>
+          <label class="quiz-option"><input type="radio" name="mc-07" value="d"><span class="quiz-label">d) <code>None</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: b) False</strong> &mdash; String vazia <code>""</code> &eacute; "falsy" em Python. Assim como <code>0</code>, <code>[]</code>, <code>None</code>. Qualquer string com conte&uacute;do &eacute; <code>True</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- MC-08 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="mc-08" data-check="quiz" data-answer="a" style="--delay:1">
+      <div class="exercise-number">08</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">O que significa <code>*args</code> numa fun&ccedil;&atilde;o?</h3>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="mc-08" value="a"><span class="quiz-label">a) Aceita qualquer n&uacute;mero de argumentos posicionais</span></label>
+          <label class="quiz-option"><input type="radio" name="mc-08" value="b"><span class="quiz-label">b) Aceita apenas argumentos do tipo string</span></label>
+          <label class="quiz-option"><input type="radio" name="mc-08" value="c"><span class="quiz-label">c) Multiplica todos os argumentos</span></label>
+          <label class="quiz-option"><input type="radio" name="mc-08" value="d"><span class="quiz-label">d) Torna os argumentos opcionais</span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: a)</strong> &mdash; <code>*args</code> empacota todos os argumentos extras numa tupla. Ex: <code>def soma(*args): return sum(args)</code> pode receber <code>soma(1,2,3,4)</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BLOCO B: VERDADEIRO / FALSO (7 exercícios) ═══ -->
+    <h3 class="exercise-group-title reveal">&#x2705; Verdadeiro ou Falso</h3>
+
+    <!-- TF-01 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="tf-01" data-check="quiz" data-answer="true" style="--delay:0">
+      <div class="exercise-number">09</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Python &eacute; case-sensitive: <code>Nome</code> e <code>nome</code> s&atilde;o vari&aacute;veis diferentes.</h3>
+        <div class="quiz-options tf-options">
+          <label class="quiz-option"><input type="radio" name="tf-01" value="true"><span class="quiz-label">Verdadeiro</span></label>
+          <label class="quiz-option"><input type="radio" name="tf-01" value="false"><span class="quiz-label">Falso</span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Verdadeiro!</strong> &mdash; Python diferencia mai&uacute;sculas de min&uacute;sculas. <code>Nome</code>, <code>nome</code> e <code>NOME</code> s&atilde;o 3 vari&aacute;veis distintas.
+        </div>
+      </div>
+    </div>
+
+    <!-- TF-02 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="tf-02" data-check="quiz" data-answer="false" style="--delay:1">
+      <div class="exercise-number">10</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">O operador <code>=</code> compara dois valores em Python.</h3>
+        <div class="quiz-options tf-options">
+          <label class="quiz-option"><input type="radio" name="tf-02" value="true"><span class="quiz-label">Verdadeiro</span></label>
+          <label class="quiz-option"><input type="radio" name="tf-02" value="false"><span class="quiz-label">Falso</span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Falso!</strong> &mdash; <code>=</code> &eacute; o operador de <em>atribui&ccedil;&atilde;o</em> (guardar valor). Para <em>comparar</em>, use <code>==</code> (dois iguais).
+        </div>
+      </div>
+    </div>
+
+    <!-- TF-03 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="tf-03" data-check="quiz" data-answer="true" style="--delay:2">
+      <div class="exercise-number">11</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Uma fun&ccedil;&atilde;o sem <code>return</code> retorna <code>None</code> automaticamente.</h3>
+        <div class="quiz-options tf-options">
+          <label class="quiz-option"><input type="radio" name="tf-03" value="true"><span class="quiz-label">Verdadeiro</span></label>
+          <label class="quiz-option"><input type="radio" name="tf-03" value="false"><span class="quiz-label">Falso</span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Verdadeiro!</strong> &mdash; Se voc&ecirc; n&atilde;o usar <code>return</code>, a fun&ccedil;&atilde;o retorna <code>None</code>. Ex: <code>x = print("oi")</code> &rarr; <code>x</code> &eacute; <code>None</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- TF-04 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="tf-04" data-check="quiz" data-answer="false" style="--delay:0">
+      <div class="exercise-number">12</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Listas e strings s&atilde;o ambas mut&aacute;veis em Python.</h3>
+        <div class="quiz-options tf-options">
+          <label class="quiz-option"><input type="radio" name="tf-04" value="true"><span class="quiz-label">Verdadeiro</span></label>
+          <label class="quiz-option"><input type="radio" name="tf-04" value="false"><span class="quiz-label">Falso</span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Falso!</strong> &mdash; Listas s&atilde;o mut&aacute;veis (<code>lista[0] = "x"</code> funciona), mas strings s&atilde;o <strong>imut&aacute;veis</strong> (<code>texto[0] = "X"</code> d&aacute; erro).
+        </div>
+      </div>
+    </div>
+
+    <!-- TF-05 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="tf-05" data-check="quiz" data-answer="true" style="--delay:1">
+      <div class="exercise-number">13</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt"><code>break</code> encerra o loop imediatamente, pulando todas as itera&ccedil;&otilde;es restantes.</h3>
+        <div class="quiz-options tf-options">
+          <label class="quiz-option"><input type="radio" name="tf-05" value="true"><span class="quiz-label">Verdadeiro</span></label>
+          <label class="quiz-option"><input type="radio" name="tf-05" value="false"><span class="quiz-label">Falso</span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Verdadeiro!</strong> &mdash; <code>break</code> sai do loop inteiro. J&aacute; <code>continue</code> apenas pula a itera&ccedil;&atilde;o atual e vai para a pr&oacute;xima.
+        </div>
+      </div>
+    </div>
+
+    <!-- TF-06 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="tf-06" data-check="quiz" data-answer="false" style="--delay:2">
+      <div class="exercise-number">14</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt"><code>input()</code> retorna um valor do tipo <code>int</code> por padr&atilde;o.</h3>
+        <div class="quiz-options tf-options">
+          <label class="quiz-option"><input type="radio" name="tf-06" value="true"><span class="quiz-label">Verdadeiro</span></label>
+          <label class="quiz-option"><input type="radio" name="tf-06" value="false"><span class="quiz-label">Falso</span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Falso!</strong> &mdash; <code>input()</code> <em>sempre</em> retorna <code>str</code>. Para obter um n&uacute;mero, converta: <code>int(input())</code> ou <code>float(input())</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- TF-07 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="tf-07" data-check="quiz" data-answer="true" style="--delay:0">
+      <div class="exercise-number">15</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt"><code>[x**2 for x in range(5)]</code> cria a lista <code>[0, 1, 4, 9, 16]</code>.</h3>
+        <div class="quiz-options tf-options">
+          <label class="quiz-option"><input type="radio" name="tf-07" value="true"><span class="quiz-label">Verdadeiro</span></label>
+          <label class="quiz-option"><input type="radio" name="tf-07" value="false"><span class="quiz-label">Falso</span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Verdadeiro!</strong> &mdash; <code>range(5)</code> gera 0,1,2,3,4. Cada valor ao quadrado: 0&sup2;=0, 1&sup2;=1, 2&sup2;=4, 3&sup2;=9, 4&sup2;=16.
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BLOCO C: INTERPRETAÇÃO DE CÓDIGO (7 exercícios) ═══ -->
+    <h3 class="exercise-group-title reveal">&#x1F50D; Interpreta&ccedil;&atilde;o de C&oacute;digo</h3>
+
+    <!-- INT-01 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="int-01" data-check="quiz" data-answer="b" style="--delay:0">
+      <div class="exercise-number">16</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Qual a sa&iacute;da deste c&oacute;digo?</h3>
+        <pre class="code-example"><code>x = 5
+x += 3
+x *= 2
+print(x)</code></pre>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="int-01" value="a"><span class="quiz-label">a) <code>13</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-01" value="b"><span class="quiz-label">b) <code>16</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-01" value="c"><span class="quiz-label">c) <code>11</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-01" value="d"><span class="quiz-label">d) <code>10</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: b) 16</strong> &mdash; Passo a passo: x=5 &rarr; x+=3 (x=8) &rarr; x*=2 (x=16).
+        </div>
+      </div>
+    </div>
+
+    <!-- INT-02 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="int-02" data-check="quiz" data-answer="c" style="--delay:1">
+      <div class="exercise-number">17</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">O que este c&oacute;digo imprime?</h3>
+        <pre class="code-example"><code>for i in range(3):
+    for j in range(2):
+        print(f"{i},{j}", end=" ")
+    print()</code></pre>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="int-02" value="a"><span class="quiz-label">a) <code>0,0 0,1 0,2 1,0 1,1 1,2</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-02" value="b"><span class="quiz-label">b) <code>0,0 1,1 2,2</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-02" value="c"><span class="quiz-label">c) <code>0,0 0,1<br>1,0 1,1<br>2,0 2,1</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-02" value="d"><span class="quiz-label">d) Erro de sintaxe</span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: c)</strong> &mdash; Loop externo: i=0,1,2. Loop interno: j=0,1. O <code>print()</code> sozinho quebra a linha entre itera&ccedil;&otilde;es do loop externo.
+        </div>
+      </div>
+    </div>
+
+    <!-- INT-03 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="int-03" data-check="quiz" data-answer="a" style="--delay:2">
+      <div class="exercise-number">18</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Qual o valor de <code>resultado</code>?</h3>
+        <pre class="code-example"><code>def misterio(n):
+    if n <= 1:
+        return n
+    return misterio(n-1) + misterio(n-2)
+
+resultado = misterio(6)</code></pre>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="int-03" value="a"><span class="quiz-label">a) <code>8</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-03" value="b"><span class="quiz-label">b) <code>6</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-03" value="c"><span class="quiz-label">c) <code>13</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-03" value="d"><span class="quiz-label">d) <code>21</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: a) 8</strong> &mdash; Essa &eacute; a sequ&ecirc;ncia de <strong>Fibonacci</strong>! F(0)=0, F(1)=1, F(2)=1, F(3)=2, F(4)=3, F(5)=5, F(6)=8.
+        </div>
+      </div>
+    </div>
+
+    <!-- INT-04 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="int-04" data-check="quiz" data-answer="d" style="--delay:0">
+      <div class="exercise-number">19</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Qual a sa&iacute;da?</h3>
+        <pre class="code-example"><code>frutas = ["ma&ccedil;&atilde;", "banana", "laranja"]
+frutas.append("uva")
+frutas.pop(1)
+print(len(frutas))</code></pre>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="int-04" value="a"><span class="quiz-label">a) <code>2</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-04" value="b"><span class="quiz-label">b) <code>4</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-04" value="c"><span class="quiz-label">c) <code>1</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-04" value="d"><span class="quiz-label">d) <code>3</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: d) 3</strong> &mdash; Come&ccedil;a com 3, append adiciona 1 (=4), pop remove 1 (=3). Lista final: ["ma&ccedil;&atilde;", "laranja", "uva"].
+        </div>
+      </div>
+    </div>
+
+    <!-- INT-05 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="int-05" data-check="quiz" data-answer="b" style="--delay:1">
+      <div class="exercise-number">20</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">O que este c&oacute;digo imprime?</h3>
+        <pre class="code-example"><code>texto = "Python"
+print(texto[1:4])</code></pre>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="int-05" value="a"><span class="quiz-label">a) <code>Pyth</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-05" value="b"><span class="quiz-label">b) <code>yth</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-05" value="c"><span class="quiz-label">c) <code>ytho</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-05" value="d"><span class="quiz-label">d) <code>Pyt</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: b) yth</strong> &mdash; <code>texto[1:4]</code> pega do &iacute;ndice 1 ao 3 (4 n&atilde;o incluso). P[0] y[1] t[2] h[3] o[4] n[5] &rarr; "yth".
+        </div>
+      </div>
+    </div>
+
+    <!-- INT-06 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="int-06" data-check="quiz" data-answer="c" style="--delay:2">
+      <div class="exercise-number">21</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">O que este c&oacute;digo faz?</h3>
+        <pre class="code-example"><code>nums = [3, 1, 4, 1, 5, 9]
+resultado = [x for x in nums if x > 3]
+print(resultado)</code></pre>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="int-06" value="a"><span class="quiz-label">a) <code>[3, 4, 5, 9]</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-06" value="b"><span class="quiz-label">b) <code>[1, 1]</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-06" value="c"><span class="quiz-label">c) <code>[4, 5, 9]</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-06" value="d"><span class="quiz-label">d) <code>[3, 1, 4, 1, 5, 9]</code></span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: c) [4, 5, 9]</strong> &mdash; A list comprehension filtra: s&oacute; inclui <code>x</code> se <code>x > 3</code>. Ent&atilde;o 4, 5 e 9 passam no filtro.
+        </div>
+      </div>
+    </div>
+
+    <!-- INT-07 -->
+    <div class="exercise-card quiz-card reveal" data-exercise="int-07" data-check="quiz" data-answer="a" style="--delay:0">
+      <div class="exercise-number">22</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Qual o erro neste c&oacute;digo?</h3>
+        <pre class="code-example"><code>def dobro(n):
+    return n * 2
+
+resultado = dobro
+print(resultado(5))</code></pre>
+        <div class="quiz-options">
+          <label class="quiz-option"><input type="radio" name="int-07" value="a"><span class="quiz-label">a) N&atilde;o tem erro &mdash; imprime <code>10</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-07" value="b"><span class="quiz-label">b) TypeError: falta par&ecirc;nteses em <code>dobro</code></span></label>
+          <label class="quiz-option"><input type="radio" name="int-07" value="c"><span class="quiz-label">c) NameError: <code>resultado</code> n&atilde;o definido</span></label>
+          <label class="quiz-option"><input type="radio" name="int-07" value="d"><span class="quiz-label">d) SyntaxError na linha 4</span></label>
+        </div>
+        <div class="exercise-actions">
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+        </div>
+        <div class="exercise-feedback" style="display:none"></div>
+        <div class="exercise-explanation" style="display:none">
+          <strong>Resposta: a) Sem erro!</strong> &mdash; Em Python, fun&ccedil;&otilde;es s&atilde;o objetos. <code>resultado = dobro</code> faz <code>resultado</code> apontar para a mesma fun&ccedil;&atilde;o. <code>resultado(5)</code> chama <code>dobro(5)</code> = 10.
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ BLOCO D: DESAFIOS DE CÓDIGO (8 exercícios) ═══ -->
+    <h3 class="exercise-group-title reveal">&#x1F4BB; Desafios de C&oacute;digo</h3>
+
+    <!-- CODE-01: Hello Name (ex-01 original) -->
+    <div class="exercise-card reveal" data-exercise="ex-01" data-check="pattern" data-pattern="print\s*\(.*f[&quot;'].*\{.*nome.*\}.*[&quot;']" style="--delay:0">
+      <div class="exercise-number">23</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Vari&aacute;veis e Print</h3>
+        <p>Crie uma vari&aacute;vel <code>nome</code> com seu nome e use <code>print()</code> com f-string para exibir <code>"Ol&aacute;, {nome}!"</code>.</p>
+        <div class="exercise-editor" data-code="# Crie a vari&aacute;vel nome e use print com f-string
+"></div>
+        <div class="exercise-actions">
+          <button data-action="run"><svg width="14" height="14"><use href="#icon-play"/></svg> Executar</button>
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+          <button data-action="hint" aria-expanded="false">Mostrar dica</button>
+        </div>
+        <div class="exercise-hint" style="display:none">
+          <svg width="16" height="16"><use href="#icon-bulb"/></svg>
+          Use <code>nome = "SeuNome"</code> e depois <code>print(f"Ol&aacute;, {nome}!")</code>
+        </div>
+        <div class="exercise-output"></div>
+        <div class="exercise-feedback" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- CODE-02: Sum Function -->
+    <div class="exercise-card reveal" data-exercise="ex-02" data-check="pattern" data-pattern="def\s+soma\s*\(\s*\w+\s*,\s*\w+\s*\).*return" style="--delay:1">
+      <div class="exercise-number">24</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Fun&ccedil;&atilde;o de Soma</h3>
+        <p>Crie uma fun&ccedil;&atilde;o <code>soma(a, b)</code> que retorna a soma de dois n&uacute;meros. Teste com <code>print(soma(3, 5))</code>.</p>
+        <div class="exercise-editor" data-code="# Crie a fun&ccedil;&atilde;o soma(a, b)
+"></div>
+        <div class="exercise-actions">
+          <button data-action="run"><svg width="14" height="14"><use href="#icon-play"/></svg> Executar</button>
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+          <button data-action="hint" aria-expanded="false">Mostrar dica</button>
+        </div>
+        <div class="exercise-hint" style="display:none">
+          <svg width="16" height="16"><use href="#icon-bulb"/></svg>
+          <code>def soma(a, b): return a + b</code>
+        </div>
+        <div class="exercise-output"></div>
+        <div class="exercise-feedback" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- CODE-03: Even/Odd -->
+    <div class="exercise-card reveal" data-exercise="ex-03" data-check="pattern" data-pattern="if.*%\s*2\s*==\s*0|if.*%\s*2\s*!=\s*1" style="--delay:2">
+      <div class="exercise-number">25</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Par ou &Iacute;mpar</h3>
+        <p>Escreva um programa que verifica se <code>n = 7</code> &eacute; par ou &iacute;mpar usando <code>if/else</code> e <code>%</code>.</p>
+        <div class="exercise-editor" data-code="# Verifique se n &eacute; par ou &iacute;mpar
+n = 7
+"></div>
+        <div class="exercise-actions">
+          <button data-action="run"><svg width="14" height="14"><use href="#icon-play"/></svg> Executar</button>
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+          <button data-action="hint" aria-expanded="false">Mostrar dica</button>
+        </div>
+        <div class="exercise-hint" style="display:none">
+          <svg width="16" height="16"><use href="#icon-bulb"/></svg>
+          Use <code>if n % 2 == 0:</code> para verificar se &eacute; par.
+        </div>
+        <div class="exercise-output"></div>
+        <div class="exercise-feedback" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- CODE-04: FizzBuzz -->
+    <div class="exercise-card reveal" data-exercise="ex-06" data-check="pattern" data-pattern="for\s+\w+\s+in\s+range.*if.*%\s*3.*%\s*5|for\s+\w+\s+in\s+range.*if.*%\s*15" style="--delay:0">
+      <div class="exercise-number">26</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">FizzBuzz</h3>
+        <p>Imprima n&uacute;meros de 1 a 20. M&uacute;ltiplos de 3: <code>"Fizz"</code>, de 5: <code>"Buzz"</code>, ambos: <code>"FizzBuzz"</code>.</p>
+        <div class="exercise-editor" data-code="# FizzBuzz de 1 a 20
+"></div>
+        <div class="exercise-actions">
+          <button data-action="run"><svg width="14" height="14"><use href="#icon-play"/></svg> Executar</button>
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+          <button data-action="hint" aria-expanded="false">Mostrar dica</button>
+        </div>
+        <div class="exercise-hint" style="display:none">
+          <svg width="16" height="16"><use href="#icon-bulb"/></svg>
+          Verifique <code>% 15</code> primeiro (ou <code>% 3 and % 5</code>), depois <code>% 3</code>, depois <code>% 5</code>.
+        </div>
+        <div class="exercise-output"></div>
+        <div class="exercise-feedback" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- CODE-05: Temperature converter -->
+    <div class="exercise-card reveal" data-exercise="ex-07" data-check="pattern" data-pattern="def\s+\w+.*celsius|9\s*/\s*5.*\+\s*32|\*\s*1\.8.*\+\s*32" style="--delay:1">
+      <div class="exercise-number">27</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Conversor de Temperatura</h3>
+        <p>Crie uma fun&ccedil;&atilde;o que converte Celsius para Fahrenheit: <code>F = C &times; 9/5 + 32</code>. Teste com 0&deg;C, 100&deg;C e 37&deg;C.</p>
+        <div class="exercise-editor" data-code="# Fun&ccedil;&atilde;o de convers&atilde;o Celsius &rarr; Fahrenheit
+"></div>
+        <div class="exercise-actions">
+          <button data-action="run"><svg width="14" height="14"><use href="#icon-play"/></svg> Executar</button>
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+          <button data-action="hint" aria-expanded="false">Mostrar dica</button>
+        </div>
+        <div class="exercise-hint" style="display:none">
+          <svg width="16" height="16"><use href="#icon-bulb"/></svg>
+          <code>def celsius_para_fahrenheit(c): return c * 9/5 + 32</code>
+        </div>
+        <div class="exercise-output"></div>
+        <div class="exercise-feedback" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- CODE-06: Factorial -->
+    <div class="exercise-card reveal" data-exercise="ex-08" data-check="pattern" data-pattern="def\s+fatorial|def\s+factorial" style="--delay:2">
+      <div class="exercise-number">28</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Fatorial sem math</h3>
+        <p>Crie <code>fatorial(n)</code> sem usar <code>math.factorial</code>. Teste com <code>fatorial(5)</code> (resultado: 120).</p>
+        <div class="exercise-editor" data-code="# Crie fatorial(n) usando loop ou recurs&atilde;o
+"></div>
+        <div class="exercise-actions">
+          <button data-action="run"><svg width="14" height="14"><use href="#icon-play"/></svg> Executar</button>
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+          <button data-action="hint" aria-expanded="false">Mostrar dica</button>
+        </div>
+        <div class="exercise-hint" style="display:none">
+          <svg width="16" height="16"><use href="#icon-bulb"/></svg>
+          Loop: <code>resultado = 1; for i in range(1, n+1): resultado *= i</code>
+        </div>
+        <div class="exercise-output"></div>
+        <div class="exercise-feedback" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- CODE-07: String reverse -->
+    <div class="exercise-card reveal" data-exercise="ex-09" data-check="pattern" data-pattern="\[::\s*-1\]|reversed|def\s+inverter" style="--delay:0">
+      <div class="exercise-number">29</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Inverter String</h3>
+        <p>Crie uma fun&ccedil;&atilde;o que recebe uma string e retorna ela invertida. Teste com <code>"Python"</code> &rarr; <code>"nohtyP"</code>.</p>
+        <div class="exercise-editor" data-code="# Fun&ccedil;&atilde;o que inverte uma string
+"></div>
+        <div class="exercise-actions">
+          <button data-action="run"><svg width="14" height="14"><use href="#icon-play"/></svg> Executar</button>
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+          <button data-action="hint" aria-expanded="false">Mostrar dica</button>
+        </div>
+        <div class="exercise-hint" style="display:none">
+          <svg width="16" height="16"><use href="#icon-bulb"/></svg>
+          Mais simples: <code>return texto[::-1]</code>
+        </div>
+        <div class="exercise-output"></div>
+        <div class="exercise-feedback" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- CODE-08: Prime checker -->
+    <div class="exercise-card reveal" data-exercise="ex-10" data-check="pattern" data-pattern="def\s+\w*prim\w*|for\s+\w+\s+in\s+range\s*\(\s*2" style="--delay:1">
+      <div class="exercise-number">30</div>
+      <div class="exercise-body">
+        <h3 class="exercise-prompt">Verificador de Primo</h3>
+        <p>Crie <code>eh_primo(n)</code> que retorna <code>True</code> se primo, <code>False</code> caso contr&aacute;rio. Teste com v&aacute;rios n&uacute;meros.</p>
+        <div class="exercise-editor" data-code="# Crie a fun&ccedil;&atilde;o eh_primo(n)
+"></div>
+        <div class="exercise-actions">
+          <button data-action="run"><svg width="14" height="14"><use href="#icon-play"/></svg> Executar</button>
+          <button data-action="check"><svg width="14" height="14"><use href="#icon-check"/></svg> Verificar</button>
+          <button data-action="hint" aria-expanded="false">Mostrar dica</button>
+        </div>
+        <div class="exercise-hint" style="display:none">
+          <svg width="16" height="16"><use href="#icon-bulb"/></svg>
+          Teste divis&atilde;o de 2 at&eacute; <code>int(n**0.5) + 1</code>.
+        </div>
+        <div class="exercise-output"></div>
+        <div class="exercise-feedback" style="display:none"></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+</main><!-- /main-content -->
+
+<!-- CHATBOT — Python Tutor -->
+<button class="chat-fab" id="chatFab" aria-label="Abrir assistente">
+  <svg class="chat-fab-icon chat-fab-open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  <svg class="chat-fab-icon chat-fab-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+<div class="chat-window" id="chatWindow">
+  <div class="chat-header">
+    <div class="chat-header-info">
+      <div class="chat-avatar"><span>🐍</span></div>
+      <div>
+        <div class="chat-header-title">Python Tutor</div>
+        <div class="chat-header-status" id="chatStatus">Online &mdash; pronto para ajudar</div>
+      </div>
+    </div>
+    <div class="chat-header-actions">
+      <button class="chat-header-btn" id="chatClear" aria-label="Limpar conversa" title="Limpar conversa">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+      </button>
+      <button class="chat-header-btn" id="chatClose" aria-label="Fechar chat">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="chat-context-bar" id="chatContextBar">
+    <span class="chat-context-icon">📌</span>
+    <span class="chat-context-text" id="chatContextText">Chat Geral</span>
+    <button class="chat-context-clear" id="chatContextClear" title="Remover contexto">&times;</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-typing" id="chatTyping">
+    <div class="typing-dots"><span></span><span></span><span></span></div>
+    <span>Pensando...</span>
+  </div>
+  <form class="chat-input-area" id="chatForm">
+    <input type="text" class="chat-input" id="chatInput" placeholder="Pergunte sobre Python..." autocomplete="off" maxlength="2000">
+    <button type="submit" class="chat-send" id="chatSend" aria-label="Enviar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    </button>
+  </form>
+</div>
+
+
+
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     FOOTER
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <span class="logo-icon logo-icon-python" aria-hidden="true">
+          <svg width="18" height="18"><use href="#icon-python"/></svg>
+        </span>
+        <span>Python<span class="logo-accent">Studio</span></span>
+      </div>
+      <p class="footer-copy">Python Studio 2026 &mdash; IB Math &middot; CS &middot; Learning Hub</p>
+      <a href="index.html" class="footer-link">
+        <svg width="14" height="14"><use href="#icon-arrow-right"/></svg>
+        Voltar ao hub principal
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+     SCRIPTS
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+<script src="js/python-app.js"></script>
+
+</body>
+</html>

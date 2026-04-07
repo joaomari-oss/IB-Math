@@ -60,20 +60,44 @@
   /* ─── THEME SYSTEM ─── */
   const CS_THEMES = ['hacker', 'light', 'dark', 'cyber', 'forest'];
   const themeChangeCallbacks = [];
+  const CS_THEME_META = {
+    hacker: { label: 'Hacker', swatch: 'linear-gradient(135deg, #0a0e17, #22d3ee)', border: '1px solid rgba(34,211,238,0.24)', meta: '#22d3ee' },
+    light: { label: 'Claro', swatch: 'linear-gradient(135deg, #f8fafc, #6366f1)', border: '1px solid #d7deee', meta: '#6366f1' },
+    dark: { label: 'Escuro', swatch: 'linear-gradient(135deg, #1a1a2e, #e94560)', border: '1px solid rgba(233,69,96,0.24)', meta: '#e94560' },
+    cyber: { label: 'Cyber', swatch: 'linear-gradient(135deg, #0d0221, #ff6ec7)', border: '1px solid rgba(255,110,199,0.24)', meta: '#ff6ec7' },
+    forest: { label: 'Forest', swatch: 'linear-gradient(135deg, #1a2f1a, #4ade80)', border: '1px solid rgba(74,222,128,0.24)', meta: '#4ade80' },
+  };
 
   function setCSTheme(theme) {
     if (!CS_THEMES.includes(theme)) theme = 'hacker';
-    document.documentElement.setAttribute('data-theme', theme);
+    const root = document.documentElement;
+    const themeMeta = CS_THEME_META[theme] || CS_THEME_META.hacker;
+    const themeButton = document.getElementById('themeToggleBtn');
+    const themeValue = document.getElementById('themeToggleValue');
+    const previewSwatch = themeButton ? themeButton.querySelector('.theme-swatch') : null;
+
+    root.classList.add('theme-switching');
+    root.setAttribute('data-theme', theme);
     try { localStorage.setItem('cs-lab-theme', theme); } catch (e) { /* ok */ }
     document.querySelectorAll('.theme-option').forEach(opt => {
       opt.classList.toggle('active', opt.dataset.theme === theme);
     });
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) {
-      const metaColors = { hacker: '#22d3ee', light: '#6366f1', dark: '#e94560', cyber: '#ff6ec7', forest: '#4ade80' };
-      meta.setAttribute('content', metaColors[theme] || '#22d3ee');
+    if (themeValue) themeValue.textContent = themeMeta.label;
+    if (previewSwatch) {
+      previewSwatch.style.background = themeMeta.swatch;
+      previewSwatch.style.border = themeMeta.border;
     }
-    themeChangeCallbacks.forEach(cb => cb(theme));
+    if (themeButton) {
+      themeButton.dataset.theme = theme;
+      themeButton.setAttribute('aria-label', 'Mudar tema: ' + themeMeta.label);
+    }
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', themeMeta.meta);
+
+    requestAnimationFrame(() => {
+      themeChangeCallbacks.forEach(cb => cb(theme));
+      requestAnimationFrame(() => root.classList.remove('theme-switching'));
+    });
   }
 
   function loadCSTheme() {
@@ -89,23 +113,37 @@
   const themeToggleBtn = document.getElementById('themeToggleBtn');
   const themePickerPanel = document.getElementById('themePickerPanel');
 
+  function closeThemePicker() {
+    if (!themeToggleBtn || !themePickerPanel) return;
+    themePickerPanel.classList.remove('open');
+    themeToggleBtn.classList.remove('is-open');
+    themeToggleBtn.setAttribute('aria-expanded', 'false');
+  }
+
   if (themeToggleBtn && themePickerPanel) {
     themeToggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      themePickerPanel.classList.toggle('open');
+      const willOpen = !themePickerPanel.classList.contains('open');
+      themePickerPanel.classList.toggle('open', willOpen);
+      themeToggleBtn.classList.toggle('is-open', willOpen);
+      themeToggleBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
     });
 
     document.querySelectorAll('.theme-option').forEach(opt => {
       opt.addEventListener('click', () => {
+        closeThemePicker();
         setCSTheme(opt.dataset.theme);
-        themePickerPanel.classList.remove('open');
       });
     });
 
     document.addEventListener('click', (e) => {
       if (!themePickerPanel.contains(e.target) && !themeToggleBtn.contains(e.target)) {
-        themePickerPanel.classList.remove('open');
+        closeThemePicker();
       }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeThemePicker();
     });
   }
 
@@ -257,19 +295,66 @@
 
   /* ═══════════════════ MAIN PLAYGROUND ═══════════════════ */
   const codeEditorEl = document.getElementById('codeEditor');
+  const editorWrapEl = document.getElementById('cmEditorWrap');
   const runCodeBtn = document.getElementById('runCode');
   const clearEditorBtn = document.getElementById('clearEditor');
   const consoleOutput = document.getElementById('consoleOutput');
   const clearConsoleBtn = document.getElementById('clearConsole');
+  const studioRunFeedback = document.getElementById('studioRunFeedback');
+
+  const studioStepEls = Array.from(document.querySelectorAll('.studio-step'));
+  const studioStepTriggers = Array.from(document.querySelectorAll('.studio-step-trigger'));
+  const studioProgressFill = document.getElementById('studioLessonProgressFill');
+  const studioProgressText = document.getElementById('studioLessonProgressText');
 
   let cmEditor = null;
+  let monacoEditor = null;
+  let editorEngine = 'textarea';
+
+  const studioCompletedSteps = new Set();
+  const studioValidationPatterns = {
+    1: /\b(let|const|var)\b[\s\S]*console\.log\s*\(/i,
+    2: /\b(for|while|do\s*\{)\b/i,
+    3: /\bfunction\b|=>/i,
+    4: /\bclass\b|constructor\s*\(/i,
+    5: /\b(map|filter|reduce)\s*\(/i,
+    6: /\b(console\.log|\?|\bif\b)\b/i,
+  };
 
   function getEditorTheme() {
     const theme = document.documentElement.getAttribute('data-theme');
     return theme === 'light' ? 'eclipse' : 'dracula';
   }
 
-  if (codeEditorEl && typeof CodeMirror !== 'undefined') {
+  function getMonacoTheme() {
+    const theme = document.documentElement.getAttribute('data-theme');
+    return theme === 'light' ? 'vs' : 'vs-dark';
+  }
+
+  function setEditorCode(value) {
+    if (monacoEditor) {
+      monacoEditor.setValue(value);
+      monacoEditor.focus();
+      return;
+    }
+    if (cmEditor) {
+      cmEditor.setValue(value);
+      cmEditor.focus();
+      return;
+    }
+    if (codeEditorEl) {
+      codeEditorEl.value = value;
+      codeEditorEl.focus();
+    }
+  }
+
+  function initCodeMirrorEditor(seedCode) {
+    if (!codeEditorEl || typeof CodeMirror === 'undefined') return false;
+    if (cmEditor) return true;
+
+    codeEditorEl.style.display = '';
+    codeEditorEl.value = seedCode;
+
     cmEditor = CodeMirror.fromTextArea(codeEditorEl, {
       mode: 'javascript',
       theme: getEditorTheme(),
@@ -284,24 +369,176 @@
         'Cmd-Enter': () => executeMainPlayground(),
       }
     });
-    cmEditor.setSize('100%', '100%');
 
-    // Update CodeMirror theme when page theme changes
-    themeChangeCallbacks.push((theme) => {
-      cmEditor.setOption('theme', theme === 'light' ? 'eclipse' : 'dracula');
-    });
+    cmEditor.setSize('100%', '100%');
+    editorEngine = 'codemirror';
+    return true;
   }
 
+  function initMonacoEditor(seedCode) {
+    if (!editorWrapEl || !codeEditorEl || !window.monaco) return false;
+
+    const monacoHost = document.createElement('div');
+    monacoHost.id = 'monacoEditorHost';
+    monacoHost.className = 'monaco-host';
+    editorWrapEl.appendChild(monacoHost);
+    codeEditorEl.style.display = 'none';
+
+    monacoEditor = window.monaco.editor.create(monacoHost, {
+      value: seedCode,
+      language: 'javascript',
+      theme: getMonacoTheme(),
+      minimap: { enabled: false },
+      automaticLayout: true,
+      fontFamily: 'JetBrains Mono, monospace',
+      fontSize: 14,
+      lineHeight: 22,
+      tabSize: 2,
+      insertSpaces: true,
+      scrollBeyondLastLine: false,
+      wordWrap: 'off',
+      roundedSelection: true,
+      padding: { top: 14, bottom: 14 },
+    });
+
+    monacoEditor.addCommand(
+      window.monaco.KeyMod.CtrlCmd | window.monaco.KeyCode.Enter,
+      () => executeMainPlayground()
+    );
+
+    editorEngine = 'monaco';
+    return true;
+  }
+
+  function initMainEditor() {
+    if (!codeEditorEl) return;
+    const seedCode = codeEditorEl.value;
+
+    if (window.require && typeof window.require.config === 'function') {
+      window.require.config({
+        paths: {
+          vs: 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs'
+        }
+      });
+
+      window.require(
+        ['vs/editor/editor.main'],
+        () => {
+          if (!initMonacoEditor(seedCode)) {
+            initCodeMirrorEditor(seedCode);
+          }
+        },
+        () => {
+          initCodeMirrorEditor(seedCode);
+        }
+      );
+      return;
+    }
+
+    initCodeMirrorEditor(seedCode);
+  }
+
+  initMainEditor();
+
+  themeChangeCallbacks.push((theme) => {
+    if (cmEditor) {
+      cmEditor.setOption('theme', theme === 'light' ? 'eclipse' : 'dracula');
+    }
+    if (monacoEditor && window.monaco) {
+      window.monaco.editor.setTheme(theme === 'light' ? 'vs' : 'vs-dark');
+      monacoEditor.layout();
+    }
+  });
+
   function getEditorCode() {
+    if (monacoEditor) return monacoEditor.getValue();
     if (cmEditor) return cmEditor.getValue();
     if (codeEditorEl) return codeEditorEl.value;
     return '';
   }
 
+  function setStudioActiveStep(stepNumber) {
+    studioStepEls.forEach((stepEl) => {
+      stepEl.classList.toggle('is-active', Number(stepEl.dataset.step) === stepNumber);
+    });
+  }
+
+  function unlockStudioStep(stepNumber) {
+    const stepEl = studioStepEls.find((item) => Number(item.dataset.step) === stepNumber);
+    if (stepEl) stepEl.classList.remove('locked');
+  }
+
+  function updateStudioProgressUI() {
+    if (!studioStepEls.length) return;
+    const done = studioCompletedSteps.size;
+    const total = studioStepEls.length;
+    if (studioProgressFill) studioProgressFill.style.width = ((done / total) * 100) + '%';
+    if (studioProgressText) {
+      studioProgressText.textContent = done + ' de ' + total + ' etapas concluídas';
+    }
+  }
+
+  function evaluateStudioProgress(code) {
+    if (!studioStepEls.length) return;
+
+    Object.entries(studioValidationPatterns).forEach(([step, pattern]) => {
+      if (pattern.test(code)) {
+        const stepNum = Number(step);
+        studioCompletedSteps.add(stepNum);
+        const stepEl = studioStepEls.find((item) => Number(item.dataset.step) === stepNum);
+        if (stepEl) stepEl.classList.add('completed');
+      }
+    });
+
+    const highestDone = Math.max(0, ...Array.from(studioCompletedSteps));
+    unlockStudioStep(1);
+    for (let i = 2; i <= studioStepEls.length; i++) {
+      if (i <= highestDone + 1) unlockStudioStep(i);
+    }
+
+    if (highestDone >= studioStepEls.length) {
+      setStudioActiveStep(studioStepEls.length);
+      if (studioRunFeedback) {
+        studioRunFeedback.textContent = 'Excelente: todas as etapas foram validadas. Continue experimentando com novos desafios.';
+      }
+    } else {
+      const nextStep = Math.min(studioStepEls.length, highestDone + 1);
+      setStudioActiveStep(nextStep);
+      if (studioRunFeedback) {
+        studioRunFeedback.textContent = 'Boa evolucao: etapa ' + highestDone + ' validada. Proximo passo sugerido: etapa ' + nextStep + '.';
+      }
+    }
+
+    updateStudioProgressUI();
+  }
+
+  studioStepTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const parent = trigger.closest('.studio-step');
+      if (!parent || parent.classList.contains('locked')) return;
+
+      const stepNumber = Number(trigger.dataset.step);
+      setStudioActiveStep(stepNumber);
+      if (studioRunFeedback) {
+        studioRunFeedback.textContent = 'Etapa ' + stepNumber + ' carregada. Execute e confira o feedback no console.';
+      }
+
+      const template = trigger.dataset.template;
+      if (template) setEditorCode(template);
+    });
+  });
+
+  updateStudioProgressUI();
+
   if (runCodeBtn) runCodeBtn.addEventListener('click', executeMainPlayground);
   if (clearEditorBtn) clearEditorBtn.addEventListener('click', () => {
-    if (cmEditor) cmEditor.setValue('');
+    if (monacoEditor) monacoEditor.setValue('');
+    else if (cmEditor) cmEditor.setValue('');
     else if (codeEditorEl) codeEditorEl.value = '';
+
+    if (studioRunFeedback) {
+      studioRunFeedback.textContent = 'Editor limpo. Escolha uma etapa na esquerda para continuar a trilha.';
+    }
   });
   if (clearConsoleBtn) clearConsoleBtn.addEventListener('click', () => {
     if (consoleOutput) consoleOutput.innerHTML = '<div class="console-line info">// Console limpo</div>';
@@ -338,6 +575,7 @@
     });
 
     consoleOutput.scrollTop = consoleOutput.scrollHeight;
+    evaluateStudioProgress(code);
   }
 
   /* ═══════════════════ EXERCISES ═══════════════════ */

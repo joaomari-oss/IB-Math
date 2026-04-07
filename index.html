@@ -1,292 +1,1029 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#4f46e5">
-  <title>StudyLab — Plataforma Educacional</title>
+  <meta name="theme-color" content="#060816">
+  <title>StudyLab | Plataforma de Aprendizado Interativo</title>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="StudyLab — Plataforma de Aprendizado Interativo">
+  <meta property="og:description" content="Ambientes especializados para IB Mathematics, Computer Science e Python com prática interativa e feedback imediato.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0d1a;
-      --bg-card: #111627;
-      --border: #1e293b;
-      --text: #f1f5f9;
-      --text-sec: #94a3b8;
-      --text-muted: #64748b;
-      --accent-math: #6366f1;
-      --accent-cs: #22d3ee;
-      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-      --mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --bg: #f5f3ee;
+      --surface: rgba(255, 255, 255, 0.84);
+      --surface-strong: #ffffff;
+      --ink: #172033;
+      --muted: #5e697d;
+      --line: rgba(23, 32, 51, 0.12);
+      --math: #2643d1;
+      --math-soft: rgba(38, 67, 209, 0.14);
+      --cs: #0f7c73;
+      --cs-soft: rgba(15, 124, 115, 0.14);
+      --py: #3776ab;
+      --py-yellow: #ffd43b;
+      --py-soft: rgba(55, 118, 171, 0.14);
+      --shadow: 0 26px 70px -34px rgba(16, 27, 45, 0.35);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --font-main: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-display: "Fraunces", "Manrope", serif;
+      --font-mono: "JetBrains Mono", monospace;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    html { -webkit-font-smoothing: antialiased; }
+    html,
+    body {
+      min-height: 100%;
+    }
 
     body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
+      font-family: var(--font-main);
+      color: var(--ink);
+      background:
+        radial-gradient(950px 450px at 2% -8%, rgba(38, 67, 209, 0.12), transparent 56%),
+        radial-gradient(850px 380px at 100% 8%, rgba(15, 124, 115, 0.12), transparent 54%),
+        var(--bg);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    .grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.35;
+      background-image: radial-gradient(rgba(23, 32, 51, 0.06) 0.5px, transparent 0.5px);
+      background-size: 3px 3px;
+      mix-blend-mode: multiply;
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 26px 22px 34px;
       min-height: 100vh;
-      min-height: 100dvh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 28px;
+    }
+
+    .topbar {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      overflow-x: hidden;
-      padding: 24px;
+      border-radius: 15px;
+      border: 1px solid rgba(23, 32, 51, 0.1);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(239, 243, 252, 0.92));
+      box-shadow: 0 18px 40px -30px rgba(16, 27, 45, 0.42);
+      flex-shrink: 0;
     }
 
-    .bg-grid {
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(rgba(30,41,59,0.3) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(30,41,59,0.3) 1px, transparent 1px);
-      background-size: 60px 60px;
-      opacity: 0.4; pointer-events: none; z-index: 0;
+    .brand-mark svg {
+      width: 24px;
+      height: 24px;
+      display: block;
     }
 
-    .bg-glow-1 {
-      position: fixed; top: -20%; left: -10%; width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(99,102,241,0.08), transparent 70%);
-      pointer-events: none; z-index: 0;
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
     }
 
-    .bg-glow-2 {
-      position: fixed; bottom: -20%; right: -10%; width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(34,211,238,0.06), transparent 70%);
-      pointer-events: none; z-index: 0;
+    .brand-word {
+      display: block;
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
     }
 
-    .landing { position: relative; z-index: 1; max-width: 900px; width: 100%; text-align: center; }
-
-    .logo { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-
-    .logo-icon {
-      width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-      background: linear-gradient(135deg, #6366f1, #22d3ee);
-      color: white; border-radius: 14px; font-size: 1.25rem; font-weight: 800;
+    .brand-note {
+      display: block;
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.64rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 4px;
     }
 
-    .logo-text { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.03em; }
-    .logo-accent { color: #6366f1; }
-    .logo-accent2 { color: #22d3ee; }
-
-    .badge {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 16px; background: rgba(99,102,241,0.08);
-      border: 1px solid rgba(99,102,241,0.15); border-radius: 9999px;
-      font-size: 0.75rem; font-weight: 600; color: #a5b4fc;
-      letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 28px;
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(23, 32, 51, 0.05);
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      font-size: 0.74rem;
+      color: var(--muted);
+      font-weight: 600;
+      letter-spacing: 0.02em;
     }
 
-    .badge-dot {
-      width: 6px; height: 6px; background: #22d3ee; border-radius: 50%;
-      animation: pulse-dot 2s ease-in-out infinite;
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #15a560;
+      box-shadow: 0 0 0 7px rgba(21, 165, 96, 0.15);
+      animation: pulse 2s var(--ease) infinite;
     }
 
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(0.85); }
     }
 
-    .title {
-      font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 900;
-      line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 16px;
+    .hero {
+      display: grid;
+      align-content: center;
+      gap: 32px;
     }
 
-    .title-gradient {
-      background: linear-gradient(135deg, #6366f1, #a78bfa, #22d3ee);
-      -webkit-background-clip: text; background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .hero-intro {
+      max-width: 760px;
+      animation: rise 0.65s var(--ease) both;
     }
 
-    .subtitle {
-      font-size: clamp(0.95rem, 1.8vw, 1.1rem); color: var(--text-sec);
-      max-width: 520px; margin: 0 auto 56px; line-height: 1.7;
+    .eyebrow {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(23, 32, 51, 0.12);
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--muted);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
     }
 
-    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 48px; }
-
-    .card {
-      position: relative; background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 20px; padding: 48px 36px 40px; text-decoration: none; color: inherit;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; cursor: pointer;
-      display: flex; flex-direction: column; align-items: center; text-align: center;
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.05rem, 5vw, 4.1rem);
+      letter-spacing: -0.03em;
+      line-height: 1.06;
+      margin-bottom: 12px;
     }
 
-    .card::after {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: var(--card-accent); transform: scaleX(0);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      transform-origin: left; border-radius: 20px 20px 0 0;
+    .hero-intro p {
+      color: var(--muted);
+      max-width: 640px;
+      font-size: clamp(0.95rem, 1.45vw, 1.1rem);
     }
 
-    .card:hover {
+    .lanes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .lane {
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      padding: 28px 24px;
+      background: var(--surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: var(--shadow);
+      transition: transform 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease), background 0.4s var(--ease);
+      display: grid;
+      gap: 16px;
+      min-height: 310px;
+      animation: rise 0.75s var(--ease) both;
+    }
+
+    .lane:nth-child(2) {
+      animation-delay: 0.06s;
+    }
+
+    .lane:nth-child(3) {
+      animation-delay: 0.12s;
+    }
+
+    .lane:hover {
+      transform: translateY(-7px);
+      box-shadow: 0 34px 80px -36px rgba(16, 27, 45, 0.42);
+      background: var(--surface-strong);
+    }
+
+    .lane-math:hover {
+      border-color: rgba(38, 67, 209, 0.32);
+    }
+
+    .lane-cs:hover {
+      border-color: rgba(15, 124, 115, 0.35);
+    }
+
+    .lane-py:hover {
+      border-color: rgba(55, 118, 171, 0.35);
+    }
+    .lane-py .lane-icon {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(55, 118, 171, 0.08));
+      color: var(--py);
+    }
+    .lane-py .lane-track {
+      color: var(--py);
+      background: var(--py-soft);
+    }
+    .lane-py .lane-cta {
+      color: var(--py);
+    }
+
+    .lane-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .lane-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(23, 32, 51, 0.08);
+      box-shadow: 0 18px 40px -30px rgba(16, 27, 45, 0.38);
+    }
+
+    .lane-math .lane-icon {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(38, 67, 209, 0.08));
+      color: var(--math);
+    }
+
+    .lane-cs .lane-icon {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(15, 124, 115, 0.08));
+      color: var(--cs);
+    }
+
+    .lane-icon svg {
+      width: 24px;
+      height: 24px;
+      display: block;
+    }
+
+    .lane-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 0.67rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .lane-math .lane-track {
+      color: var(--math);
+      background: var(--math-soft);
+    }
+
+    .lane-cs .lane-track {
+      color: var(--cs);
+      background: var(--cs-soft);
+    }
+
+    .lane h2 {
+      font-size: 1.45rem;
+      letter-spacing: -0.02em;
+      line-height: 1.22;
+      margin-bottom: 4px;
+    }
+
+    .lane p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      max-width: 42ch;
+    }
+
+    .lane-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .lane-meta span {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      border: 1px solid rgba(23, 32, 51, 0.12);
+      border-radius: 999px;
+      padding: 4px 9px;
+      background: rgba(255, 255, 255, 0.58);
+    }
+
+    .lane-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.86rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .lane-math .lane-cta {
+      color: var(--math);
+    }
+
+    .lane-cs .lane-cta {
+      color: var(--cs);
+    }
+
+    .lane-cta svg {
+      transition: transform 0.35s var(--ease);
+    }
+
+    .lane:hover .lane-cta svg {
+      transform: translateX(4px);
+    }
+
+    .footnote {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      animation: rise 0.9s var(--ease) both;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .lanes {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .lane:last-child {
+        grid-column: 1 / -1;
+        max-width: 520px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .lanes {
+        grid-template-columns: 1fr;
+      }
+      .lane:last-child {
+        grid-column: unset;
+        max-width: unset;
+        margin: unset;
+        width: unset;
+      }
+
+      .lane {
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .shell {
+        padding: 14px 14px 24px;
+        gap: 18px;
+      }
+
+      .topbar {
+        border-radius: 18px;
+      }
+
+      .brand-note {
+        display: none;
+      }
+
+      .status-pill {
+        display: none;
+      }
+
+      .hero {
+        gap: 24px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+  <style>
+    :root {
+      --bg: #060816;
+      --surface: rgba(10, 15, 28, 0.82);
+      --surface-strong: #10182d;
+      --surface-soft: rgba(15, 22, 40, 0.92);
+      --ink: #f7f9ff;
+      --muted: #9eaac5;
+      --line: rgba(156, 172, 209, 0.16);
+      --line-strong: rgba(156, 172, 209, 0.26);
+      --math: #8ea2ff;
+      --math-soft: rgba(142, 162, 255, 0.14);
+      --cs: #59d0c0;
+      --cs-soft: rgba(89, 208, 192, 0.14);
+      --py: #6ab4ff;
+      --py-soft: rgba(106, 180, 255, 0.16);
+      --shadow: 0 28px 70px -38px rgba(0, 0, 0, 0.75);
+    }
+
+    body {
+      color: var(--ink);
+      background:
+        radial-gradient(900px 420px at 8% -8%, rgba(127, 150, 255, 0.22), transparent 60%),
+        radial-gradient(780px 360px at 100% 8%, rgba(89, 208, 192, 0.18), transparent 56%),
+        linear-gradient(180deg, #070b17 0%, #0a1020 46%, #050814 100%);
+    }
+
+    .grain {
+      opacity: 0.12;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.22) 0.45px, transparent 0.45px);
+      mix-blend-mode: soft-light;
+    }
+
+    .glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(40px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    .glow-a {
+      width: 280px;
+      height: 280px;
+      top: 70px;
+      right: 6%;
+      background: rgba(127, 150, 255, 0.22);
+    }
+
+    .glow-b {
+      width: 240px;
+      height: 240px;
+      bottom: 80px;
+      left: 4%;
+      background: rgba(89, 208, 192, 0.18);
+    }
+
+    .shell {
+      max-width: 1240px;
+      gap: 30px;
+      padding: 24px 20px 36px;
+    }
+
+    .topbar {
+      background: rgba(8, 12, 24, 0.78);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .brand,
+    .brand-word {
+      color: var(--ink);
+    }
+
+    .brand-note {
+      color: var(--muted);
+      letter-spacing: 0.16em;
+    }
+
+    .brand-mark {
+      background: linear-gradient(180deg, rgba(17, 24, 43, 0.96), rgba(11, 16, 31, 0.98));
+      border-color: rgba(156, 172, 209, 0.14);
+      box-shadow: 0 20px 42px -28px rgba(0, 0, 0, 0.72);
+    }
+
+    .status-pill {
+      background: rgba(127, 150, 255, 0.12);
+      border-color: rgba(127, 150, 255, 0.2);
+      color: #dce6ff;
+    }
+
+    .status-dot {
+      background: #59d0c0;
+      box-shadow: 0 0 0 7px rgba(89, 208, 192, 0.15);
+    }
+
+    .hero {
+      gap: 24px;
+    }
+
+    .hero-intro {
+      max-width: none;
+      padding: clamp(22px, 3vw, 34px);
+      border-radius: 30px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(16, 24, 44, 0.94), rgba(8, 12, 24, 0.95));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-intro::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -60px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(106, 180, 255, 0.22), transparent 68%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      border-color: rgba(127, 150, 255, 0.2);
+      background: rgba(127, 150, 255, 0.12);
+      color: #dce6ff;
+    }
+
+    h1 {
+      color: #ffffff;
+      max-width: 12ch;
+    }
+
+    .hero-intro p {
+      color: var(--muted);
+      max-width: 66ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 22px;
+    }
+
+    .hero-btn {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 16px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.35s var(--ease), background 0.35s var(--ease);
+    }
+
+    .hero-btn::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(145, 164, 255, 0.12), rgba(98, 208, 216, 0.08));
+      opacity: 0;
+      transition: opacity 0.35s var(--ease);
+      z-index: -1;
+    }
+
+    .hero-btn::after {
+      content: "";
+      position: absolute;
+      left: -16px;
+      bottom: -30px;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(98, 208, 216, 0.3), transparent 70%);
+      opacity: 0.78;
+      transition: transform 0.35s var(--ease), opacity 0.35s var(--ease);
+      z-index: -1;
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .hero-btn:hover::before {
+      opacity: 1;
+    }
+
+    .hero-btn:hover::after {
+      transform: translate(6px, -4px);
+      opacity: 1;
+    }
+
+    .hero-btn svg {
+      transition: transform 0.35s var(--ease);
+    }
+
+    .hero-btn:hover svg {
+      transform: translateX(3px);
+    }
+
+    .hero-btn-primary {
+      color: #eef4ff;
+      border-color: rgba(127, 150, 255, 0.3);
+      background: linear-gradient(135deg, rgba(10, 15, 30, 0.96), rgba(17, 25, 46, 0.92));
+      box-shadow: 0 18px 38px -24px rgba(4, 10, 24, 0.92), 0 0 0 1px rgba(145, 164, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .hero-btn-primary svg {
+      color: #8ddfe3;
+    }
+
+    .hero-btn-secondary {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--line-strong);
+    }
+
+    .hero-meta {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .hero-meta-card {
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .hero-meta-card strong {
+      display: block;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-meta-card span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .lanes {
+      gap: 20px;
+    }
+
+    .lane {
+      min-height: 320px;
+      border-color: var(--line);
+      background: linear-gradient(180deg, rgba(15, 22, 40, 0.96), rgba(8, 12, 24, 0.98));
+      box-shadow: var(--shadow);
+      color: var(--ink);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lane::after {
+      content: "";
+      position: absolute;
+      right: -40px;
+      bottom: -40px;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      opacity: 0.16;
+      filter: blur(18px);
+      pointer-events: none;
+    }
+
+    .lane-math::after { background: var(--math); }
+    .lane-cs::after { background: var(--cs); }
+    .lane-py::after { background: var(--py); }
+
+    .lane:hover {
       transform: translateY(-8px);
-      box-shadow: 0 20px 50px -12px rgba(0,0,0,0.5), 0 0 40px -8px var(--card-glow);
-      border-color: var(--card-accent-border);
+      background: linear-gradient(180deg, rgba(18, 26, 49, 1), rgba(8, 12, 24, 1));
     }
 
-    .card:hover::after { transform: scaleX(1); }
-    .card:hover .card-icon { transform: scale(1.08); box-shadow: 0 0 32px var(--card-glow); }
-    .card:hover .card-arrow { transform: translateX(4px); opacity: 1; }
-
-    .card-math {
-      --card-accent: #6366f1;
-      --card-accent-border: rgba(99,102,241,0.3);
-      --card-glow: rgba(99,102,241,0.15);
+    .lane h2,
+    .lane p,
+    .lane-meta span {
+      color: inherit;
     }
 
-    .card-cs {
-      --card-accent: #22d3ee;
-      --card-accent-border: rgba(34,211,238,0.3);
-      --card-glow: rgba(34,211,238,0.12);
+    .lane p,
+    .lane-meta span {
+      color: var(--muted);
     }
 
-    .card-icon {
-      width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;
-      border-radius: 20px; font-size: 2.25rem; margin-bottom: 24px;
-      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    .lane-meta span {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: var(--line);
     }
 
-    .card-math .card-icon {
-      background: linear-gradient(135deg, rgba(99,102,241,0.12), rgba(99,102,241,0.04));
-      border: 1px solid rgba(99,102,241,0.15);
+    .lane-icon {
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.08);
     }
 
-    .card-cs .card-icon {
-      background: linear-gradient(135deg, rgba(34,211,238,0.12), rgba(34,211,238,0.04));
-      border: 1px solid rgba(34,211,238,0.15);
+    .lane-math .lane-icon {
+      background: linear-gradient(180deg, rgba(142, 162, 255, 0.18), rgba(142, 162, 255, 0.04));
     }
 
-    .card-title { font-size: 1.375rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
-    .card-desc { font-size: 0.9rem; color: var(--text-sec); line-height: 1.6; margin-bottom: 24px; }
-
-    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 24px; }
-
-    .card-tag {
-      padding: 4px 10px; background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06); border-radius: 6px;
-      font-size: 0.6875rem; font-weight: 500; color: var(--text-muted);
+    .lane-cs .lane-icon {
+      background: linear-gradient(180deg, rgba(89, 208, 192, 0.18), rgba(89, 208, 192, 0.04));
     }
 
-    .card-cta {
-      display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px;
-      border-radius: 10px; font-size: 0.875rem; font-weight: 600; color: white;
-      transition: all 0.2s ease;
+    .lane-py .lane-icon {
+      background: linear-gradient(180deg, rgba(106, 180, 255, 0.2), rgba(255, 212, 59, 0.08));
     }
 
-    .card-math .card-cta { background: #6366f1; box-shadow: 0 2px 8px rgba(99,102,241,0.3); }
-    .card-cs .card-cta { background: #0891b2; box-shadow: 0 2px 8px rgba(34,211,238,0.2); }
-    .card:hover .card-cta { transform: translateY(-1px); }
-    .card-arrow { transition: all 0.3s ease; opacity: 0.7; }
+    .lane-math:hover { border-color: rgba(142, 162, 255, 0.32); }
+    .lane-cs:hover { border-color: rgba(89, 208, 192, 0.34); }
+    .lane-py:hover { border-color: rgba(106, 180, 255, 0.34); }
 
-    .card-stats {
-      display: flex; gap: 24px; margin-top: auto; padding-top: 24px;
-      border-top: 1px solid var(--border); width: 100%; justify-content: center;
+    .lane-track,
+    .lane-math .lane-track { background: var(--math-soft); color: var(--math); }
+    .lane-cs .lane-track { background: var(--cs-soft); color: var(--cs); }
+    .lane-py .lane-track { background: var(--py-soft); color: var(--py); }
+
+    .lane-math .lane-cta { color: var(--math); }
+    .lane-cs .lane-cta { color: var(--cs); }
+    .lane-py .lane-cta { color: var(--py); }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      animation: rise 0.85s var(--ease) both;
     }
 
-    .card-stat { text-align: center; }
-    .card-stat-num { font-size: 1.25rem; font-weight: 800; color: var(--text); }
-    .card-stat-label {
-      font-size: 0.6875rem; color: var(--text-muted); font-weight: 500;
-      text-transform: uppercase; letter-spacing: 0.04em;
+    .insight-card {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(15, 22, 40, 0.9), rgba(8, 12, 24, 0.92));
+      box-shadow: var(--shadow);
     }
 
-    .footer { text-align: center; color: var(--text-muted); font-size: 0.8125rem; }
-
-    .fade-up {
-      opacity: 0; transform: translateY(24px);
-      animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    .insight-card h3 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+      color: #ffffff;
     }
 
-    .delay-1 { animation-delay: 0.1s; }
-    .delay-2 { animation-delay: 0.2s; }
-    .delay-3 { animation-delay: 0.35s; }
-    .delay-4 { animation-delay: 0.5s; }
-    .delay-5 { animation-delay: 0.65s; }
+    .insight-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
 
-    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    .footnote {
+      color: #8996b3;
+      font-size: 0.8rem;
+    }
 
-    @media (max-width: 640px) {
-      .cards { grid-template-columns: 1fr; gap: 16px; }
-      .card { padding: 36px 24px 32px; }
-      .card-icon { width: 64px; height: 64px; font-size: 1.75rem; }
-      .card-tags { display: none; }
-      body { padding: 16px; }
+    @media (max-width: 900px) {
+      .hero-meta,
+      .insight-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .shell {
+        padding: 14px 14px 24px;
+      }
+
+      .hero-intro {
+        padding: 18px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="bg-glow-1"></div>
-  <div class="bg-glow-2"></div>
-  <main class="landing">
-    <div class="logo fade-up">
-      <div class="logo-icon">S</div>
-      <span class="logo-text"><span class="logo-accent">Study</span><span class="logo-accent2">Lab</span></span>
-    </div>
-    <div class="badge fade-up delay-1">
-      <span class="badge-dot"></span>
-      Plataforma Educacional Interativa
-    </div>
-    <h1 class="title fade-up delay-2">
-      Escolha seu<br><span class="title-gradient">Ambiente de Estudo</span>
-    </h1>
-    <p class="subtitle fade-up delay-3">
-      Dois ambientes completos de aprendizado com conteúdo profundo, exercícios interativos e assistente inteligente.
-    </p>
-    <div class="cards fade-up delay-4">
-      <a href="math.html" class="card card-math">
-        <div class="card-icon">📊</div>
-        <div class="card-title">IB Mathematics</div>
-        <p class="card-desc">Functions & Modeling — do básico ao avançado com gráficos interativos e exercícios no padrão IB.</p>
-        <div class="card-tags">
-          <span class="card-tag">Funções</span>
-          <span class="card-tag">Quadráticas</span>
-          <span class="card-tag">Exponenciais</span>
-          <span class="card-tag">Modelagem</span>
-          <span class="card-tag">Regressão</span>
-        </div>
-        <div class="card-cta">
-          Acessar Curso
-          <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </div>
-        <div class="card-stats">
-          <div class="card-stat"><div class="card-stat-num">14</div><div class="card-stat-label">Tópicos</div></div>
-          <div class="card-stat"><div class="card-stat-num">30+</div><div class="card-stat-label">Exemplos</div></div>
-          <div class="card-stat"><div class="card-stat-num">15</div><div class="card-stat-label">Exercícios</div></div>
-        </div>
+  <!-- SVG Sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="icon-studylab" viewBox="0 0 64 64" fill="none">
+      <path d="M18 47V21H34" stroke="var(--math)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M22 41.5C25 40.4 27.4 37.9 29.2 33.9C31.8 28.3 34.8 23.4 45 22" stroke="var(--math)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M46 24L54 32L46 40" stroke="var(--cs)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M38 46H49" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="30" cy="34" r="3.25" fill="var(--ink)"/>
+    </symbol>
+    <symbol id="icon-math" viewBox="0 0 64 64" fill="none">
+      <!-- Pi symbol -->
+      <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="3" opacity=".18"/>
+      <path d="M22 24H42" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      <path d="M28 24V46" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      <path d="M38 24V42C38 44.5 39.5 46 42 46" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </symbol>
+    <symbol id="icon-cs" viewBox="0 0 64 64" fill="none">
+      <!-- Terminal / monitor -->
+      <rect x="10" y="12" width="44" height="32" rx="4" stroke="currentColor" stroke-width="3.5" fill="none"/>
+      <path d="M20 26L28 32L20 38" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M32 38H40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M26 50H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M32 44V50" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none">
+      <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.4"/>
+      <polyline points="12 5 19 12 12 19" stroke="currentColor" stroke-width="2.4"/>
+    </symbol>
+    <symbol id="icon-python" viewBox="0 0 128 128" fill="none">
+      <path fill="#3776AB" d="M63.8 12c-24.8 0-23.2 10.8-23.2 10.8l.03 11.2h23.6v3.4H31.2s-11.7-1.3-11.7 17.1c0 18.4 10 17.7 10 17.7h6V57.4s-.3-10 9.7-10h19.2s10.8.2 10.8-10.5V23.1S76.7 12 59.2 12h4.6Z"/>
+      <circle cx="52.2" cy="24.9" r="4" fill="#fff"/>
+      <path fill="#FFD43B" d="M64.2 116c24.8 0 23.2-10.8 23.2-10.8l-.03-11.2H63.8v-3.4h33s11.7 1.3 11.7-17.1c0-18.4-10-17.7-10-17.7h-6v14.8s.3 10-9.7 10H63.6s-10.8-.2-10.8 10.5v13.8S51.3 116 68.8 116h-4.6Z"/>
+      <circle cx="75.8" cy="103.1" r="4" fill="#fff"/>
+    </symbol>
+  </svg>
+
+  <div class="grain"></div>
+  <div class="glow glow-a"></div>
+  <div class="glow glow-b"></div>
+
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="Study Lab">
+        <span class="brand-mark" aria-hidden="true">
+          <svg><use href="#icon-studylab"/></svg>
+        </span>
+        <span class="brand-copy">
+          <span class="brand-word">StudyLab</span>
+          <small class="brand-note">IB · CS · Python</small>
+        </span>
       </a>
-      <a href="cs.html" class="card card-cs">
-        <div class="card-icon">💻</div>
-        <div class="card-title">Computer Science</div>
-        <p class="card-desc">Programming & Game Dev — aprenda algoritmos, OOP, física de jogos e muito mais com código executável.</p>
-        <div class="card-tags">
-          <span class="card-tag">Algoritmos</span>
-          <span class="card-tag">OOP</span>
-          <span class="card-tag">Game Dev</span>
-          <span class="card-tag">JavaScript</span>
-          <span class="card-tag">Playground</span>
+      <span class="status-pill">
+        <span class="status-dot"></span>
+        3 trilhas especializadas
+      </span>
+    </header>
+
+    <main class="hero">
+      <section class="hero-intro">
+        <span class="eyebrow">plataforma educacional premium</span>
+        <h1>Escolha sua trilha com clareza, foco e identidade profissional.</h1>
+        <p>
+          StudyLab reúne <strong>IB Mathematics</strong>, <strong>Computer Science</strong> e <strong>Python Studio</strong> em ambientes independentes, com navegação limpa, prática interativa e uma experiência consistente em qualquer tela.
+        </p>
+        <div class="hero-actions">
+          <a href="#modules" class="hero-btn hero-btn-primary">
+            <span>Explorar módulos</span>
+            <svg width="15" height="15" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </a>
         </div>
-        <div class="card-cta">
-          Acessar Curso
-          <svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        <div class="hero-meta" aria-label="Destaques da plataforma">
+          <div class="hero-meta-card"><strong>3</strong><span>trilhas especializadas</span></div>
+          <div class="hero-meta-card"><strong>UI</strong><span>clara e responsiva</span></div>
+          <div class="hero-meta-card"><strong>Prática</strong><span>feedback imediato</span></div>
         </div>
-        <div class="card-stats">
-          <div class="card-stat"><div class="card-stat-num">16</div><div class="card-stat-label">Tópicos</div></div>
-          <div class="card-stat"><div class="card-stat-num">50+</div><div class="card-stat-label">Exemplos</div></div>
-          <div class="card-stat"><div class="card-stat-num">30+</div><div class="card-stat-label">Exercícios</div></div>
-        </div>
-      </a>
-    </div>
-    <div class="footer fade-up delay-5">
-      <p>Desenvolvido com dedicação para estudantes &copy; 2026</p>
-    </div>
-  </main>
+      </section>
+
+      <section id="modules" class="lanes" aria-label="Escolha de trilhas">
+        <a href="math.html" class="lane lane-math" aria-label="Entrar em IB Mathematics">
+          <div class="lane-top">
+            <span class="lane-icon" aria-hidden="true">
+              <svg><use href="#icon-math"/></svg>
+            </span>
+            <span class="lane-track">IB Mathematics</span>
+          </div>
+          <div>
+            <h2>Functions &amp; Modeling</h2>
+            <p>Ambiente focado em raciocínio matemático, modelagem, análise visual e prática alinhada ao currículo IB.</p>
+          </div>
+          <div class="lane-meta">
+            <span>14 módulos</span>
+            <span>modelagem</span>
+            <span>gráficos interativos</span>
+          </div>
+          <span class="lane-cta">
+            Entrar em IB Mathematics
+            <svg width="15" height="15"><use href="#icon-arrow-right"/></svg>
+          </span>
+        </a>
+
+        <a href="cs.html" class="lane lane-cs" aria-label="Entrar em Computer Science">
+          <div class="lane-top">
+            <span class="lane-icon" aria-hidden="true">
+              <svg><use href="#icon-cs"/></svg>
+            </span>
+            <span class="lane-track">Computer Science</span>
+          </div>
+          <div>
+            <h2>Programming &amp; Algorithms</h2>
+            <p>Editor interativo, lógica computacional, algoritmos e desafios práticos em uma trilha orientada a construção real.</p>
+          </div>
+          <div class="lane-meta">
+            <span>16 módulos</span>
+            <span>code studio</span>
+            <span>30 exercícios</span>
+          </div>
+          <span class="lane-cta">
+            Abrir Computer Science
+            <svg width="15" height="15"><use href="#icon-arrow-right"/></svg>
+          </span>
+        </a>
+
+        <a href="python.html" class="lane lane-py" aria-label="Entrar em Python Studio">
+          <div class="lane-top">
+            <span class="lane-icon" aria-hidden="true">
+              <svg><use href="#icon-python"/></svg>
+            </span>
+            <span class="lane-track">Python Studio</span>
+          </div>
+          <div>
+            <h2>Lógica &amp; Programação</h2>
+            <p>Trilha dedicada a Python com editor interativo, temas próprios, prática guiada e identidade visual alinhada ao ecossistema Python.</p>
+          </div>
+          <div class="lane-meta">
+            <span>10 módulos</span>
+            <span>python themes</span>
+            <span>30 desafios</span>
+          </div>
+          <span class="lane-cta">
+            Abrir Python Studio
+            <svg width="15" height="15"><use href="#icon-arrow-right"/></svg>
+          </span>
+        </a>
+      </section>
+
+      <section class="insight-grid" aria-label="Diferenciais da plataforma">
+        <article class="insight-card">
+          <h3>Identidade por módulo</h3>
+          <p>Cada ambiente usa cores, ícones e linguagem visual próprias para deixar claro onde o aluno está e qual trilha escolheu.</p>
+        </article>
+        <article class="insight-card">
+          <h3>Experiência fluida</h3>
+          <p>Navegação direta, hover states nítidos, hierarquia mais forte e layout responsivo para estudo contínuo em desktop ou mobile.</p>
+        </article>
+        <article class="insight-card">
+          <h3>Prática real</h3>
+          <p>Exercícios, laboratórios e conteúdo aplicado em uma estrutura mais madura, organizada e pronta para expansão.</p>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footnote">StudyLab 2026 · IB Mathematics · Computer Science · Python Studio</footer>
+  </div>
 </body>
 </html>

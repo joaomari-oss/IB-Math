@@ -5,9 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#22d3ee">
   <title>Computer Science — Programming & Game Dev</title>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CS Lab — Programming & Game Dev">
+  <meta property="og:description" content="Laboratório de Computer Science com editor executável, exercícios de código e fundamentos de algoritmos.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/cs-styles.css">
   <!-- CodeMirror -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.css">
@@ -17,8 +32,24 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/javascript/javascript.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/matchbrackets.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/addon/edit/closebrackets.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"></script>
 </head>
 <body>
+
+  <!-- SVG Sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="icon-cs" viewBox="0 0 64 64" fill="none">
+      <!-- Terminal / monitor -->
+      <rect x="10" y="12" width="44" height="32" rx="4" stroke="currentColor" stroke-width="3.5" fill="none"/>
+      <path d="M20 26L28 32L20 38" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M32 38H40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M26 50H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M32 44V50" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none">
+      <polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="2.5"/>
+    </symbol>
+  </svg>
 
   <!-- LOADER -->
   <div id="loader" class="loader">
@@ -32,8 +63,13 @@
   <nav id="navbar" class="navbar">
     <div class="nav-container">
       <a href="index.html" class="nav-logo">
-        <span class="logo-icon">&lt;/&gt;</span>
-        <span class="logo-text">CS<span class="logo-accent">Lab</span></span>
+        <span class="logo-icon" aria-hidden="true">
+          <svg><use href="#icon-cs"/></svg>
+        </span>
+        <span class="logo-copy">
+          <span class="logo-text">CS<span class="logo-accent">Lab</span></span>
+          <span class="logo-caption">Programming Studio</span>
+        </span>
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#overview">Tópicos</a></li>
@@ -60,32 +96,41 @@
         <li><a href="#exercicios">Exercícios</a></li>
       </ul>
       <div class="nav-actions">
-        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Mudar tema" title="Mudar tema">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        </button>
-        <div class="theme-picker-panel" id="themePickerPanel">
-          <div class="theme-picker-title">Escolha o Tema</div>
-          <div class="theme-picker-grid">
-            <button class="theme-option" data-theme="hacker" title="Hacker">
+        <div class="theme-picker-wrap">
+          <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Mudar tema" title="Mudar tema" aria-expanded="false">
+            <span class="theme-toggle-preview">
               <span class="theme-swatch" style="background: linear-gradient(135deg, #0a0e17, #22d3ee)"></span>
-              <span>Hacker</span>
-            </button>
-            <button class="theme-option" data-theme="light" title="Claro">
-              <span class="theme-swatch" style="background: linear-gradient(135deg, #f8fafc, #6366f1)"></span>
-              <span>Claro</span>
-            </button>
-            <button class="theme-option" data-theme="dark" title="Escuro">
-              <span class="theme-swatch" style="background: linear-gradient(135deg, #1a1a2e, #e94560)"></span>
-              <span>Escuro</span>
-            </button>
-            <button class="theme-option" data-theme="cyber" title="Cyber">
-              <span class="theme-swatch" style="background: linear-gradient(135deg, #0d0221, #ff6ec7)"></span>
-              <span>Cyber</span>
-            </button>
-            <button class="theme-option" data-theme="forest" title="Forest">
-              <span class="theme-swatch" style="background: linear-gradient(135deg, #1a2f1a, #4ade80)"></span>
-              <span>Forest</span>
-            </button>
+            </span>
+            <span class="theme-toggle-copy">
+              <span class="theme-toggle-label">Tema</span>
+              <span class="theme-toggle-value" id="themeToggleValue">Hacker</span>
+            </span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="theme-picker-panel" id="themePickerPanel">
+            <div class="theme-picker-title">Escolha o Tema</div>
+            <div class="theme-picker-grid">
+              <button class="theme-option" data-theme="hacker" title="Hacker">
+                <span class="theme-swatch" style="background: linear-gradient(135deg, #0a0e17, #22d3ee)"></span>
+                <span>Hacker</span>
+              </button>
+              <button class="theme-option" data-theme="light" title="Claro">
+                <span class="theme-swatch" style="background: linear-gradient(135deg, #f8fafc, #6366f1)"></span>
+                <span>Claro</span>
+              </button>
+              <button class="theme-option" data-theme="dark" title="Escuro">
+                <span class="theme-swatch" style="background: linear-gradient(135deg, #1a1a2e, #e94560)"></span>
+                <span>Escuro</span>
+              </button>
+              <button class="theme-option" data-theme="cyber" title="Cyber">
+                <span class="theme-swatch" style="background: linear-gradient(135deg, #0d0221, #ff6ec7)"></span>
+                <span>Cyber</span>
+              </button>
+              <button class="theme-option" data-theme="forest" title="Forest">
+                <span class="theme-swatch" style="background: linear-gradient(135deg, #1a2f1a, #4ade80)"></span>
+                <span>Forest</span>
+              </button>
+            </div>
           </div>
         </div>
         <button class="nav-menu-btn" id="menuBtn" aria-label="Menu">
@@ -100,7 +145,12 @@
     <div class="hero-matrix"></div>
     <div class="hero-glow"></div>
     <div class="container hero-content">
-      <div class="hero-badge animate-fade-up">Computer Science — Programming & Game Dev</div>
+      <div class="hero-badge animate-fade-up">
+        <span class="hero-badge-icon" aria-hidden="true">
+          <svg><use href="#icon-cs"/></svg>
+        </span>
+        <span>Computer Science — Programming & Game Dev</span>
+      </div>
       <h1 class="hero-title animate-fade-up delay-1">
         Aprenda <span class="gradient-text">Programação</span> e<br>
         <span class="gradient-text">Desenvolvimento de Jogos</span>
@@ -1309,62 +1359,141 @@ gameEvents.emit("vidaPerdida", { vidas: 0 });'></div>
     </div>
   </section>
 
-  <!-- ═══════════════════ CODE PLAYGROUND ═══════════════════ -->
-  <section id="playground" class="section section-alt">
+  <!-- ═══════════════════ LEARNING STUDIO ═══════════════════ -->
+  <section id="playground" class="section section-alt studio-section">
     <div class="container">
       <div class="section-header reveal">
-        <span class="section-tag">Code Playground</span>
-        <h2 class="section-title">Editor de Código</h2>
-        <p class="section-subtitle">Escreva, execute e experimente código JavaScript diretamente no navegador</p>
+        <span class="section-tag">Learning Studio</span>
+        <h2 class="section-title">Prática Guiada + Código ao Vivo</h2>
+        <p class="section-subtitle">Layout estilo Codecademy: conteúdo progressivo na esquerda e editor executável na direita.</p>
       </div>
-      <div class="playground-main reveal">
-        <div class="playground-editor">
-          <div class="playground-toolbar">
-            <div class="toolbar-left">
-              <span class="toolbar-dot red"></span>
-              <span class="toolbar-dot yellow"></span>
-              <span class="toolbar-dot green"></span>
-              <span class="toolbar-filename">main.js</span>
+
+      <div class="studio-frame reveal">
+        <aside class="studio-lesson-panel" id="studioLessonPanel">
+          <div class="studio-panel-head">
+            <p class="studio-kicker">Sprint Hands-on</p>
+            <h3>JavaScript Core Path</h3>
+            <div class="studio-progress-track">
+              <div class="studio-progress-fill" id="studioLessonProgressFill"></div>
             </div>
-            <div class="toolbar-right">
-              <button class="btn-clear-editor" id="clearEditor" title="Limpar código">Limpar</button>
-              <button class="btn-run" id="runCode">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                Executar
-              </button>
-            </div>
+            <p class="studio-progress-label" id="studioLessonProgressText">0 de 6 etapas concluídas</p>
           </div>
-          <div class="editor-wrap" id="cmEditorWrap">
-            <textarea class="code-editor" id="codeEditor" spellcheck="false">// Bem-vindo ao Code Playground! 🚀
-// Escreva seu código JavaScript aqui e clique "Executar"
+
+          <div class="studio-steps" id="studioSteps">
+            <article class="studio-step is-active" data-step="1">
+              <button class="studio-step-trigger" data-step="1" data-template="const nome = 'Ana';&#10;console.log('Ola, ' + nome + '!');">
+                <span class="studio-step-index">01</span>
+                <span class="studio-step-title">Variáveis e saída</span>
+              </button>
+              <div class="studio-step-body">
+                Crie uma variável com seu nome e mostre no console com <code>console.log</code>.
+              </div>
+            </article>
+
+            <article class="studio-step locked" data-step="2">
+              <button class="studio-step-trigger" data-step="2" data-template="for (let i = 1; i &lt;= 5; i++) {&#10;  console.log('Passo ' + i);&#10;}">
+                <span class="studio-step-index">02</span>
+                <span class="studio-step-title">Loops</span>
+              </button>
+              <div class="studio-step-body">
+                Use <code>for</code> ou <code>while</code> para imprimir 5 iterações.
+              </div>
+            </article>
+
+            <article class="studio-step locked" data-step="3">
+              <button class="studio-step-trigger" data-step="3" data-template="function dobro(x) {&#10;  return x * 2;&#10;}&#10;console.log(dobro(8));">
+                <span class="studio-step-index">03</span>
+                <span class="studio-step-title">Funções</span>
+              </button>
+              <div class="studio-step-body">
+                Escreva uma função reutilizável e execute com parâmetros.
+              </div>
+            </article>
+
+            <article class="studio-step locked" data-step="4">
+              <button class="studio-step-trigger" data-step="4" data-template="class Jogador {&#10;  constructor(nome) {&#10;    this.nome = nome;&#10;  }&#10;}&#10;console.log(new Jogador('Lia').nome);">
+                <span class="studio-step-index">04</span>
+                <span class="studio-step-title">OOP básica</span>
+              </button>
+              <div class="studio-step-body">
+                Defina uma classe com <code>constructor</code> e instancie um objeto.
+              </div>
+            </article>
+
+            <article class="studio-step locked" data-step="5">
+              <button class="studio-step-trigger" data-step="5" data-template="const scores = [3, 7, 10, 2, 9];&#10;const top = scores.filter((n) =&gt; n &gt;= 7);&#10;console.log(top);">
+                <span class="studio-step-index">05</span>
+                <span class="studio-step-title">Arrays na prática</span>
+              </button>
+              <div class="studio-step-body">
+                Aplique <code>map</code>, <code>filter</code> ou <code>reduce</code> em um array.
+              </div>
+            </article>
+
+            <article class="studio-step locked" data-step="6">
+              <button class="studio-step-trigger" data-step="6" data-template="const player = { hp: 100, shield: true };&#10;console.log(player.hp &gt; 0 &amp;&amp; player.shield ? 'Protegido' : 'Vulneravel');">
+                <span class="studio-step-index">06</span>
+                <span class="studio-step-title">Desafio final</span>
+              </button>
+              <div class="studio-step-body">
+                Combine objetos + condição e gere um feedback final no console.
+              </div>
+            </article>
+          </div>
+        </aside>
+
+        <div class="studio-workbench">
+          <div class="playground-main studio-playground">
+            <div class="playground-editor">
+              <div class="playground-toolbar">
+                <div class="toolbar-left">
+                  <span class="toolbar-dot red"></span>
+                  <span class="toolbar-dot yellow"></span>
+                  <span class="toolbar-dot green"></span>
+                  <span class="toolbar-filename">main.js</span>
+                </div>
+                <div class="toolbar-right">
+                  <button class="btn-clear-editor" id="clearEditor" title="Limpar código">Limpar</button>
+                  <button class="btn-run" id="runCode">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Executar
+                  </button>
+                </div>
+              </div>
+              <div class="editor-wrap" id="cmEditorWrap">
+                <textarea class="code-editor" id="codeEditor" spellcheck="false">// Bem-vindo ao Learning Studio! 
+// Complete os passos da esquerda e execute para evoluir.
 
 function fibonacci(n) {
   if (n &lt;= 1) return n;
-  
-  let a = 0, b = 1;
+
+  let a = 0;
+  let b = 1;
   for (let i = 2; i &lt;= n; i++) {
-    let temp = b;
+    const temp = b;
     b = a + b;
     a = temp;
   }
   return b;
 }
 
-// Gerar os 10 primeiros números de Fibonacci
-console.log("Sequência de Fibonacci:");
+console.log('Sequencia de Fibonacci:');
 for (let i = 0; i &lt; 10; i++) {
-  console.log("F(" + i + ") = " + fibonacci(i));
+  console.log('F(' + i + ') = ' + fibonacci(i));
 }</textarea>
+              </div>
+            </div>
+            <div class="playground-console">
+              <div class="console-header">
+                <span class="console-title">Console</span>
+                <button class="btn-clear-console" id="clearConsole">Limpar</button>
+              </div>
+              <div class="console-output" id="consoleOutput">
+                <div class="console-line info">// Output aparecera aqui...</div>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="playground-console">
-          <div class="console-header">
-            <span class="console-title">Console</span>
-            <button class="btn-clear-console" id="clearConsole">Limpar</button>
-          </div>
-          <div class="console-output" id="consoleOutput">
-            <div class="console-line info">// Output aparecerá aqui...</div>
-          </div>
+          <div class="studio-run-feedback" id="studioRunFeedback">Execute o codigo para receber feedback imediato da etapa.</div>
         </div>
       </div>
     </div>
@@ -1851,7 +1980,7 @@ console.log(contarVogais("xyz"));         // 0</textarea>
   <footer class="footer">
     <div class="container">
       <div class="footer-content">
-        <div class="footer-brand"><span class="logo-icon">&lt;/&gt;</span><span class="logo-text">CS<span class="logo-accent">Lab</span></span></div>
+        <div class="footer-brand"><span class="logo-icon" aria-hidden="true"><svg><use href="#icon-cs"/></svg></span><span class="logo-text">CS<span class="logo-accent">Lab</span></span></div>
         <p class="footer-text">Material de estudo — Computer Science & Game Development</p>
         <p class="footer-copy">Desenvolvido com dedicação para estudantes &copy; 2026</p>
       </div>

@@ -50,7 +50,8 @@
   --radius-lg: 16px;
   --radius-xl: 20px;
 
-  --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-main: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-display: 'Fraunces', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', monospace;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -372,7 +373,7 @@ ul, ol {
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   font-weight: 700;
   font-size: 1.125rem;
   flex-shrink: 0;
@@ -384,20 +385,50 @@ ul, ol {
 }
 
 .logo-icon {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--accent);
-  color: white;
-  border-radius: 9px;
-  font-size: 1rem;
-  font-weight: 700;
+  background: linear-gradient(180deg, rgba(79, 70, 229, 0.1), rgba(255, 255, 255, 0.96));
+  color: var(--accent);
+  border: 1px solid rgba(79, 70, 229, 0.18);
+  border-radius: 14px;
+  box-shadow: 0 18px 34px -26px var(--accent-glow);
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .logo-icon,
+[data-theme="focus"] .logo-icon {
+  background: rgba(15, 23, 42, 0.72);
+  border-color: rgba(79, 70, 229, 0.3);
+}
+
+.logo-icon svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.logo-copy {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
 }
 
 .logo-text {
   letter-spacing: -0.025em;
+  display: block;
+}
+
+.logo-caption {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .logo-accent {
@@ -517,7 +548,7 @@ ul, ol {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
   flex-shrink: 0;
 }
 
@@ -654,6 +685,7 @@ ul, ol {
 .hero-badge {
   display: inline-flex;
   align-items: center;
+  gap: 10px;
   padding: 6px 16px;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -664,6 +696,21 @@ ul, ol {
   letter-spacing: 0.01em;
   margin-bottom: 28px;
   box-shadow: var(--shadow-xs);
+}
+
+.hero-badge-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-badge-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .hero-title {
@@ -1888,9 +1935,19 @@ ul, ol {
 .footer-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
   margin-bottom: 12px;
+}
+
+.footer-brand .logo-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.footer-brand .logo-icon svg {
+  width: 18px;
+  height: 18px;
 }
 
 .footer-text {
@@ -2774,26 +2831,86 @@ ul, ol {
    ══════════════════════════════════════════ */
 .theme-picker-wrap {
   position: relative;
+  flex-shrink: 0;
+  contain: layout;
 }
 
 .theme-picker-btn {
-  width: auto;
-  height: 36px;
+  min-width: 142px;
+  height: 44px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 5px;
+  justify-content: space-between;
+  gap: 10px;
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background: transparent;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(79, 70, 229, 0.06), rgba(255, 255, 255, 0.92));
   cursor: pointer;
-  transition: all var(--transition);
-  padding: 0 10px;
+  transition: background var(--transition), border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  padding: 0 12px 0 10px;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-xs);
+}
+
+[data-theme="dark"] .theme-picker-btn,
+[data-theme="focus"] .theme-picker-btn {
+  background: linear-gradient(180deg, rgba(79, 70, 229, 0.14), rgba(15, 23, 42, 0.88));
+}
+
+.theme-picker-btn:hover,
+.theme-picker-btn.is-open {
+  background: var(--bg-card);
+  border-color: var(--accent);
+  box-shadow: 0 16px 30px -26px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.theme-picker-btn > svg {
+  transition: transform var(--transition);
+}
+
+.theme-picker-btn.is-open > svg {
+  transform: rotate(180deg);
+}
+
+.theme-picker-preview {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(17, 24, 39, 0.04);
+  flex-shrink: 0;
+}
+
+[data-theme="dark"] .theme-picker-preview,
+[data-theme="focus"] .theme-picker-preview {
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.theme-picker-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.05;
+  flex: 1;
+}
+
+.theme-picker-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--text-muted);
 }
 
-.theme-picker-btn:hover {
-  background: var(--bg-secondary);
+.theme-picker-value {
+  margin-top: 3px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .theme-swatch {
@@ -2801,31 +2918,42 @@ ul, ol {
   height: 18px;
   border-radius: 50%;
   border: 2px solid var(--border-color);
-  transition: border-color var(--transition);
+  transition: border-color var(--transition), transform var(--transition), background var(--transition);
 }
 
-.theme-picker-btn:hover .theme-swatch {
+.theme-picker-btn:hover .theme-swatch,
+.theme-picker-btn.is-open .theme-swatch {
   border-color: var(--accent);
+  transform: scale(1.05);
 }
 
 .theme-panel {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 10px);
   right: 0;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   padding: 12px;
-  display: none;
+  display: flex;
   flex-direction: column;
   gap: 6px;
   min-width: 180px;
   z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(8px) scale(0.98);
+  transition: opacity var(--transition), transform var(--transition), visibility 0s linear var(--transition-slow);
 }
 
 .theme-panel.open {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+  transition: opacity var(--transition), transform var(--transition), visibility 0s;
 }
 
 .theme-option {
@@ -2841,7 +2969,7 @@ ul, ol {
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--text-secondary);
-  transition: all var(--transition);
+  transition: background var(--transition), color var(--transition), border-color var(--transition), transform var(--transition);
   text-align: left;
   width: 100%;
 }
@@ -2849,6 +2977,7 @@ ul, ol {
 .theme-option:hover {
   background: var(--bg-secondary);
   color: var(--text-primary);
+  transform: translateX(2px);
 }
 
 .theme-option.active {
@@ -2889,6 +3018,22 @@ ul, ol {
 [data-theme="calm"] .icon-moon,
 [data-theme="nature"] .icon-moon,
 [data-theme="focus"] .icon-moon { display: none; }
+
+@media (max-width: 1180px) {
+  .logo-caption {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .theme-picker-btn {
+    min-width: 118px;
+  }
+
+  .theme-picker-label {
+    display: none;
+  }
+}
 
 /* ══════════════════════════════════════════
    ACCORDION
@@ -3044,4 +3189,328 @@ ul, ol {
               border-color var(--transition-slow),
               box-shadow var(--transition-slow),
               color var(--transition-slow);
+}
+
+/* 2026 ACADEMIC REDESIGN */
+body {
+  background:
+    radial-gradient(980px 420px at 7% -10%, rgba(79, 70, 229, 0.1), transparent 55%),
+    radial-gradient(820px 320px at 100% 4%, rgba(14, 165, 233, 0.08), transparent 52%),
+    var(--bg-primary);
+}
+
+.hero-title,
+.section-title,
+.concept-header h3,
+.math-lesson-head h3 {
+  font-family: var(--font-display);
+}
+
+.section {
+  padding: 92px 0;
+}
+
+.section-header {
+  margin-bottom: 46px;
+}
+
+.math-studio-section .container {
+  max-width: 1320px;
+}
+
+.math-studio-frame {
+  display: grid;
+  grid-template-columns: minmax(290px, 360px) minmax(0, 1fr);
+  gap: 18px;
+}
+
+.math-lesson-panel {
+  background: linear-gradient(180deg, rgba(79, 70, 229, 0.08), rgba(14, 165, 233, 0.06));
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 20px;
+  padding: 16px;
+  position: sticky;
+  top: 84px;
+  height: fit-content;
+  box-shadow: 0 20px 48px -30px rgba(15, 23, 42, 0.4);
+}
+
+[data-theme="dark"] .math-lesson-panel,
+[data-theme="focus"] .math-lesson-panel {
+  box-shadow: 0 24px 54px -34px rgba(2, 6, 23, 0.92);
+}
+
+.math-lesson-head {
+  margin-bottom: 10px;
+  padding: 8px 6px 10px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.math-lesson-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.math-lesson-head h3 {
+  font-size: 1.14rem;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.math-lesson-progress-track {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.18);
+  overflow: hidden;
+}
+
+.math-lesson-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: var(--gradient-main);
+  transition: width var(--transition);
+}
+
+.math-lesson-progress-text {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.math-steps {
+  display: grid;
+  gap: 8px;
+}
+
+.math-step {
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.6);
+  overflow: hidden;
+  transition: border-color var(--transition), transform var(--transition), opacity var(--transition);
+}
+
+[data-theme="dark"] .math-step,
+[data-theme="focus"] .math-step {
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.math-step.is-active {
+  border-color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.math-step.completed {
+  border-color: rgba(5, 150, 105, 0.45);
+}
+
+.math-step.locked {
+  opacity: 0.56;
+}
+
+.math-step.locked .math-step-trigger {
+  cursor: not-allowed;
+}
+
+.math-step-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 10px 12px;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: var(--font-main);
+}
+
+.math-step-index {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  border: 1px solid rgba(79, 70, 229, 0.24);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.math-step.completed .math-step-index {
+  color: var(--success);
+  border-color: rgba(5, 150, 105, 0.35);
+  background: rgba(5, 150, 105, 0.08);
+}
+
+.math-step-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.math-step-body {
+  margin: 0;
+  padding: 0 12px 10px 52px;
+  font-size: 0.8rem;
+  line-height: 1.58;
+  color: var(--text-secondary);
+}
+
+.math-workbench {
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: var(--shadow-lg);
+}
+
+[data-theme="dark"] .math-workbench,
+[data-theme="focus"] .math-workbench {
+  background: rgba(15, 23, 42, 0.64);
+}
+
+.math-workbench-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+[data-theme="dark"] .math-workbench-toolbar,
+[data-theme="focus"] .math-workbench-toolbar {
+  background: rgba(30, 41, 59, 0.6);
+}
+
+.math-workbench-title {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.math-workbench-subtitle {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+.math-workbench-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.math-editor-shell {
+  padding: 16px 18px 12px;
+}
+
+.math-editor-label {
+  display: inline-flex;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.math-editor {
+  width: 100%;
+  min-height: 170px;
+  resize: vertical;
+  border: 1.5px solid var(--border-color);
+  border-radius: 12px;
+  padding: 14px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.65;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.math-editor:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.math-editor-config {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: auto 110px auto 110px;
+  gap: 8px;
+  align-items: center;
+}
+
+.math-editor-config label {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.math-config-input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.math-studio-output {
+  margin: 0 18px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  padding: 12px 14px;
+  min-height: 148px;
+  max-height: 230px;
+  overflow-y: auto;
+}
+
+.math-output-line {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  line-height: 1.55;
+  margin-bottom: 4px;
+}
+
+.math-output-line strong {
+  color: var(--text-primary);
+}
+
+.math-studio-feedback {
+  margin-top: 10px;
+  border-top: 1px solid var(--border-color);
+  padding: 10px 14px;
+  font-size: 0.77rem;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  background: rgba(79, 70, 229, 0.05);
+}
+
+@media (max-width: 1180px) {
+  .math-studio-frame {
+    grid-template-columns: 1fr;
+  }
+
+  .math-lesson-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 700px) {
+  .math-editor-config {
+    grid-template-columns: 1fr 1fr;
+  }
 }

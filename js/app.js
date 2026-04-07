@@ -15,27 +15,35 @@
   // ── THEME SYSTEM ──
   const THEMES = ['light', 'dark', 'calm', 'focus', 'nature'];
   const html = document.documentElement;
+  const THEME_META = {
+    light: { label: 'Claro', swatch: '#fafbfd', border: '1px solid #e5e7eb', meta: '#4f46e5' },
+    dark: { label: 'Escuro', swatch: '#0c0f1a', border: '1px solid rgba(255,255,255,0.08)', meta: '#4f46e5' },
+    calm: { label: 'Calm', swatch: '#EC4899', border: '1px solid rgba(236,72,153,0.28)', meta: '#EC4899' },
+    focus: { label: 'Focus', swatch: '#3B82F6', border: '1px solid rgba(59,130,246,0.28)', meta: '#3B82F6' },
+    nature: { label: 'Nature', swatch: '#22C55E', border: '1px solid rgba(34,197,94,0.28)', meta: '#22C55E' },
+  };
 
   function setTheme(theme) {
-    if (!THEMES.includes(theme)) theme = 'dark';
+    if (!THEMES.includes(theme)) theme = 'light';
     html.setAttribute('data-theme', theme);
     try { localStorage.setItem('ib-math-theme', theme); } catch (e) { /* ok */ }
-    // Update theme picker swatch color
-    const swatch = document.querySelector('.theme-swatch');
+    const themeMeta = THEME_META[theme] || THEME_META.light;
+    const themeButton = document.getElementById('themePickerBtn');
+    const swatch = themeButton ? themeButton.querySelector('.theme-swatch') : null;
+    const themeValue = document.getElementById('themePickerValue');
     if (swatch) {
-      const colors = { light: '#fafbfd', dark: '#0c0f1a', calm: '#EC4899', focus: '#3B82F6', nature: '#22C55E' };
-      swatch.style.background = colors[theme] || '#4f46e5';
+      swatch.style.background = themeMeta.swatch;
+      swatch.style.border = themeMeta.border;
     }
+    if (themeValue) themeValue.textContent = themeMeta.label;
     // Update active state in panel
     document.querySelectorAll('.theme-option').forEach(opt => {
       opt.classList.toggle('active', opt.dataset.theme === theme);
     });
     // Update meta theme-color
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) {
-      const metaColors = { light: '#4f46e5', dark: '#4f46e5', calm: '#EC4899', focus: '#3B82F6', nature: '#22C55E' };
-      meta.setAttribute('content', metaColors[theme] || '#4f46e5');
-    }
+    if (meta) meta.setAttribute('content', themeMeta.meta);
+    if (themeButton) themeButton.setAttribute('aria-label', 'Escolher tema: ' + themeMeta.label);
   }
 
   function loadTheme() {
@@ -43,7 +51,7 @@
       const saved = localStorage.getItem('ib-math-theme');
       if (saved && THEMES.includes(saved)) return saved;
     } catch (e) { /* ok */ }
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    return 'light';
   }
 
   setTheme(loadTheme());
@@ -52,25 +60,38 @@
   const themePickerBtn = document.getElementById('themePickerBtn');
   const themePanel = document.getElementById('themePanel');
 
+  function closeThemePanel() {
+    if (!themePickerBtn || !themePanel) return;
+    themePanel.classList.remove('open');
+    themePickerBtn.classList.remove('is-open');
+    themePickerBtn.setAttribute('aria-expanded', 'false');
+  }
+
   if (themePickerBtn && themePanel) {
     themePickerBtn.addEventListener('click', (e) => {
       e.stopPropagation();
-      themePanel.classList.toggle('open');
+      const willOpen = !themePanel.classList.contains('open');
+      themePanel.classList.toggle('open', willOpen);
+      themePickerBtn.classList.toggle('is-open', willOpen);
+      themePickerBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
     });
 
     document.querySelectorAll('.theme-option').forEach(opt => {
       opt.addEventListener('click', () => {
-        const theme = opt.dataset.theme;
-        setTheme(theme);
-        themePanel.classList.remove('open');
+        closeThemePanel();
+        setTheme(opt.dataset.theme);
         redrawAllGraphs();
       });
     });
 
     document.addEventListener('click', (e) => {
       if (!themePanel.contains(e.target) && !themePickerBtn.contains(e.target)) {
-        themePanel.classList.remove('open');
+        closeThemePanel();
       }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeThemePanel();
     });
   }
 
@@ -210,7 +231,6 @@
       expr = expr.replace(/x/gi, '(' + xVal + ')');
       // Replace ** with pow syntax, handle basic math
       // Use Function constructor with only Math operations allowed
-      const allowed = /^[\d\s+\-*/().e^]+$/i;
       const processed = expr
         .replace(/\*\*/g, '^')
         .replace(/(\d+\.?\d*)\^(\d+\.?\d*)/g, 'Math.pow($1,$2)')
@@ -219,7 +239,7 @@
 
       // Validate: only numbers, operators, parentheses, Math.pow
       const safeExpr = processed.replace(/Math\.pow/g, '');
-      if (!/^[\d\s+\-*/().e,]+$/.test(safeExpr)) return null;
+      if (!/^[\d\s+\-*/().e,<>!=?:&|]+$/.test(safeExpr)) return null;
 
       const fn = new Function('return ' + processed);
       const result = fn();
@@ -228,6 +248,161 @@
       return null;
     }
   }
+
+  // ── MATH STUDIO ──
+  const mathStudioExpr = document.getElementById('mathStudioExpr');
+  const mathStudioXStart = document.getElementById('mathStudioXStart');
+  const mathStudioSamples = document.getElementById('mathStudioSamples');
+  const runMathStudioBtn = document.getElementById('runMathStudio');
+  const clearMathStudioBtn = document.getElementById('clearMathStudio');
+  const mathStudioOutput = document.getElementById('mathStudioOutput');
+  const mathStudioRunFeedback = document.getElementById('mathStudioRunFeedback');
+
+  const mathStepEls = Array.from(document.querySelectorAll('.math-step'));
+  const mathStepTriggers = Array.from(document.querySelectorAll('.math-step-trigger'));
+  const mathLessonProgressFill = document.getElementById('mathLessonProgressFill');
+  const mathLessonProgressText = document.getElementById('mathLessonProgressText');
+
+  const mathStepPatterns = {
+    1: /\bx\b/i,
+    2: /\^2|\*\*2|x\s*\*\s*x/i,
+    3: /\^x|\*\*\s*x|Math\.pow/i,
+    4: /\//,
+    5: /\?|if\s*\(/i,
+  };
+  const completedMathSteps = new Set();
+
+  function setActiveMathStep(stepNumber) {
+    mathStepEls.forEach((el) => {
+      el.classList.toggle('is-active', Number(el.dataset.step) === stepNumber);
+    });
+  }
+
+  function unlockMathStep(stepNumber) {
+    const stepEl = mathStepEls.find((item) => Number(item.dataset.step) === stepNumber);
+    if (stepEl) stepEl.classList.remove('locked');
+  }
+
+  function updateMathProgressUI() {
+    if (!mathStepEls.length) return;
+    const done = completedMathSteps.size;
+    const total = mathStepEls.length;
+
+    if (mathLessonProgressFill) {
+      mathLessonProgressFill.style.width = ((done / total) * 100) + '%';
+    }
+    if (mathLessonProgressText) {
+      mathLessonProgressText.textContent = done + ' de ' + total + ' etapas concluídas';
+    }
+  }
+
+  function evaluateMathStudioProgress(rawExpr) {
+    if (!mathStepEls.length) return;
+
+    Object.entries(mathStepPatterns).forEach(([step, pattern]) => {
+      if (pattern.test(rawExpr)) {
+        const stepNum = Number(step);
+        completedMathSteps.add(stepNum);
+        const el = mathStepEls.find((item) => Number(item.dataset.step) === stepNum);
+        if (el) el.classList.add('completed');
+      }
+    });
+
+    const highestDone = Math.max(0, ...Array.from(completedMathSteps));
+    unlockMathStep(1);
+    for (let i = 2; i <= mathStepEls.length; i++) {
+      if (i <= highestDone + 1) unlockMathStep(i);
+    }
+
+    if (highestDone >= mathStepEls.length) {
+      setActiveMathStep(mathStepEls.length);
+      if (mathStudioRunFeedback) {
+        mathStudioRunFeedback.textContent = 'Excelente: todas as etapas da trilha foram concluídas.';
+      }
+    } else {
+      const nextStep = Math.min(mathStepEls.length, highestDone + 1);
+      setActiveMathStep(nextStep);
+      if (mathStudioRunFeedback) {
+        mathStudioRunFeedback.textContent = 'Etapa validada. Próxima sugestão: etapa ' + nextStep + '.';
+      }
+    }
+
+    updateMathProgressUI();
+  }
+
+  function runMathStudio() {
+    if (!mathStudioExpr || !mathStudioOutput) return;
+
+    const rawExpr = mathStudioExpr.value.trim();
+    const xStart = Number(mathStudioXStart && mathStudioXStart.value ? mathStudioXStart.value : 0);
+    let sampleCount = Number(mathStudioSamples && mathStudioSamples.value ? mathStudioSamples.value : 6);
+
+    if (!rawExpr) {
+      mathStudioOutput.innerHTML = '<div class="math-output-line"><strong>Erro:</strong> digite uma expressão para f(x).</div>';
+      return;
+    }
+
+    if (!Number.isFinite(sampleCount)) sampleCount = 6;
+    sampleCount = Math.min(12, Math.max(3, Math.round(sampleCount)));
+
+    const expr = rawExpr
+      .replace(/\^/g, '**')
+      .replace(/(\d)(x)/gi, '$1*$2');
+
+    const lines = [];
+    for (let i = 0; i < sampleCount; i++) {
+      const xValue = xStart + i;
+      const yValue = evaluateMathExpr(expr, xValue);
+      if (yValue === null) {
+        mathStudioOutput.innerHTML = '<div class="math-output-line"><strong>Erro:</strong> expressão inválida para x = ' + xValue + '.</div>';
+        if (mathStudioRunFeedback) {
+          mathStudioRunFeedback.textContent = 'Ajuste a expressão e execute novamente.';
+        }
+        return;
+      }
+
+      const formatted = Number.isInteger(yValue) ? yValue : yValue.toFixed(4);
+      lines.push('<div class="math-output-line"><strong>x = ' + xValue + '</strong> → f(x) = ' + formatted + '</div>');
+    }
+
+    mathStudioOutput.innerHTML = lines.join('');
+    evaluateMathStudioProgress(rawExpr);
+  }
+
+  mathStepTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const stepEl = trigger.closest('.math-step');
+      if (!stepEl || stepEl.classList.contains('locked')) return;
+
+      const stepNumber = Number(trigger.dataset.step);
+      setActiveMathStep(stepNumber);
+
+      const template = trigger.dataset.template;
+      if (template && mathStudioExpr) {
+        mathStudioExpr.value = template;
+        mathStudioExpr.focus();
+      }
+
+      if (mathStudioRunFeedback) {
+        mathStudioRunFeedback.textContent = 'Etapa ' + stepNumber + ' pronta. Execute para validar.';
+      }
+    });
+  });
+
+  if (runMathStudioBtn) runMathStudioBtn.addEventListener('click', runMathStudio);
+  if (clearMathStudioBtn) {
+    clearMathStudioBtn.addEventListener('click', () => {
+      if (mathStudioExpr) mathStudioExpr.value = '';
+      if (mathStudioOutput) {
+        mathStudioOutput.innerHTML = '<div class="math-output-line">Editor limpo. Selecione uma etapa à esquerda para continuar.</div>';
+      }
+      if (mathStudioRunFeedback) {
+        mathStudioRunFeedback.textContent = 'Dica: use os templates das etapas para avançar rapidamente.';
+      }
+    });
+  }
+
+  updateMathProgressUI();
 
   // ══════════════════════════════════════════
   //  GRAPH DRAWING ENGINE

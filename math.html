@@ -1,17 +1,49 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-theme="dark">
+<html lang="pt-BR" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#4f46e5">
   <title>IB Math — Funções & Modelagem</title>
 
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="IB Math — Funções & Modelagem">
+  <meta property="og:description" content="Trilha acadêmica de IB Mathematics AI com Functions & Modeling, visualizações interativas e exercícios práticos.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+
+  <!-- SVG Sprite -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="icon-math" viewBox="0 0 64 64" fill="none">
+      <!-- Pi symbol -->
+      <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="3" opacity=".18"/>
+      <path d="M22 24H42" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      <path d="M28 24V46" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      <path d="M38 24V42C38 44.5 39.5 46 42 46" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+    </symbol>
+    <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none">
+      <polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="2.5"/>
+    </symbol>
+    <symbol id="icon-arrow-up" viewBox="0 0 24 24" fill="none">
+      <line x1="12" y1="19" x2="12" y2="5" stroke="currentColor" stroke-width="2"/>
+      <polyline points="5 12 12 5 19 12" stroke="currentColor" stroke-width="2"/>
+    </symbol>
+  </svg>
 
   <!-- ═══════════════════ LOADER ═══════════════════ -->
   <div id="loader" class="loader">
@@ -25,11 +57,17 @@
   <nav id="navbar" class="navbar">
     <div class="nav-container">
       <a href="index.html" class="nav-logo">
-        <span class="logo-icon">∑</span>
-        <span class="logo-text">IB<span class="logo-accent">Math</span></span>
+        <span class="logo-icon" aria-hidden="true">
+          <svg><use href="#icon-math"/></svg>
+        </span>
+        <span class="logo-copy">
+          <span class="logo-text">IB<span class="logo-accent">Math</span></span>
+          <span class="logo-caption">Functions Studio</span>
+        </span>
       </a>
       <ul class="nav-links" id="navLinks">
         <li><a href="#overview">Visão Geral</a></li>
+        <li><a href="#math-studio">Studio</a></li>
         <li class="nav-dropdown">
           <button class="nav-dropdown-btn">Funções <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg></button>
           <ul class="nav-dropdown-menu">
@@ -62,16 +100,22 @@
       </ul>
       <div class="nav-actions">
         <div class="theme-picker-wrap">
-          <button class="theme-picker-btn" id="themePickerBtn" aria-label="Escolher tema">
-            <span class="theme-swatch" style="background:#0c0f1a"></span>
+          <button class="theme-picker-btn" id="themePickerBtn" aria-label="Escolher tema" aria-expanded="false">
+            <span class="theme-picker-preview">
+              <span class="theme-swatch" style="background:#fafbfd; border:1px solid #e5e7eb"></span>
+            </span>
+            <span class="theme-picker-copy">
+              <span class="theme-picker-label">Tema</span>
+              <span class="theme-picker-value" id="themePickerValue">Claro</span>
+            </span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
           </button>
           <div class="theme-panel" id="themePanel">
-            <button class="theme-option" data-theme="light">
+            <button class="theme-option active" data-theme="light">
               <span class="theme-swatch" style="background:#fafbfd; border:1px solid #e5e7eb"></span>
               <span>Claro</span>
             </button>
-            <button class="theme-option active" data-theme="dark">
+            <button class="theme-option" data-theme="dark">
               <span class="theme-swatch" style="background:#0c0f1a"></span>
               <span>Escuro</span>
             </button>
@@ -101,7 +145,12 @@
     <div class="hero-bg-grid"></div>
     <div class="hero-glow"></div>
     <div class="container hero-content">
-      <div class="hero-badge animate-fade-up">IB Mathematics AI — Year 11</div>
+      <div class="hero-badge animate-fade-up">
+        <span class="hero-badge-icon" aria-hidden="true">
+          <svg><use href="#icon-math"/></svg>
+        </span>
+        <span>IB Mathematics AI — Year 11</span>
+      </div>
       <h1 class="hero-title animate-fade-up delay-1">
         Domine <span class="gradient-text">Funções</span> e<br>
         <span class="gradient-text">Modelagem</span> Matemática
@@ -115,7 +164,7 @@
           Começar Aula
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
-        <a href="#exercicios" class="btn btn-outline">Ver Exercícios</a>
+        <a href="#math-studio" class="btn btn-outline">Abrir Math Studio</a>
       </div>
       <div class="hero-stats animate-fade-up delay-4">
         <div class="stat">
@@ -237,6 +286,102 @@
           <p>Pratique com questões interativas e feedback imediato</p>
           <span class="topic-tag">Prática</span>
         </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════ MATH STUDIO ═══════════════════ -->
+  <section id="math-studio" class="section section-alt math-studio-section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-tag">Math Studio</span>
+        <h2 class="section-title">Aprendizado Guiado + Laboratório</h2>
+        <p class="section-subtitle">Fluxo estilo Codecademy: objetivo e instruções na esquerda, experimento matemático na direita.</p>
+      </div>
+
+      <div class="math-studio-frame reveal">
+        <aside class="math-lesson-panel" id="mathLessonPanel">
+          <div class="math-lesson-head">
+            <p class="math-lesson-kicker">Trilha Acadêmica</p>
+            <h3>Functions Mastery Sprint</h3>
+            <div class="math-lesson-progress-track">
+              <div class="math-lesson-progress-fill" id="mathLessonProgressFill"></div>
+            </div>
+            <p class="math-lesson-progress-text" id="mathLessonProgressText">0 de 5 etapas concluídas</p>
+          </div>
+
+          <div class="math-steps" id="mathStudioSteps">
+            <article class="math-step is-active" data-step="1">
+              <button class="math-step-trigger" data-step="1" data-template="2*x + 3">
+                <span class="math-step-index">01</span>
+                <span class="math-step-title">Função linear</span>
+              </button>
+              <p class="math-step-body">Digite uma expressão linear em <code>x</code> e execute para gerar valores.</p>
+            </article>
+
+            <article class="math-step locked" data-step="2">
+              <button class="math-step-trigger" data-step="2" data-template="x^2 - 4*x + 3">
+                <span class="math-step-index">02</span>
+                <span class="math-step-title">Função quadrática</span>
+              </button>
+              <p class="math-step-body">Agora use termo quadrático para observar curvatura e crescimento.</p>
+            </article>
+
+            <article class="math-step locked" data-step="3">
+              <button class="math-step-trigger" data-step="3" data-template="3*(1.2^x)">
+                <span class="math-step-index">03</span>
+                <span class="math-step-title">Exponencial</span>
+              </button>
+              <p class="math-step-body">Experimente crescimento exponencial alterando a base da potência.</p>
+            </article>
+
+            <article class="math-step locked" data-step="4">
+              <button class="math-step-trigger" data-step="4" data-template="1/(x+1)">
+                <span class="math-step-index">04</span>
+                <span class="math-step-title">Inversa racional</span>
+              </button>
+              <p class="math-step-body">Teste uma função inversa e observe valores indefinidos perto da assíntota.</p>
+            </article>
+
+            <article class="math-step locked" data-step="5">
+              <button class="math-step-trigger" data-step="5" data-template="x < 2 ? x + 4 : x^2 - 1">
+                <span class="math-step-index">05</span>
+                <span class="math-step-title">Função por partes</span>
+              </button>
+              <p class="math-step-body">Use operador condicional para modelar uma regra piecewise.</p>
+            </article>
+          </div>
+        </aside>
+
+        <div class="math-workbench">
+          <div class="math-workbench-toolbar">
+            <div>
+              <p class="math-workbench-title">Expression Lab</p>
+              <p class="math-workbench-subtitle">Escreva <code>f(x)</code>, execute e receba feedback imediato.</p>
+            </div>
+            <div class="math-workbench-actions">
+              <button class="btn btn-outline btn-sm" id="clearMathStudio">Limpar</button>
+              <button class="btn btn-primary btn-sm" id="runMathStudio">Executar</button>
+            </div>
+          </div>
+
+          <div class="math-editor-shell">
+            <label class="math-editor-label" for="mathStudioExpr">f(x) =</label>
+            <textarea id="mathStudioExpr" class="math-editor" spellcheck="false">2*x + 3</textarea>
+
+            <div class="math-editor-config">
+              <label for="mathStudioXStart">x inicial</label>
+              <input id="mathStudioXStart" type="number" value="0" class="math-config-input">
+              <label for="mathStudioSamples">amostras</label>
+              <input id="mathStudioSamples" type="number" value="6" min="3" max="12" class="math-config-input">
+            </div>
+          </div>
+
+          <div class="math-studio-output" id="mathStudioOutput">
+            <div class="math-output-line">Pronto para executar. Insira uma expressão e clique em <strong>Executar</strong>.</div>
+          </div>
+          <div class="math-studio-feedback" id="mathStudioRunFeedback">Dica: complete as etapas em ordem para avançar na trilha.</div>
+        </div>
       </div>
     </div>
   </section>
@@ -1972,7 +2117,7 @@
         <div class="cta-actions">
           <a href="#hero" class="btn btn-primary">
             Voltar ao Início
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+            <svg width="16" height="16"><use href="#icon-arrow-up"/></svg>
           </a>
           <a href="#exercicios" class="btn btn-outline">Refazer Exercícios</a>
         </div>
@@ -1985,7 +2130,9 @@
     <div class="container">
       <div class="footer-content">
         <div class="footer-brand">
-          <span class="logo-icon">∑</span>
+          <span class="logo-icon" aria-hidden="true">
+            <svg><use href="#icon-math"/></svg>
+          </span>
           <span class="logo-text">IB<span class="logo-accent">Math</span></span>
         </div>
         <p class="footer-text">Material de estudo para IB Mathematics AI — Functions & Modeling</p>

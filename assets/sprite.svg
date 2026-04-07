@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+
+  <!-- StudyLab combo mark (math curve + code bracket) -->
+  <symbol id="icon-studylab" viewBox="0 0 64 64" fill="none">
+    <path d="M18 47V21H34" stroke="var(--math)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M22 41.5C25 40.4 27.4 37.9 29.2 33.9C31.8 28.3 34.8 23.4 45 22" stroke="var(--math)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M46 24L54 32L46 40" stroke="var(--cs)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M38 46H49" stroke="var(--ink)" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="30" cy="34" r="3.25" fill="var(--ink)"/>
+  </symbol>
+
+  <!-- IB Math mark (pi symbol) -->
+  <symbol id="icon-math" viewBox="0 0 64 64" fill="none">
+    <circle cx="32" cy="32" r="26" stroke="currentColor" stroke-width="3" opacity=".18"/>
+    <path d="M22 24H42" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    <path d="M28 24V46" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+    <path d="M38 24V42C38 44.5 39.5 46 42 46" stroke="currentColor" stroke-width="4" stroke-linecap="round" fill="none"/>
+  </symbol>
+
+  <!-- CS mark (terminal / monitor) -->
+  <symbol id="icon-cs" viewBox="0 0 64 64" fill="none">
+    <rect x="10" y="12" width="44" height="32" rx="4" stroke="currentColor" stroke-width="3.5" fill="none"/>
+    <path d="M20 26L28 32L20 38" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M32 38H40" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+    <path d="M26 50H38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    <path d="M32 44V50" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Chevron down (nav dropdowns, theme picker) -->
+  <symbol id="icon-chevron-down" viewBox="0 0 24 24" fill="none">
+    <polyline points="6 9 12 15 18 9" stroke="currentColor" stroke-width="2.5"/>
+  </symbol>
+
+  <!-- Arrow right (CTA links) -->
+  <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none">
+    <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2.4"/>
+    <polyline points="12 5 19 12 12 19" stroke="currentColor" stroke-width="2.4"/>
+  </symbol>
+
+  <!-- Arrow up -->
+  <symbol id="icon-arrow-up" viewBox="0 0 24 24" fill="none">
+    <line x1="12" y1="19" x2="12" y2="5" stroke="currentColor" stroke-width="2"/>
+    <polyline points="5 12 12 5 19 12" stroke="currentColor" stroke-width="2"/>
+  </symbol>
+
+</svg>
